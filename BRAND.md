@@ -2,25 +2,28 @@
 
 ## Idea
 
-Every big thing was once little and unknown.
+Every great product starts as a little unknown.
 
 little unknown is an umbrella for the apps and products Naman Vashistha builds.
-The name is a belief about how things begin: small, unproven, unnoticed. We
-don't wait for certainty or a grand plan. We start small, find out by making,
-and ship.
+The name is the starting point, not the size: every product begins as an open
+question, an idea nobody has proven yet. little unknown is where those questions
+are explored, built and shipped until they become products people rely on.
+
+"Little" is the seed, never the ambition. Never describe the products as small,
+minor or side projects.
 
 Three ideas sit underneath it:
 
-- **Humility.** Not knowing is the starting point, not something to hide.
-- **Small bets.** Little things compound. Ship many small things, learn from each.
-- **Discovery.** The best things are found before they're famous.
+- **Curiosity.** Not knowing is the starting point, not something to hide.
+- **Making as thinking.** We find answers by building, not by waiting for certainty.
+- **Seriousness.** Unknowns get taken seriously, and what ships is built to last.
 
 ## Lines
 
 - **Wordmark:** `little_unknown_` (lowercase, underscore between words, green cursor at the end)
 - **Tagline:** `// everything starts unknown`
-- **Manifesto:** Every big thing was once little and unknown.
-- **Sign-off:** start small. stay curious. ship.
+- **Manifesto:** Every great product starts as a little unknown.
+- **Principles:** question everything. build to find out. ship what matters.
 
 Write the name as **little unknown** in running text: lowercase, two words.
 `little_unknown_` is the mark only.
