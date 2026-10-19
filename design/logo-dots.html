@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The dots</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root { --paper:#eef0ec; --ink:#121512; --muted:#5b625b; --rule:#d5dad3; --night:#0f120f; --moon:#e6ebe5; --a:#ef4b2b; }
+  * { box-sizing:border-box; }
+  body { margin:0; padding:32px 16px 64px; background:var(--paper); color:var(--ink); font-family:"JetBrains Mono", ui-monospace, Menlo, monospace; }
+  h1 { font-size:18px; font-weight:500; margin:0 0 4px; }
+  p.lede { color:var(--muted); font-size:13px; margin:0 0 24px; max-width:72ch; }
+  .g { display:grid; grid-template-columns:repeat(auto-fill, minmax(380px, 1fr)); gap:16px; max-width:1300px; }
+  @media (max-width: 480px) { .g { grid-template-columns:1fr; } }
+  .c { background:#fff; border:1px solid var(--rule); border-radius:14px; overflow:hidden; }
+  .row { display:flex; align-items:center; gap:18px; padding:26px 22px 16px; --i:var(--ink); }
+  .ic { width:64px; height:64px; border-radius:15px; background:var(--night); --i:var(--moon); display:flex; align-items:center; justify-content:center; flex:none; }
+  .lock { display:flex; align-items:center; gap:12px; padding:8px 22px 18px; font-size:24px; font-weight:700; letter-spacing:-0.035em; --i:var(--ink); }
+  .lock.dark { background:var(--night); color:var(--moon); --i:var(--moon); padding:18px 22px; }
+  .aha { padding:12px 22px 4px; font-size:13px; font-weight:500; border-top:1px solid var(--rule); }
+  .aha span { color:var(--a); }
+  .t { padding:2px 22px 16px; font-size:12.5px; line-height:1.55; color:var(--muted); }
+  .t b { color:var(--ink); font-weight:500; }
+  .acc { fill:var(--a); }
+  @media (prefers-reduced-motion: no-preference) {
+    .twinkle .acc { animation:tw 2.4s ease-in-out infinite; }
+    .twinkle .acc:nth-of-type(2n) { animation-delay:.8s; }
+    .twinkle .acc:nth-of-type(3n) { animation-delay:1.6s; }
+    @keyframes tw { 0%,100% { opacity:1 } 50% { opacity:.25 } }
+  }
+</style>
+</head>
+<body>
+<h1>little unknown · the dots</h1>
+<p class="lede">A field of dots: the known. A few lit ones: the little unknowns. Each version hides a different idea in the pattern. The marks gently twinkle.</p>
+<div class="g" id="g"></div>
+
+<script>
+// Patterns: o = ink dot, a = vermilion dot, . = empty. Optional per-dot size via s (0..1) map.
+const marks = [
+  {
+    name: "A · The field", pat: ["ooaooo", "oooaoo", "oaoooo"],
+    aha: "A field of the known, with a few <span>little unknowns</span> lit up.",
+    note: "The refined version of the one you liked: three lit dots scattered through a band, like ideas showing up in the noise. Calm, abstract, and it twinkles.",
+  },
+  {
+    name: "B · The hidden question", pat: [
+      "oaaao",
+      "aoooa",
+      "oooao",
+      "ooaoo",
+      "ooaoo",
+      "ooooo",
+      "ooaoo"],
+    aha: "Look closer: the lit dots draw a <span>?</span>",
+    note: "Like a colour-vision test plate: at a glance it's a grid of dots, then the question mark appears. The unknown, hiding in plain sight. That second look is the aha.",
+  },
+  {
+    name: "C · The escaped dot", pat: [
+      "....a",
+      "oooo.",
+      "ooo.o",
+      "oooo.",
+      "oooo."].map((r) => r),
+    custom: "escape",
+    aha: "One dot has left the grid: the <span>little unknown</span>, breaking out.",
+    note: "Combines your two favourites: the dots and the missing piece. A neat grid with one gap, and the lit dot that left it sits just outside. The mark is a story: one small idea leaves the known.",
+  },
+  {
+    name: "D · The lu", pat: [
+      "aoooo",
+      "aoaoa",
+      "aoaoa",
+      "aoaoa",
+      "aoaaa"],
+    aha: "The lit dots spell <span>lu</span>.",
+    note: "A dot-matrix monogram, like an old LED sign: l and u in vermilion inside a field of ink. Reads as a pattern first, letters second, much like Bevel's B.",
+  },
+  {
+    name: "E · The growth", custom: "grow",
+    aha: "Dots grow from <span>little</span> to big.",
+    note: "A halftone that swells from tiny to large, ending in one lit dot. Every big thing starts as a little unknown, drawn without words.",
+  },
+  {
+    name: "F · The constellation", custom: "stars",
+    aha: "Scattered dots, joined by a faint line: <span>connecting the unknowns</span>.",
+    note: "Loose dots like stars, with the lit ones linked into a small constellation. Softer and more poetic, but it's a familiar trope.",
+  },
+];
+
+function svgFor(m) {
+  let body = "";
+  if (m.custom === "grow") {
+    const xs = [14, 28, 44, 62, 82];
+    const rs = [3, 5, 7.5, 10, 13];
+    xs.forEach((x, i) => {
+      body += `<circle cx="${x}" cy="50" r="${rs[i]}" ${i === 4 ? 'class="acc"' : 'fill="var(--i)"'}/>`;
+      if (i < 4) {
+        body += `<circle cx="${x}" cy="${50 - rs[i] * 3}" r="${rs[i] * .7}" fill="var(--i)" opacity=".35"/>`;
+        body += `<circle cx="${x}" cy="${50 + rs[i] * 3}" r="${rs[i] * .7}" fill="var(--i)" opacity=".35"/>`;
+      }
+    });
+  } else if (m.custom === "stars") {
+    const pts = [[18, 30, 0], [34, 64, 1], [52, 40, 1], [72, 70, 1], [82, 24, 0], [60, 84, 0], [26, 84, 0], [46, 16, 0], [84, 48, 0]];
+    const lit = pts.filter((p) => p[2]);
+    body += `<path d="M${lit.map((p) => p[0] + " " + p[1]).join(" L")}" fill="none" stroke="#ef4b2b" stroke-width="2" opacity=".6"/>`;
+    pts.forEach(([x, y, a]) => body += `<circle cx="${x}" cy="${y}" r="${a ? 6 : 4}" ${a ? 'class="acc"' : 'fill="var(--i)"'}/>`);
+  } else {
+    const rows = m.pat.length, cols = m.pat[0].length;
+    const step = 80 / Math.max(rows, cols);
+    const r = step * 0.36;
+    const ox = 50 - (cols - 1) * step / 2, oy = 50 - (rows - 1) * step / 2;
+    m.pat.forEach((row, y) => [...row].forEach((ch, x) => {
+      if (ch === ".") return;
+      let cx = ox + x * step, cy = oy + y * step;
+      if (m.custom === "escape" && ch === "a") { cx += step * .55; cy -= step * .55; }
+      body += `<circle cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="${r.toFixed(1)}" ${ch === "a" ? 'class="acc"' : 'fill="var(--i)"'}/>`;
+    }));
+  }
+  return body;
+}
+
+const svg = (body, s) => `<svg class="twinkle" width="${s}" height="${s}" viewBox="0 0 100 100" aria-hidden="true">${body}</svg>`;
+document.getElementById("g").innerHTML = marks.map((m) => {
+  const b = svgFor(m);
+  return `<div class="c">
+    <div class="row">${svg(b, 100)}<div class="ic">${svg(b, 46)}</div>${svg(b, 32)}${svg(b, 16)}</div>
+    <div class="lock">${svg(b, 34)}<span>little unknown</span></div>
+    <div class="lock dark">${svg(b, 34)}<span>little unknown</span></div>
+    <div class="aha"><span>aha ·</span> ${m.aha}</div>
+    <div class="t"><b>${m.name}.</b> ${m.note}</div>
+  </div>`;
+}).join("");
+</script>
+</body>
+</html>

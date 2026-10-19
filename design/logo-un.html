@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Full-name marks</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root { --paper:#eef0ec; --ink:#121512; --muted:#5b625b; --rule:#d5dad3; --night:#0f120f; --moon:#e6ebe5; --a:#ef4b2b; }
+  * { box-sizing:border-box; }
+  body { margin:0; padding:32px 16px 64px; background:var(--paper); color:var(--ink); font-family:"JetBrains Mono", ui-monospace, Menlo, monospace; }
+  h1 { font-size:18px; font-weight:500; margin:0 0 4px; }
+  p.lede { color:var(--muted); font-size:13px; margin:0 0 24px; max-width:72ch; }
+  .g { display:grid; grid-template-columns:repeat(auto-fill, minmax(420px, 1fr)); gap:16px; max-width:1300px; }
+  @media (max-width: 480px) { .g { grid-template-columns:1fr; } }
+  .c { background:#fff; border:1px solid var(--rule); border-radius:14px; overflow:hidden; }
+  .c.pick { outline:2px solid var(--a); outline-offset:-2px; }
+  .badge { display:inline-block; margin:16px 22px 0; padding:3px 10px; border-radius:999px; background:#fde4dd; color:#a8321a; font-size:11px; }
+  .stage { padding:30px 22px 24px; font-size:40px; font-weight:700; letter-spacing:-0.035em; line-height:1; white-space:nowrap; }
+  .stage.dark { background:var(--night); color:var(--moon); padding:22px; font-size:28px; --ink:var(--moon); }
+  .icons { display:flex; align-items:center; gap:16px; padding:16px 22px; border-top:1px solid var(--rule); --i:var(--ink); }
+  .ic { width:60px; height:60px; border-radius:14px; background:var(--night); --i:var(--moon); display:flex; align-items:center; justify-content:center; }
+  .aha { padding:12px 22px 4px; font-size:13px; font-weight:500; border-top:1px solid var(--rule); }
+  .aha span { color:var(--a); }
+  .t { padding:2px 22px 16px; font-size:12.5px; line-height:1.55; color:var(--muted); }
+  .t b { color:var(--ink); font-weight:500; }
+  .v { color:var(--a); }
+
+  /* A · the un: "un" is deleted by a backspace, then retyped */
+  .del { display:inline-block; overflow:hidden; vertical-align:bottom; width:2ch; color:var(--a); }
+  .cur { display:inline-block; width:.09em; height:.95em; background:var(--a); vertical-align:-.1em; margin:0 .02em; }
+  @media (prefers-reduced-motion: no-preference) {
+    .anim .del { animation:backspace 5s steps(1) infinite; }
+    .anim .cur { animation:blink 1s steps(1) infinite; }
+    @keyframes backspace { 0%,40% { width:2ch } 46% { width:1ch } 52%,78% { width:0 } 84% { width:1ch } 90%,100% { width:2ch } }
+    @keyframes blink { 50% { opacity:0 } }
+  }
+  /* B · un, selected */
+  .selun { position:relative; background:var(--a); color:#fff; border-radius:.05em; padding:0 .04em; }
+  .selun::before, .selun::after { content:""; position:absolute; width:.06em; background:var(--ink); }
+  .selun::before { left:-.03em; top:-.1em; height:1.08em; }
+  .selun::after { right:-.03em; bottom:-.1em; height:1.08em; }
+  .selun i { position:absolute; width:.2em; height:.2em; border-radius:50%; background:var(--ink); }
+  .selun i:first-child { left:-.1em; top:-.27em; } .selun i:last-child { right:-.1em; bottom:-.27em; }
+  /* C · little is little */
+  .tiny { font-size:.36em; font-weight:500; letter-spacing:0; vertical-align:1.6em; margin-right:.25em; color:var(--a); }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+<defs>
+  <symbol id="un" viewBox="0 0 100 100"><path d="M16 30 V56 A15 15 0 0 0 46 56 V44 A15 15 0 0 1 76 44 V70" fill="none" stroke="var(--a)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/><rect x="82" y="62" width="6" height="16" rx="1.5" fill="var(--i)"/></symbol>
+  <symbol id="unsel" viewBox="0 0 100 100"><rect x="14" y="30" width="72" height="40" rx="4" fill="var(--a)"/><path d="M26 40 V52 A9 9 0 0 0 44 52 V48 A9 9 0 0 1 62 48 V60" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 22 V70 M86 30 V78" stroke="var(--i)" stroke-width="4" stroke-linecap="round"/><circle cx="14" cy="20" r="6" fill="var(--i)"/><circle cx="86" cy="80" r="6" fill="var(--i)"/></symbol>
+  <symbol id="small" viewBox="0 0 100 100"><rect x="34" y="30" width="54" height="54" rx="10" fill="var(--i)"/><rect x="12" y="14" width="16" height="16" rx="4" fill="var(--a)"/></symbol>
+  <symbol id="inv" viewBox="0 0 100 100"><circle cx="54" cy="20" r="8" fill="var(--a)"/><path d="M54 38 V52 C54 62 32 62 32 74 C32 86 46 90 56 88 C64 86 70 82 72 76" fill="none" stroke="var(--i)" stroke-width="11" stroke-linecap="round"/></symbol>
+</defs>
+</svg>
+
+<h1>little unknown · the whole name, with an aha inside</h1>
+<p class="lede">The name stays fully readable. The idea hides inside the word.</p>
+<div class="g">
+
+  <div class="c pick">
+    <span class="badge">recommended</span>
+    <div class="stage anim">little <span class="del">un</span><span class="cur"></span>known</div>
+    <div class="stage dark anim">little <span class="del">un</span><span class="cur"></span>known</div>
+    <div class="icons"><svg width="84" height="84"><use href="#un"/></svg><div class="ic"><svg width="40" height="40"><use href="#un"/></svg></div><svg width="32" height="32"><use href="#un"/></svg><svg width="16" height="16"><use href="#un"/></svg></div>
+    <div class="aha"><span>aha ·</span> unknown is just known with <span>un</span> in front. We take the un out.</div>
+    <div class="t"><b>A · The un.</b> "un" sits in vermilion. In motion, a backspace deletes it ("little known") and types it back: the studio's job in one loop. The mark is "un" drawn as one stroke, because n is just u turned upside down. It becomes an abstract wave, with the cursor after it. Tagline: <b>we take the un out of unknown.</b></div>
+  </div>
+
+  <div class="c">
+    <div class="stage">little <span class="selun"><i></i>un<i></i></span>known</div>
+    <div class="stage dark">little <span class="selun"><i></i>un<i></i></span>known</div>
+    <div class="icons"><svg width="84" height="84"><use href="#unsel"/></svg><div class="ic"><svg width="40" height="40"><use href="#unsel"/></svg></div><svg width="32" height="32"><use href="#unsel"/></svg><svg width="16" height="16"><use href="#unsel"/></svg></div>
+    <div class="aha"><span>aha ·</span> the <span>un</span> is selected, about to be deleted.</div>
+    <div class="t"><b>B · Un, selected.</b> The same idea, frozen at the moment before the edit. More literal and more UI-flavoured; the mark is busier at small sizes.</div>
+  </div>
+
+  <div class="c">
+    <div class="stage"><span class="tiny">little</span>unknown</div>
+    <div class="stage dark"><span class="tiny">little</span>unknown</div>
+    <div class="icons"><svg width="84" height="84"><use href="#small"/></svg><div class="ic"><svg width="40" height="40"><use href="#small"/></svg></div><svg width="32" height="32"><use href="#small"/></svg><svg width="16" height="16"><use href="#small"/></svg></div>
+    <div class="aha"><span>aha ·</span> the word <span>little</span> is little.</div>
+    <div class="t"><b>C · Little is little.</b> Typographic wit: the small word set small, like a superscript. Witty and readable, but the joke is light and the mark is plain.</div>
+  </div>
+
+  <div class="c">
+    <div class="stage">l<span class="v">¿</span>ttle unknown</div>
+    <div class="stage dark">l<span class="v">¿</span>ttle unknown</div>
+    <div class="icons"><svg width="84" height="84"><use href="#inv"/></svg><div class="ic"><svg width="40" height="40"><use href="#inv"/></svg></div><svg width="32" height="32"><use href="#inv"/></svg><svg width="16" height="16"><use href="#inv"/></svg></div>
+    <div class="aha"><span>aha ·</span> the i in little is a <span>question mark</span>, upside down.</div>
+    <div class="t"><b>D · The hidden question.</b> An inverted ? has its dot on top, like an i: the unknown hiding inside "little". Clever, but some people read it as a typo or as Spanish.</div>
+  </div>
+
+</div>
+</body>
+</html>

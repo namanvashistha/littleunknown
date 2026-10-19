@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>About to appear</title>
+<style>
+  :root { --paper:#eef0ec; --ink:#121512; --muted:#5b625b; --ghost:#a7aea6; --rule:#d5dad3; --night:#0f120f; --moon:#e6ebe5; --a:#ef4b2b; }
+  * { box-sizing:border-box; }
+  body { margin:0; padding:32px 16px 64px; background:var(--paper); color:var(--ink); font-family:ui-monospace, "JetBrains Mono", Menlo, monospace; }
+  h1 { font-size:18px; font-weight:500; margin:0 0 4px; }
+  p.lede { color:var(--muted); font-size:13px; margin:0 0 24px; max-width:72ch; }
+  .g { display:grid; grid-template-columns:repeat(auto-fill, minmax(360px, 1fr)); gap:16px; max-width:1200px; }
+  .c { background:#fff; border:1px solid var(--rule); border-radius:14px; overflow:hidden; }
+  .stage { padding:30px 22px 22px; font-size:38px; font-weight:600; letter-spacing:-0.03em; line-height:1; white-space:nowrap; cursor:default; }
+  .stage.dark { background:var(--night); color:var(--moon); padding:20px 22px; font-size:26px; --ink:var(--moon); --ghost:#5d655d; --rule:#2a302a; }
+  .icons { display:flex; align-items:center; gap:16px; padding:16px 22px; border-top:1px solid var(--rule); --i:var(--ink); }
+  .ic { width:60px; height:60px; border-radius:14px; background:var(--night); --i:var(--moon); display:flex; align-items:center; justify-content:center; }
+  .aha { padding:12px 22px 4px; font-size:13px; font-weight:500; border-top:1px solid var(--rule); }
+  .aha span { color:var(--a); }
+  .t { padding:2px 22px 16px; font-size:12.5px; line-height:1.55; color:var(--muted); }
+  .hint { font-size:11px; color:var(--muted); padding:0 22px 12px; }
+
+  .w { display:inline-flex; align-items:center; gap:.3em; }
+  .slot { position:relative; display:inline-block; width:7ch; height:1em; }
+  .slot .word { position:absolute; inset:0; display:flex; align-items:center; opacity:0; transition:opacity .35s ease; }
+  .stage:hover .slot .word { opacity:1; }
+
+  /* 1 · the blank */
+  .blank .slot::after { content:""; position:absolute; left:0; right:0; bottom:-.02em; height:.1em; background:var(--a); border-radius:.04em; transition:transform .4s; }
+  /* 2 · the selection */
+  .sel .hl { position:relative; background:var(--a); color:#fff; padding:0 .08em; border-radius:.04em; }
+  .sel .hl::before, .sel .hl::after { content:""; position:absolute; width:.06em; background:var(--ink); }
+  .sel .hl::before { left:-.03em; top:-.12em; height:1.12em; }
+  .sel .hl::after { right:-.03em; bottom:-.12em; height:1.12em; }
+  .sel .k1, .sel .k2 { position:absolute; width:.2em; height:.2em; border-radius:50%; background:var(--ink); }
+  .sel .k1 { left:-.1em; top:-.28em; } .sel .k2 { right:-.1em; bottom:-.28em; }
+  /* 3 · the placeholder */
+  .ph .cur { width:.08em; height:1.05em; background:var(--a); margin-right:.04em; }
+  .ph .ghost { color:var(--ghost); font-weight:500; transition:color .3s; }
+  .stage:hover .ph .ghost { color:var(--ink); }
+  /* 4 · the skeleton */
+  .sk .slot::before { content:""; position:absolute; inset:.12em 0; border-radius:.4em; background:linear-gradient(90deg, var(--rule) 0%, #f3d2c8 45%, var(--rule) 90%); background-size:300% 100%; animation:shimmer 1.8s ease-in-out infinite; transition:opacity .35s; }
+  .stage:hover .sk .slot::before { opacity:0; }
+  @keyframes shimmer { from { background-position:100% 0; } to { background-position:-100% 0; } }
+  /* 5 · the frame */
+  .fr .slot { outline:.05em dashed var(--a); outline-offset:.08em; border-radius:.08em; }
+  /* 6 · the spoiler */
+  .sp .slot::before { content:""; position:absolute; inset:.06em 0; border-radius:.12em;
+    background-image:radial-gradient(circle, var(--ink) 30%, transparent 34%); background-size:.2em .2em; opacity:.55; animation:drift 3s linear infinite; transition:opacity .35s; }
+  .stage:hover .sp .slot::before { opacity:0; }
+  @keyframes drift { to { background-position:.6em .2em; } }
+
+  @media (prefers-reduced-motion: reduce) { * { animation:none !important; transition:none !important; } }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+<defs>
+  <symbol id="m1" viewBox="0 0 100 100"><rect x="20" y="16" width="13" height="62" rx="6.5" fill="var(--i)"/><rect x="42" y="68" width="40" height="10" rx="3" fill="var(--a)"/></symbol>
+  <symbol id="m2" viewBox="0 0 100 100"><rect x="24" y="36" width="52" height="28" rx="3" fill="var(--a)"/><path d="M24 26 V64 M76 36 V74" stroke="var(--i)" stroke-width="5" stroke-linecap="round"/><circle cx="24" cy="24" r="7" fill="var(--i)"/><circle cx="76" cy="76" r="7" fill="var(--i)"/></symbol>
+  <symbol id="m3" viewBox="0 0 100 100"><rect x="12" y="31" width="76" height="38" rx="12" fill="none" stroke="var(--i)" stroke-width="5"/><rect x="24" y="40" width="6" height="20" rx="1.5" fill="var(--a)"/><rect x="37" y="46.5" width="38" height="7" rx="3.5" fill="var(--i)" opacity=".3"/></symbol>
+  <symbol id="m4" viewBox="0 0 100 100"><circle cx="28" cy="50" r="14" fill="var(--i)"/><rect x="50" y="37" width="38" height="10" rx="5" fill="var(--i)" opacity=".35"/><rect x="50" y="54" width="26" height="10" rx="5" fill="var(--a)"/></symbol>
+  <symbol id="m5" viewBox="0 0 100 100"><rect x="16" y="26" width="68" height="48" rx="8" fill="none" stroke="var(--a)" stroke-width="5" stroke-dasharray="10 7"/><rect x="46" y="38" width="7" height="24" rx="1.5" fill="var(--i)"/></symbol>
+  <symbol id="m6" viewBox="0 0 100 100"><g fill="var(--i)"><circle cx="20" cy="38" r="4.5"/><circle cx="32" cy="38" r="4.5"/><circle cx="56" cy="38" r="4.5"/><circle cx="68" cy="38" r="4.5"/><circle cx="80" cy="38" r="4.5"/><circle cx="20" cy="50" r="4.5"/><circle cx="32" cy="50" r="4.5"/><circle cx="44" cy="50" r="4.5"/><circle cx="68" cy="50" r="4.5"/><circle cx="80" cy="50" r="4.5"/><circle cx="20" cy="62" r="4.5"/><circle cx="44" cy="62" r="4.5"/><circle cx="56" cy="62" r="4.5"/><circle cx="68" cy="62" r="4.5"/><circle cx="80" cy="62" r="4.5"/></g><circle cx="44" cy="38" r="4.5" fill="var(--a)"/><circle cx="56" cy="50" r="4.5" fill="var(--a)"/><circle cx="32" cy="62" r="4.5" fill="var(--a)"/></symbol>
+</defs>
+</svg>
+
+<h1>little unknown · about to appear</h1>
+<p class="lede">The same idea as the redaction (the second word isn't there yet), but borrowed from moments builders love, where something is about to appear. Hover each wordmark to see the word arrive.</p>
+<div class="g" id="g"></div>
+
+<script>
+const word = `<span class="word">unknown</span>`;
+const items = [
+  ["m1", "blank", `<span class="w">little<span class="slot">${word}</span></span>`,
+   "A fill-in-the-blank: <span>little ______</span>.",
+   "The underscore you already own becomes the blank to fill. An invitation, not a secret: what will it be? Pairs perfectly with little_unknown_."],
+  ["m2", "sel", `<span class="w">little <span class="hl">unknown<i class="k1"></i><i class="k2"></i></span></span>`,
+   "The word is <span>selected</span>, about to be replaced.",
+   "Text selection with its two handles, the moment before you type something new. Instantly familiar from every phone, and the handles make a striking mark."],
+  ["m3", "ph", `<span class="w">little <span class="cur"></span><span class="ghost">unknown</span></span>`,
+   "<span>unknown</span> is placeholder text in an empty field.",
+   "The cursor waits at the start of a field whose hint says unknown. Type anything, and it becomes a product."],
+  ["m4", "sk", `<span class="w">little<span class="slot">${word}</span></span>`,
+   "The word is a <span>loading skeleton</span>, shimmering.",
+   "The grey bar apps show while content loads. It says: something is on its way. Modern, product-native, and it moves."],
+  ["m5", "fr", `<span class="w">little<span class="slot">${word}</span></span>`,
+   "An <span>empty frame</span>, waiting for its content.",
+   "The dashed box every designer draws before the real thing exists. Space reserved for what's next."],
+  ["m6", "sp", `<span class="w">little<span class="slot">${word}</span></span>`,
+   "The word is a <span>spoiler</span>: tap to reveal.",
+   "Shimmering particles hiding a surprise, like spoilers in chat apps. Curiosity, not censorship."],
+];
+const u = (id, s) => `<svg width="${s}" height="${s}"><use href="#${id}"/></svg>`;
+const names = ["The blank", "The selection", "The placeholder", "The skeleton", "The frame", "The spoiler"];
+document.getElementById("g").innerHTML = items.map(([id, cls, wm, aha, note], i) => `
+  <div class="c">
+    <div class="stage ${cls}">${wm}</div>
+    <div class="hint">hover to reveal</div>
+    <div class="stage dark ${cls}">${wm}</div>
+    <div class="icons">${u(id, 84)}<div class="ic">${u(id, 40)}</div>${u(id, 32)}${u(id, 16)}</div>
+    <div class="aha"><span>aha ·</span> ${aha}</div>
+    <div class="t"><b style="color:var(--ink);font-weight:500">${String(i + 1).padStart(2, "0")} · ${names[i]}.</b> ${note}</div>
+  </div>`).join("");
+</script>
+</body>
+</html>

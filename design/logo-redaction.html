@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The redaction</title>
+<style>
+  :root { --paper:#eef0ec; --ink:#121512; --muted:#5b625b; --rule:#d5dad3; --night:#0f120f; --moon:#e6ebe5; --a:#ef4b2b; }
+  * { box-sizing:border-box; }
+  body { margin:0; padding:32px 16px 64px; background:var(--paper); color:var(--ink); font-family:ui-monospace, "JetBrains Mono", Menlo, monospace; }
+  h1 { font-size:18px; font-weight:500; margin:0 0 4px; }
+  h2 { font-size:13px; font-weight:400; color:var(--muted); margin:44px 0 14px; }
+  p.lede { color:var(--muted); font-size:13px; margin:0; max-width:70ch; }
+  .card { background:#fff; border:1px solid var(--rule); border-radius:14px; padding:28px 24px; max-width:1100px; }
+  .card.dark { background:var(--night); color:var(--moon); border-color:var(--night); }
+
+  /* the wordmark: "little" + a redaction bar + a cursor taller than the bar */
+  .wm { display:inline-flex; align-items:center; gap:0.28em; font-weight:600; letter-spacing:-0.03em; line-height:1; white-space:nowrap; }
+  .wm .bar { position:relative; width:7.1ch; height:0.78em; border-radius:0.09em; background:currentColor; overflow:hidden; }
+  .wm .cur { width:0.16em; height:1.1em; background:var(--a); border-radius:0.03em; margin-left:-0.1em; }
+  @media (prefers-reduced-motion: no-preference) {
+    .wm .cur { animation: blink 1.1s steps(1) infinite; }
+    @keyframes blink { 50% { opacity:0; } }
+  }
+  /* hover reveal: the bar slides away and "unknown" is underneath */
+  .wm.reveal .bar { background:transparent; }
+  .wm.reveal .bar::before { content:"unknown"; position:absolute; inset:0; display:flex; align-items:center; font-size:1em; }
+  .wm.reveal .bar::after { content:""; position:absolute; inset:0; background:currentColor; border-radius:inherit; transition:transform .45s cubic-bezier(.2,.7,.2,1); transform-origin:right; }
+  .wm.reveal:hover .bar::after { transform:scaleX(0); }
+
+  .sizes { display:flex; flex-direction:column; gap:22px; }
+  .row { display:flex; align-items:center; gap:28px; flex-wrap:wrap; }
+  .lab { font-size:11px; color:var(--muted); margin-top:8px; }
+  .dark .lab { color:#8a948a; }
+  .icons { display:flex; align-items:flex-end; gap:24px; flex-wrap:wrap; }
+  .tab { display:inline-flex; align-items:center; gap:8px; padding:7px 12px; border-radius:8px 8px 0 0; background:#e3e6e1; font:12px -apple-system, system-ui, sans-serif; }
+  .og { width:min(600px, 100%); aspect-ratio:1200/630; background:var(--night); color:var(--moon); border-radius:10px; padding:6% 7%; display:flex; flex-direction:column; justify-content:space-between; }
+  .og small { color:#8a948a; font-size:12px; }
+  .tag { font-size:15px; color:var(--muted); display:inline-flex; align-items:center; gap:.4em; }
+  .tag .bar { display:inline-block; width:6.6ch; height:.78em; background:var(--ink); border-radius:2px; }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+<defs>
+  <!-- the mark: the redaction bar with a cursor taller than it, so it reads as text being typed, not a battery -->
+  <symbol id="mk" viewBox="0 0 100 100"><rect x="12" y="38" width="62" height="24" rx="4" fill="var(--i)"/><rect x="80" y="28" width="8" height="44" rx="2" fill="#ef4b2b"/></symbol>
+</defs>
+</svg>
+
+<h1>little unknown · the redaction</h1>
+<p class="lede">The second word is blacked out: the unknown is the logo. A cursor taller than the bar says "still being typed". Hover the last wordmark to see the reveal.</p>
+
+<h2>// wordmark</h2>
+<div class="card sizes">
+  <div><span class="wm" style="font-size:64px">little<span class="bar"></span><span class="cur"></span></span></div>
+  <div class="row">
+    <span class="wm" style="font-size:32px">little<span class="bar"></span><span class="cur"></span></span>
+    <span class="wm" style="font-size:18px">little<span class="bar"></span><span class="cur"></span></span>
+    <span class="wm" style="font-size:13px">little<span class="bar"></span><span class="cur"></span></span>
+  </div>
+  <div><span class="wm reveal" style="font-size:40px">little<span class="bar"></span><span class="cur"></span></span><div class="lab">hover: the bar slides away and "unknown" is underneath</div></div>
+</div>
+
+<div class="card dark sizes" style="margin-top:14px">
+  <div><span class="wm" style="font-size:64px">little<span class="bar"></span><span class="cur"></span></span></div>
+</div>
+
+<h2>// mark, app icon, favicon</h2>
+<div class="card">
+  <div class="icons">
+    <div><div style="width:120px;height:120px;border-radius:27px;background:var(--night);--i:var(--moon);display:flex;align-items:center;justify-content:center"><svg width="84" height="84"><use href="#mk"/></svg></div><div class="lab">app icon · dark</div></div>
+    <div><div style="width:120px;height:120px;border-radius:27px;background:#fff;border:1px solid var(--rule);--i:var(--ink);display:flex;align-items:center;justify-content:center"><svg width="84" height="84"><use href="#mk"/></svg></div><div class="lab">app icon · light</div></div>
+    <div style="--i:var(--ink)"><svg width="48" height="48"><use href="#mk"/></svg><div class="lab">48</div></div>
+    <div style="--i:var(--ink)"><svg width="32" height="32"><use href="#mk"/></svg><div class="lab">32</div></div>
+    <div style="--i:var(--ink)"><svg width="16" height="16"><use href="#mk"/></svg><div class="lab">16</div></div>
+    <div><span class="tab" style="--i:var(--ink)"><svg width="16" height="16"><use href="#mk"/></svg>little unknown · product studio</span><div class="lab">browser tab</div></div>
+  </div>
+</div>
+
+<h2>// in use</h2>
+<div class="card">
+  <div class="og">
+    <small>// product studio</small>
+    <span class="wm" style="font-size:clamp(28px, 7vw, 54px)">little<span class="bar"></span><span class="cur"></span></span>
+    <small>littleunknown.com</small>
+  </div>
+  <div style="margin-top:22px" class="tag">// everything starts <span class="bar"></span></div>
+  <div class="lab">the tagline can use the same device</div>
+</div>
+</body>
+</html>

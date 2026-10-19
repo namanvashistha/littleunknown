@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Logo round two</title>
+<style>
+  :root { --paper:#eef0ec; --ink:#121512; --muted:#5b625b; --rule:#d5dad3; --night:#0f120f; --moon:#e6ebe5; }
+  * { box-sizing:border-box; }
+  body { margin:0; padding:32px 16px 64px; background:var(--paper); color:var(--ink); font-family:ui-monospace, Menlo, monospace; }
+  h1 { font-size:18px; font-weight:500; margin:0 0 4px; }
+  h2 { font-size:14px; font-weight:500; margin:40px 0 12px; color:var(--muted); }
+  p.lede { color:var(--muted); font-size:13px; margin:0; }
+  .g { display:grid; grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)); gap:16px; max-width:1200px; }
+  .c { background:#fff; border:1px solid var(--rule); border-radius:14px; overflow:hidden; }
+  .row { display:flex; align-items:center; gap:22px; padding:24px 20px 14px; --i:var(--ink); }
+  .ic { width:64px; height:64px; border-radius:15px; background:var(--night); --i:var(--moon); display:flex; align-items:center; justify-content:center; flex:none; }
+  .tiny { display:flex; gap:10px; align-items:center; }
+  .lock { display:flex; align-items:center; gap:10px; padding:4px 20px 14px; font-size:17px; font-weight:600; letter-spacing:-0.02em; --i:var(--ink); }
+  .lock.dark { background:var(--night); color:var(--moon); --i:var(--moon); padding:14px 20px; margin:0; }
+  .tab { margin:0 20px 14px; display:flex; align-items:center; gap:8px; width:max-content; padding:6px 12px; border-radius:8px 8px 0 0; background:#e3e6e1; font-family:-apple-system, system-ui, sans-serif; font-size:12px; --i:var(--ink); }
+  .t { padding:10px 20px 16px; font-size:13px; line-height:1.55; color:var(--muted); border-top:1px solid var(--rule); }
+  .t b { color:var(--ink); font-weight:500; }
+  .cursor { color:#2f9e5b; }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+<defs>
+  <mask id="mpc-cut"><rect width="100" height="100" fill="#fff"/><rect x="50" y="10" width="40" height="40" fill="#000"/></mask>
+  <mask id="ecd-gap"><rect width="100" height="100" fill="#fff"/><circle cx="44" cy="50" r="33" fill="#000"/></mask>
+
+  <!-- missing piece -->
+  <symbol id="mpa" viewBox="0 0 100 100"><path d="M18 18 H52 V50 H82 V82 H18 Z" fill="var(--i)"/><rect x="60" y="18" width="22" height="22" fill="#2f9e5b"/></symbol>
+  <symbol id="mpb" viewBox="0 0 100 100"><path d="M16 22 H50 V52 H80 V84 H16 Z" fill="var(--i)"/><rect x="60" y="12" width="24" height="24" fill="#2f9e5b"/></symbol>
+  <symbol id="mpc" viewBox="0 0 100 100"><rect x="18" y="18" width="64" height="64" rx="14" fill="var(--i)" mask="url(#mpc-cut)"/><rect x="58" y="18" width="24" height="24" rx="7" fill="#2f9e5b"/></symbol>
+  <symbol id="mpd" viewBox="0 0 100 100"><path d="M18 18 H52 V50 H82 V82 H18 Z" fill="var(--i)"/><circle cx="70" cy="30" r="12" fill="#2f9e5b"/></symbol>
+
+  <!-- eclipse -->
+  <symbol id="eca" viewBox="0 0 100 100"><circle cx="60" cy="50" r="28" fill="#2f9e5b"/><circle cx="44" cy="50" r="28" fill="var(--i)"/></symbol>
+  <symbol id="ecb" viewBox="0 0 100 100"><circle cx="56" cy="50" r="30" fill="#2f9e5b"/><circle cx="46" cy="50" r="30" fill="var(--i)"/></symbol>
+  <symbol id="ecc" viewBox="0 0 100 100"><circle cx="50" cy="40" r="28" fill="#2f9e5b"/><circle cx="50" cy="58" r="28" fill="var(--i)"/></symbol>
+  <symbol id="ecd" viewBox="0 0 100 100"><circle cx="60" cy="50" r="28" fill="#2f9e5b" mask="url(#ecd-gap)"/><circle cx="44" cy="50" r="28" fill="var(--i)"/></symbol>
+
+  <!-- hybrid -->
+  <symbol id="hyb" viewBox="0 0 100 100"><path d="M48 52 V20 A32 32 0 1 0 80 52 Z" fill="var(--i)"/><path d="M54 46 V14 A32 32 0 0 1 86 46 Z" fill="#2f9e5b"/></symbol>
+</defs>
+</svg>
+
+<h1>little unknown · logo round two</h1>
+<p class="lede">Each card: the mark large, as an app icon, at 32 and 16px, in a wordmark lockup, on dark, and in a browser tab.</p>
+
+<h2>// the missing piece</h2>
+<div class="g" id="mp"></div>
+
+<h2>// the eclipse</h2>
+<div class="g" id="ec"></div>
+
+<h2>// the hybrid</h2>
+<div class="g" id="hy"></div>
+
+<script>
+const sets = {
+  mp: [
+    ["mpa", "A · Original", "A block with its corner lifted out. Sharp, architectural, sturdy."],
+    ["mpb", "B · Lifted", "The piece floats up and out of the block: the unknown, on its way."],
+    ["mpc", "C · Soft", "Rounded corners. Friendlier, closer to an app icon."],
+    ["mpd", "D · The dot", "The missing corner becomes a green point: simpler at small sizes."],
+  ],
+  ec: [
+    ["eca", "A · Original", "Green emerging from behind the dark, wide crescent."],
+    ["ecb", "B · Subtle", "A thinner crescent. Quieter and more refined."],
+    ["ecc", "C · Rising", "The green rises from behind, like a sunrise: something coming up."],
+    ["ecd", "D · Cut", "A clean gap separates the crescent. Crisper, more graphic."],
+  ],
+  hy: [
+    ["hyb", "Hybrid · The piece of the circle", "A circle with one quarter lifted out in green. The eclipse's calm, the missing piece's idea."],
+  ],
+};
+const use = (id, s) => `<svg width="${s}" height="${s}"><use href="#${id}"/></svg>`;
+for (const [key, items] of Object.entries(sets)) {
+  document.getElementById(key).innerHTML = items.map(([id, name, note]) => `
+    <div class="c">
+      <div class="row">${use(id, 96)}<div class="ic">${use(id, 44)}</div><div class="tiny">${use(id, 32)}${use(id, 16)}</div></div>
+      <div class="lock">${use(id, 28)}<span>little unknown</span></div>
+      <div class="lock dark">${use(id, 28)}<span>little_unknown<span class="cursor">_</span></span></div>
+      <div class="row" style="padding:14px 0 0"><div class="tab">${use(id, 14)}<span>little unknown · product studio</span></div></div>
+      <div class="t"><b>${name}.</b> ${note}</div>
+    </div>`).join("");
+}
+</script>
+</body>
+</html>

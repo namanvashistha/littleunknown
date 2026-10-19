@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Accent test</title>
+<style>
+  :root { --paper:#eef0ec; --ink:#121512; --muted:#5b625b; --rule:#d5dad3; --night:#0f120f; --moon:#e6ebe5; }
+  * { box-sizing:border-box; }
+  body { margin:0; padding:32px 16px 64px; background:var(--paper); color:var(--ink); font-family:ui-monospace, Menlo, monospace; }
+  h1 { font-size:18px; font-weight:500; margin:0 0 4px; }
+  p.lede { color:var(--muted); font-size:13px; margin:0 0 24px; }
+  .g { display:grid; grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)); gap:16px; max-width:1200px; }
+  .c { background:#fff; border:1px solid var(--rule); border-radius:14px; overflow:hidden; }
+  .head { padding:14px 20px; font-size:13px; font-weight:500; display:flex; align-items:center; gap:10px; border-bottom:1px solid var(--rule); }
+  .sw { width:16px; height:16px; border-radius:4px; background:var(--a); }
+  .row { display:flex; align-items:center; gap:20px; padding:22px 20px; --i:var(--ink); }
+  .ic { width:64px; height:64px; border-radius:15px; background:var(--night); --i:var(--moon); display:flex; align-items:center; justify-content:center; flex:none; }
+  .hero { padding:22px 20px; font-size:28px; font-weight:600; letter-spacing:-0.04em; }
+  .hero small { display:block; font-size:12px; font-weight:400; letter-spacing:0; color:var(--muted); margin-top:6px; }
+  .dark { background:var(--night); color:var(--moon); }
+  .dark small { color:#8a948a; }
+  .cur { color:var(--a); }
+  .btn { margin:0 20px 18px; display:inline-block; padding:8px 14px; border-radius:999px; border:1px solid var(--rule); font-size:12px; }
+  .btn b { color:var(--a); font-weight:500; }
+  .t { padding:12px 20px 16px; font-size:13px; line-height:1.55; color:var(--muted); border-top:1px solid var(--rule); }
+  .t b { color:var(--ink); font-weight:500; }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+<defs>
+  <mask id="cut"><rect width="100" height="100" fill="#fff"/><rect x="50" y="10" width="40" height="40" fill="#000"/></mask>
+  <mask id="gap"><rect width="100" height="100" fill="#fff"/><circle cx="44" cy="50" r="33" fill="#000"/></mask>
+  <symbol id="mp" viewBox="0 0 100 100"><rect x="18" y="18" width="64" height="64" rx="14" fill="var(--i)" mask="url(#cut)"/><rect x="58" y="18" width="24" height="24" rx="7" fill="var(--a)"/></symbol>
+  <symbol id="ec" viewBox="0 0 100 100"><circle cx="60" cy="50" r="28" fill="var(--a)" mask="url(#gap)"/><circle cx="44" cy="50" r="28" fill="var(--i)"/></symbol>
+</defs>
+</svg>
+
+<h1>little unknown · accent test</h1>
+<p class="lede">The same two marks and the site's first screen, in three accents.</p>
+<div class="g" id="g"></div>
+
+<script>
+const accents = [
+  ["#2f9e5b", "Green (current)", "Calm, alive, \"go\". Matches Calm Chess's sage board. Quiet: it doesn't jump off the page."],
+  ["#ef4b2b", "Vermilion", "Warm orange-red. Catches the eye like red, but reads as energy and craft, not danger. Still sits well with the near-black."],
+  ["#e01e37", "Red", "The loudest. Instantly noticeable, but red also says error, alert, sale, so it fights the calm voice. In a code-comment brand, red text reads as a failing test."],
+];
+const u = (id, s) => `<svg width="${s}" height="${s}"><use href="#${id}"/></svg>`;
+document.getElementById("g").innerHTML = accents.map(([a, name, note]) => `
+  <div class="c" style="--a:${a}">
+    <div class="head"><span class="sw"></span>${name} <span style="color:var(--muted);font-weight:400">${a}</span></div>
+    <div class="row">${u("mp", 80)}<div class="ic">${u("mp", 40)}</div>${u("mp", 24)}${u("mp", 16)}</div>
+    <div class="row" style="padding-top:0">${u("ec", 80)}<div class="ic">${u("ec", 40)}</div>${u("ec", 24)}${u("ec", 16)}</div>
+    <div class="hero">little_unknown<span class="cur">_</span><small>// everything starts unknown</small></div>
+    <div class="btn">&gt; now <b>calm chess</b> ↓</div>
+    <div class="hero dark">little_unknown<span class="cur">_</span><small>// everything starts unknown</small></div>
+    <div class="t"><b>${name}.</b> ${note}</div>
+  </div>`).join("");
+</script>
+</body>
+</html>

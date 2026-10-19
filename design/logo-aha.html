@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Aha marks</title>
+<style>
+  :root { --paper:#eef0ec; --ink:#121512; --muted:#5b625b; --rule:#d5dad3; --night:#0f120f; --moon:#e6ebe5; --a:#ef4b2b; }
+  * { box-sizing:border-box; }
+  body { margin:0; padding:32px 16px 64px; background:var(--paper); color:var(--ink); font-family:ui-monospace, Menlo, monospace; }
+  h1 { font-size:18px; font-weight:500; margin:0 0 4px; }
+  p.lede { color:var(--muted); font-size:13px; margin:0 0 24px; max-width:70ch; }
+  .g { display:grid; grid-template-columns:repeat(auto-fill, minmax(340px, 1fr)); gap:16px; max-width:1200px; }
+  .c { background:#fff; border:1px solid var(--rule); border-radius:14px; overflow:hidden; }
+  .row { display:flex; align-items:center; gap:18px; padding:24px 20px 14px; --i:var(--ink); }
+  .ic { width:64px; height:64px; border-radius:15px; background:var(--night); --i:var(--moon); display:flex; align-items:center; justify-content:center; flex:none; }
+  .lock { display:flex; align-items:center; gap:10px; padding:6px 20px 16px; font-size:19px; font-weight:600; letter-spacing:-0.02em; --i:var(--ink); }
+  .lock.dark { background:var(--night); color:var(--moon); --i:var(--moon); padding:16px 20px; }
+  .bar { display:inline-block; width:7.2ch; height:0.82em; background:currentColor; border-radius:3px; vertical-align:-0.08em; }
+  .cur { color:var(--a); }
+  .aha { padding:14px 20px 4px; font-size:13px; font-weight:500; border-top:1px solid var(--rule); }
+  .aha span { color:var(--a); }
+  .t { padding:2px 20px 16px; font-size:12.5px; line-height:1.55; color:var(--muted); }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+<defs>
+  <symbol id="x1" viewBox="0 0 100 100"><path d="M27 27 L73 73" stroke="var(--i)" stroke-width="16" stroke-linecap="round"/><path d="M73 27 L27 73" stroke="var(--a)" stroke-width="16" stroke-linecap="round"/></symbol>
+  <symbol id="x2" viewBox="0 0 100 100"><path d="M24 22 C66 34 66 66 24 78" fill="none" stroke="var(--i)" stroke-width="13" stroke-linecap="round"/><path d="M76 22 C34 34 34 66 76 78" fill="none" stroke="var(--a)" stroke-width="13" stroke-linecap="round"/></symbol>
+  <symbol id="x3" viewBox="0 0 100 100"><path d="M18 24 L54 64 M54 24 L18 64" stroke="var(--i)" stroke-width="12" stroke-linecap="round"/><rect x="60" y="70" width="28" height="10" rx="2" fill="var(--a)"/></symbol>
+  <symbol id="x4" viewBox="0 0 100 100"><path d="M16 86 C24 58 46 74 56 50" fill="none" stroke="var(--i)" stroke-width="6" stroke-linecap="round" stroke-dasharray="0.5 11"/><path d="M62 20 L84 42 M84 20 L62 42" stroke="var(--a)" stroke-width="10" stroke-linecap="round"/></symbol>
+  <symbol id="x5" viewBox="0 0 100 100"><path d="M50 22 L63 42 H37 Z" fill="var(--i)"/><path d="M10 45 H90" stroke="var(--i)" stroke-width="3" stroke-linecap="round"/><path d="M35 49 H65 L82 70 L58 90 H40 L20 68 Z" fill="var(--a)"/></symbol>
+  <symbol id="x6" viewBox="0 0 100 100"><rect x="12" y="36" width="76" height="28" rx="6" fill="var(--i)"/><rect x="74" y="36" width="14" height="28" rx="0" fill="var(--a)"/></symbol>
+</defs>
+</svg>
+
+<h1>little unknown · aha marks</h1>
+<p class="lede">Each mark hides the meaning of the name. The idea should click a second after you see it.</p>
+<div class="g" id="g"></div>
+
+<script>
+const marks = [
+  ["x1", "the little x", "In math, the unknown is <span>x</span>. A little unknown is a lowercase x.", "Two strokes crossing; one is lit. The point where they meet is where the unknown gets solved. Works on any surface, at any size.", "little unknown"],
+  ["x2", "the math x", "The italic <span>𝑥</span> from algebra, drawn as two arcs back to back.", "Softer and more distinctive than a plain x: two curves leaning into each other. Feels like a monogram, not an icon.", "little unknown"],
+  ["x3", "x_", "The unknown, with the <span>cursor</span> waiting after it.", "Keeps the code DNA of the brand: x_ reads as a variable about to be filled in. Pairs naturally with little_unknown_.", "little_unknown_"],
+  ["x4", "x marks the spot", "On a treasure map, <span>x</span> is the unknown worth finding.", "A dotted path leading to a lit x. The same letter, a second meaning: the journey from question to product.", "little unknown"],
+  ["x5", "the iceberg", "What you see is <span>little</span>. What's unknown is huge.", "A small tip above the line, a big lit shape below it. Every big thing starts as a little unknown.", "little unknown"],
+  ["x6", "the redaction", "The second word is blacked out: <span>little ▇▇▇▇▇▇▇</span>.", "The unknown is the logo itself. The bar ends in a lit cursor block, as if the word is still being typed.", "redacted"],
+];
+const u = (id, s) => `<svg width="${s}" height="${s}"><use href="#${id}"/></svg>`;
+document.getElementById("g").innerHTML = marks.map(([id, name, aha, note, lock]) => {
+  const word = lock === "redacted"
+    ? `<span>little <span class="bar"></span><span class="cur">▌</span></span>`
+    : lock === "little_unknown_" ? `<span>little_unknown<span class="cur">_</span></span>` : `<span>${lock}</span>`;
+  return `<div class="c">
+    <div class="row">${u(id, 100)}<div class="ic">${u(id, 44)}</div>${u(id, 32)}${u(id, 16)}</div>
+    <div class="lock">${u(id, 30)}${word}</div>
+    <div class="lock dark">${u(id, 30)}${word}</div>
+    <div class="aha"><span>aha ·</span> ${aha}</div>
+    <div class="t"><b style="color:var(--ink);font-weight:500">${name}.</b> ${note}</div>
+  </div>`;
+}).join("");
+</script>
+</body>
+</html>

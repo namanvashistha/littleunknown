@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wordmark positions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root { --paper:#eef0ec; --ink:#121512; --muted:#5b625b; --rule:#d5dad3; --night:#0f120f; --moon:#e6ebe5; --a:#ef4b2b; }
+  * { box-sizing:border-box; }
+  body { margin:0; padding:32px 16px 64px; background:var(--paper); color:var(--ink); font-family:"JetBrains Mono", ui-monospace, Menlo, monospace; }
+  h1 { font-size:18px; font-weight:500; margin:0 0 4px; }
+  p.lede { color:var(--muted); font-size:13px; margin:0 0 24px; max-width:72ch; }
+  .g { display:grid; grid-template-columns:repeat(auto-fill, minmax(440px, 1fr)); gap:16px; max-width:1300px; }
+  @media (max-width: 480px) { .g { grid-template-columns:1fr; } }
+  .c { background:#fff; border:1px solid var(--rule); border-radius:14px; overflow:hidden; }
+  .c.pick { outline:2px solid var(--a); outline-offset:-2px; }
+  .badge { display:inline-block; margin:16px 22px 0; padding:3px 10px; border-radius:999px; background:#fde4dd; color:#a8321a; font-size:11px; }
+  .stage { padding:34px 26px 26px; display:flex; align-items:flex-end; gap:28px; flex-wrap:wrap; }
+  .stage.dark { background:var(--night); color:var(--moon); }
+  .t { padding:12px 22px 16px; font-size:12.5px; line-height:1.55; color:var(--muted); border-top:1px solid var(--rule); }
+  .t b { color:var(--ink); font-weight:500; }
+  .t span { color:var(--a); }
+
+  /* the wordmark: "unknown" big, "little" small and vermilion; font metrics: x-height .55em, ascender ~.75em */
+  .wm { position:relative; display:inline-block; font-weight:700; letter-spacing:-0.04em; line-height:1; white-space:nowrap; }
+  .wm .l { color:var(--a); font-weight:500; letter-spacing:0; }
+
+  /* 1 · tucked into the empty space above "un" */
+  .p1 { padding-top:0; }
+  .p1 .l { position:absolute; left:.05em; top:-.035em; font-size:.27em; line-height:1; }
+
+  /* 2 · kicker above, left-aligned */
+  .p2 { display:inline-flex; flex-direction:column; }
+  .p2 .l { font-size:.3em; margin-bottom:.12em; margin-left:.06em; }
+
+  /* 3 · superscript, top aligned to the k */
+  .p3 .l { font-size:.3em; vertical-align:1.75em; margin-right:.3em; }
+
+  /* 4 · on the baseline, whispered */
+  .p4 .l { font-size:.3em; margin-right:.3em; }
+
+  /* 5 · footnote after the word */
+  .p5 .l { font-size:.3em; vertical-align:1.75em; margin-left:.25em; }
+
+  /* 6 · running up the side */
+  .p6 { padding-left:.36em; }
+  .p6 .l { position:absolute; left:0; bottom:.14em; font-size:.3em; transform:rotate(-90deg); transform-origin:left bottom; translate:1em 0; }
+</style>
+</head>
+<body>
+<h1>little unknown · where does "little" sit?</h1>
+<p class="lede">Same wordmark, six positions for the small vermilion "little". Each is shown large, medium and small, on light and dark.</p>
+<div class="g" id="g"></div>
+<script>
+const items = [
+  ["p1", "1 · Tucked in", "<span>little</span> fits exactly into the empty space above \"un\", where unknown has no tall letters. The little word lives inside the unknown. That's the aha: once you see it, it can't be unseen.", true],
+  ["p2", "2 · Kicker", "Stacked above, left-aligned, like a label on a specimen. Clean and calm; the most conventional."],
+  ["p3", "3 · Superscript", "Your current favourite, refined: \"little\" lifted to the top of the k, with tighter spacing so the two words read as one unit."],
+  ["p4", "4 · Whispered", "On the baseline, small, like it's said quietly. Reads left to right as the full name; the most legible."],
+  ["p5", "5 · Footnote", "\"little\" after the word, like a footnote or exponent: unknown to the power of little. Witty, but reads as \"unknown little\"."],
+  ["p6", "6 · Up the side", "Rotated, running up the side of the u, like a spine label. Distinctive, but hard to read at small sizes."],
+];
+const wm = (p, size) => `<span class="wm ${p}" style="font-size:${size}px">${p === "p4" || p === "p3" ? '<span class="l">little</span>unknown' : p === "p5" ? 'unknown<span class="l">little</span>' : p === "p2" ? '<span class="l">little</span><span>unknown</span>' : '<span class="l">little</span>unknown'}</span>`;
+document.getElementById("g").innerHTML = items.map(([p, name, note, pick]) => `
+  <div class="c${pick ? " pick" : ""}">
+    ${pick ? '<span class="badge">recommended</span>' : ""}
+    <div class="stage">${wm(p, 76)}</div>
+    <div class="stage" style="padding-top:0">${wm(p, 34)}${wm(p, 18)}</div>
+    <div class="stage dark">${wm(p, 48)}${wm(p, 22)}</div>
+    <div class="t"><b>${name}.</b> ${note}</div>
+  </div>`).join("");
+</script>
+</body>
+</html>

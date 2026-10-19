@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Twenty marks</title>
+<style>
+  :root { --paper:#eef0ec; --ink:#121512; --muted:#5b625b; --rule:#d5dad3; --night:#0f120f; --moon:#e6ebe5; --a:#ef4b2b; }
+  * { box-sizing:border-box; }
+  body { margin:0; padding:32px 16px 64px; background:var(--paper); color:var(--ink); font-family:ui-monospace, Menlo, monospace; }
+  h1 { font-size:18px; font-weight:500; margin:0 0 4px; }
+  p.lede { color:var(--muted); font-size:13px; margin:0 0 24px; }
+  .g { display:grid; grid-template-columns:repeat(auto-fill, minmax(260px, 1fr)); gap:14px; max-width:1300px; }
+  .c { background:#fff; border:1px solid var(--rule); border-radius:14px; overflow:hidden; }
+  .row { display:flex; align-items:center; gap:16px; padding:20px 18px 12px; --i:var(--ink); }
+  .ic { width:60px; height:60px; border-radius:14px; background:var(--night); --i:var(--moon); display:flex; align-items:center; justify-content:center; flex:none; }
+  .t { padding:10px 18px 14px; font-size:12.5px; line-height:1.5; color:var(--muted); border-top:1px solid var(--rule); }
+  .t b { color:var(--ink); font-weight:500; }
+  .n { color:var(--a); }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+<defs>
+  <clipPath id="lowerleft"><polygon points="0,0 100,100 0,100"/></clipPath>
+  <clipPath id="upperright"><polygon points="0,0 100,0 100,100"/></clipPath>
+
+  <symbol id="s1" viewBox="0 0 100 100"><rect x="14" y="14" width="72" height="72" rx="18" fill="var(--i)"/><circle cx="50" cy="42" r="11" fill="var(--a)"/><path d="M44 48 H56 L60 70 H40 Z" fill="var(--a)"/></symbol>
+  <symbol id="s2" viewBox="0 0 100 100"><path d="M14 30 A16 16 0 0 1 30 14 H62 L86 38 V70 A16 16 0 0 1 70 86 H30 A16 16 0 0 1 14 70 Z" fill="var(--i)"/><path d="M64 12 V36 H88 Z" fill="var(--a)"/></symbol>
+  <symbol id="s3" viewBox="0 0 100 100"><path d="M47 16 A34 34 0 0 0 47 84 Z" fill="var(--i)"/><path d="M55 16 A34 34 0 0 1 55 84 Z" fill="var(--a)"/></symbol>
+  <symbol id="s4" viewBox="0 0 100 100"><path d="M18 72 A32 32 0 0 1 82 72" fill="none" stroke="var(--i)" stroke-width="14" stroke-linecap="round"/><circle cx="50" cy="74" r="9" fill="var(--a)"/></symbol>
+  <symbol id="s5" viewBox="0 0 100 100"><path d="M36 20 H24 V80 H36 M64 20 H76 V80 H64" fill="none" stroke="var(--i)" stroke-width="10" stroke-linejoin="round" stroke-linecap="round"/><circle cx="50" cy="50" r="10" fill="var(--a)"/></symbol>
+  <symbol id="s6" viewBox="0 0 100 100"><g fill="var(--i)"><rect x="15" y="15" width="20" height="20" rx="5"/><rect x="41" y="15" width="20" height="20" rx="5"/><rect x="15" y="41" width="20" height="20" rx="5"/><rect x="41" y="41" width="20" height="20" rx="5"/><rect x="67" y="41" width="20" height="20" rx="5"/><rect x="15" y="67" width="20" height="20" rx="5"/><rect x="41" y="67" width="20" height="20" rx="5"/><rect x="67" y="67" width="20" height="20" rx="5"/></g><rect x="72" y="10" width="20" height="20" rx="5" fill="var(--a)"/></symbol>
+  <symbol id="s7" viewBox="0 0 100 100"><rect x="16" y="64" width="20" height="20" rx="5" fill="var(--a)"/><rect x="40" y="42" width="20" height="42" rx="5" fill="var(--i)"/><rect x="64" y="16" width="20" height="68" rx="5" fill="var(--i)"/></symbol>
+  <symbol id="s8" viewBox="0 0 100 100"><rect x="20" y="14" width="48" height="72" rx="6" fill="var(--i)"/><path d="M70 16 L82 22 V78 L70 84 Z" fill="var(--a)"/></symbol>
+  <symbol id="s9" viewBox="0 0 100 100"><path d="M14 72 A36 36 0 0 1 86 72 Z" fill="var(--i)"/><circle cx="50" cy="20" r="9" fill="var(--a)"/></symbol>
+  <symbol id="s10" viewBox="0 0 100 100"><g fill="var(--i)"><rect x="44" y="10" width="12" height="30" rx="6"/><rect x="44" y="60" width="12" height="30" rx="6"/><rect x="10" y="44" width="30" height="12" rx="6"/><rect x="60" y="44" width="30" height="12" rx="6"/></g><circle cx="50" cy="50" r="8" fill="var(--a)"/></symbol>
+  <symbol id="s11" viewBox="0 0 100 100"><path d="M30 40 A20 20 0 1 1 52 60 V64" fill="none" stroke="var(--i)" stroke-width="14" stroke-linecap="round"/><circle cx="52" cy="84" r="8" fill="var(--a)"/></symbol>
+  <symbol id="s12" viewBox="0 0 100 100"><rect x="14" y="62" width="72" height="22" rx="6" fill="var(--i)"/><rect x="24" y="36" width="52" height="22" rx="6" fill="var(--i)"/><rect x="54" y="12" width="20" height="20" rx="5" fill="var(--a)"/></symbol>
+  <symbol id="s13" viewBox="0 0 100 100"><rect x="14" y="14" width="46" height="46" rx="10" fill="var(--i)"/><rect x="40" y="40" width="46" height="46" rx="10" fill="var(--i)"/><rect x="40" y="40" width="20" height="20" rx="3" fill="var(--a)"/></symbol>
+  <symbol id="s14" viewBox="0 0 100 100"><circle cx="46" cy="54" r="32" fill="var(--i)" clip-path="url(#lowerleft)"/><circle cx="54" cy="46" r="32" fill="var(--a)" clip-path="url(#upperright)"/></symbol>
+  <symbol id="s15" viewBox="0 0 100 100"><circle cx="46" cy="54" r="38" fill="none" stroke="var(--i)" stroke-width="3" opacity=".35"/><circle cx="46" cy="54" r="24" fill="var(--i)"/><circle cx="73" cy="27" r="9" fill="var(--a)"/></symbol>
+  <symbol id="s16" viewBox="0 0 100 100"><circle cx="50" cy="50" r="30" fill="none" stroke="var(--i)" stroke-width="13"/><circle cx="60" cy="40" r="8" fill="var(--a)"/></symbol>
+  <symbol id="s17" viewBox="0 0 100 100"><g fill="var(--i)"><rect x="14" y="14" width="32" height="32" rx="8"/><rect x="14" y="54" width="32" height="32" rx="8"/><rect x="54" y="54" width="32" height="32" rx="8"/></g><rect x="54" y="14" width="32" height="32" rx="8" fill="var(--a)"/></symbol>
+  <symbol id="s18" viewBox="0 0 100 100"><path d="M26 50 A24 24 0 0 1 50 74 M26 24 A50 50 0 0 1 76 74" fill="none" stroke="var(--i)" stroke-width="10" stroke-linecap="round"/><circle cx="26" cy="74" r="10" fill="var(--a)"/></symbol>
+  <symbol id="s19" viewBox="0 0 100 100"><path d="M24 18 A6 6 0 0 1 30 12 H70 A6 6 0 0 1 76 18 V88 L50 70 L24 88 Z" fill="var(--i)"/><circle cx="50" cy="38" r="9" fill="var(--a)"/></symbol>
+  <symbol id="s20" viewBox="0 0 100 100"><path d="M22 14 V60 A14 14 0 0 0 50 60 V38 M50 60 A14 14 0 0 0 78 60 V46" fill="none" stroke="var(--i)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/><rect x="71" y="18" width="14" height="14" rx="3" fill="var(--a)"/></symbol>
+</defs>
+</svg>
+
+<h1>little unknown · twenty marks</h1>
+<p class="lede">Each in ink with one vermilion piece: large, as an app icon, then at 32px and 16px.</p>
+<div class="g" id="g"></div>
+
+<script>
+const marks = [
+  ["The keyhole", "A block with a keyhole of light: the unknown, about to open."],
+  ["The dog-ear", "A page with its corner turned: there's more on the next one."],
+  ["The split moon", "Two halves pulled apart, one lit. Before and after."],
+  ["The seed", "A small point under a wide arc: something little, growing."],
+  ["The variable", "A point held in brackets: the unknown value, [ x ]."],
+  ["The odd one out", "A grid where one piece has moved: the idea that doesn't fit, yet."],
+  ["The steps", "Three steps up, the first one lit. Every big thing starts small."],
+  ["The door ajar", "A door with light at the edge: something on the other side."],
+  ["The horizon", "A dome with a point rising above it: sunrise, launch."],
+  ["The spark", "Four strokes meeting at a lit centre: where an idea starts."],
+  ["The question", "An abstract question mark, reduced to a curve and a point."],
+  ["The build", "Stacked blocks with a new one placed on top: always building."],
+  ["The overlap", "Two blocks meeting; where they overlap, something new."],
+  ["The cut", "A circle sliced and shifted: the moment of change."],
+  ["The orbit", "A small moon in orbit: little, but on its way."],
+  ["The off-centre", "A ring with its point off-centre: curious, not quite settled."],
+  ["The window", "Four panes, one lit: someone's working late."],
+  ["The signal", "A point sending out waves: putting things into the world."],
+  ["The mark", "A bookmark with a point: a place worth coming back to."],
+  ["The lu", "l and u in one stroke, with a vermilion cursor: the letters, abstracted."],
+];
+const u = (id, s) => `<svg width="${s}" height="${s}"><use href="#${id}"/></svg>`;
+document.getElementById("g").innerHTML = marks.map(([name, note], i) => {
+  const id = "s" + (i + 1);
+  return `<div class="c"><div class="row">${u(id, 84)}<div class="ic">${u(id, 40)}</div>${u(id, 28)}${u(id, 16)}</div>
+    <div class="t"><b><span class="n">${String(i + 1).padStart(2, "0")}</span> · ${name}.</b> ${note}</div></div>`;
+}).join("");
+</script>
+</body>
+</html>
