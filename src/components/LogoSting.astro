@@ -1,0 +1,80 @@
+---
+// The logo sting: the known dots appear, three little unknowns light up one
+// by one, "unknown" slides in, and "little" drops into the space above "un".
+// Without motion (or before it plays) it shows the finished logo.
+import Wordmark from "./Wordmark.astro";
+import { dots, PATTERN } from "../lib/mark.js";
+
+const cols = PATTERN[0].length;
+let lit = 0;
+const body = dots(PATTERN)
+  .map(({ cx, cy, r, lit: isLit }, i) => {
+    const row = Math.floor(i / cols);
+    const col = i % cols;
+    const delay = (row * 0.12 + col * 0.05).toFixed(2);
+    const cls = isLit ? ` class="lit" style="--d:${delay}s;--l:${lit++}"` : ` style="--d:${delay}s"`;
+    return `<circle${cls} cx="${cx.toFixed(2)}" cy="${cy.toFixed(2)}" r="${r.toFixed(2)}"/>`;
+  })
+  .join("");
+---
+<div class="sting" data-sting>
+  <span class="sting-logo">
+    <svg class="sting-mark" viewBox="0 0 100 100" aria-hidden="true" set:html={body} />
+    <Wordmark />
+  </span>
+  <button class="sting-replay" type="button" data-replay>replay ↻</button>
+</div>
+
+<style>
+  .sting { display: flex; flex-direction: column; align-items: center; gap: 28px; }
+  .sting-logo { display: inline-flex; align-items: center; gap: .42em; line-height: 1; font-size: clamp(30px, 5vw, 58px); }
+  .sting-mark { width: 1.5em; height: 1.5em; flex: none; }
+  .sting-mark :global(circle) { fill: currentColor; transform-box: fill-box; transform-origin: center; }
+  .sting-mark :global(circle.lit) { fill: var(--signal); }
+  .sting-replay {
+    font: 13px var(--mono); color: inherit; opacity: .7;
+    background: none; border: 1px solid currentColor; border-radius: 999px; padding: 6px 14px; cursor: pointer;
+  }
+  .sting-replay:hover { opacity: 1; }
+  .sting-replay:focus-visible { outline: 2px solid var(--signal); outline-offset: 3px; }
+
+  @media (prefers-reduced-motion: no-preference) {
+    /* 1 · the known dots appear, row by row */
+    .sting.play .sting-mark :global(circle) { animation: dot-in .5s cubic-bezier(.2, .7, .2, 1) var(--d) both; }
+    /* 2 · three dots light up, one after another, then keep breathing */
+    .sting.play .sting-mark :global(circle.lit) {
+      animation:
+        dot-in .5s cubic-bezier(.2, .7, .2, 1) var(--d) both,
+        light-up .5s ease-out calc(.95s + var(--l) * .28s) both,
+        breathe 4.5s ease-in-out calc(3.2s + var(--l) * 1.5s) infinite;
+    }
+    /* 3 · "unknown" slides in */
+    .sting.play :global(.wordmark > span:last-child) { display: inline-block; animation: slide-in .6s cubic-bezier(.2, .7, .2, 1) 1.9s both; }
+    /* 4 · "little" drops into the space above "un" */
+    .sting.play :global(.wordmark-little) { animation: drop-in .6s cubic-bezier(.3, 1.45, .5, 1) 2.5s both; }
+  }
+
+  @keyframes dot-in { from { opacity: 0; scale: .3; } to { opacity: 1; scale: 1; } }
+  @keyframes light-up { 0% { fill: currentColor; transform: scale(1); } 55% { transform: scale(1.4); } 100% { fill: var(--signal); transform: scale(1); } }
+  @keyframes breathe { 0%, 70%, 100% { opacity: 1; } 85% { opacity: .55; } }
+  @keyframes slide-in { from { opacity: 0; translate: -.3em 0; } to { opacity: 1; translate: 0 0; } }
+  @keyframes drop-in { from { opacity: 0; translate: 0 -.9em; } to { opacity: 1; translate: 0 0; } }
+</style>
+
+<script>
+  // Play when the sting scrolls into view; the button plays it again.
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  for (const sting of document.querySelectorAll<HTMLElement>("[data-sting]")) {
+    const button = sting.querySelector<HTMLButtonElement>("[data-replay]")!;
+    if (reduce) { button.hidden = true; continue; }
+    const play = () => {
+      sting.classList.remove("play");
+      void sting.offsetWidth; // restart the animations
+      sting.classList.add("play");
+    };
+    button.addEventListener("click", play);
+    new IntersectionObserver((entries, observer) => {
+      if (entries.some((e) => e.isIntersecting)) { play(); observer.disconnect(); }
+    }, { threshold: 0.5 }).observe(sting);
+  }
+</script>

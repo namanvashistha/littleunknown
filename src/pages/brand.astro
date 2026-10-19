@@ -2,6 +2,8 @@
 import Base from "../layouts/Base.astro";
 import SectionMark from "../components/SectionMark.astro";
 import PageHead from "../components/PageHead.astro";
+import LogoSting from "../components/LogoSting.astro";
+import DotWave from "../components/DotWave.astro";
 import Lockup from "../components/Lockup.astro";
 import Mark from "../components/Mark.astro";
 import Wordmark from "../components/Wordmark.astro";
@@ -44,7 +46,7 @@ const donts = [
   <PageHead title="brand" intro="How to use the logo, colours, type and voice. The files are at the bottom of the page." />
 
   <section class="block" aria-labelledby="idea">
-    <SectionMark index={1} of={9} label="the idea" id="idea" />
+    <SectionMark index={1} of={10} label="the idea" id="idea" />
     <div class="idea">
       <p class="lead">The dark dots stand for what's already known. The three lit ones are little unknowns, the questions we build products around.</p>
       <p>In the wordmark, <strong class="v">little</strong> sits in the empty space above the "un" of <strong>unknown</strong>, so the small word fits inside the big one.</p>
@@ -52,7 +54,7 @@ const donts = [
   </section>
 
   <section class="block" aria-labelledby="logo">
-    <SectionMark index={2} of={9} label="logo" id="logo" />
+    <SectionMark index={2} of={10} label="logo" id="logo" />
     <div class="grid g2">
       <div class="panel p-white"><Lockup class="s58" /><span class="cap">on light</span></div>
       <div class="panel p-night"><Lockup class="s58" /><span class="cap">on dark</span></div>
@@ -64,8 +66,17 @@ const donts = [
     </div>
   </section>
 
+  <section class="block" aria-labelledby="motion">
+    <SectionMark index={3} of={10} label="motion" id="motion" />
+    <div class="panel p-night tall"><LogoSting /><span class="cap">sting · for the start or end of a video</span></div>
+    <div class="grid g2" style="margin-top:16px">
+      <div class="panel p-night"><Mark size={150} twinkle /><span class="cap">loop · for avatars and backgrounds</span></div>
+      <div class="panel p-night"><DotWave /><span class="cap">transition · between scenes</span></div>
+    </div>
+  </section>
+
   <section class="block" aria-labelledby="use">
-    <SectionMark index={3} of={9} label="using it" id="use" />
+    <SectionMark index={4} of={10} label="using it" id="use" />
     <div class="rules">
       <div><h3>clear space</h3><p>Keep empty space around the logo at least the height of the dot band on every side.</p></div>
       <div><h3>minimum size</h3><p>The full logo: 120px wide on screen, 30mm in print. The mark alone: 24px.</p></div>
@@ -75,7 +86,7 @@ const donts = [
   </section>
 
   <section class="block" aria-labelledby="colour">
-    <SectionMark index={4} of={9} label="colour" id="colour" />
+    <SectionMark index={5} of={10} label="colour" id="colour" />
     <ul class="swatches">
       {swatches.map(([name, hex, use]) => (
         <li>
@@ -89,7 +100,7 @@ const donts = [
   </section>
 
   <section class="block" aria-labelledby="type">
-    <SectionMark index={5} of={9} label="type" id="type" />
+    <SectionMark index={6} of={10} label="type" id="type" />
     <div class="type">
       <p class="type-big">JetBrains Mono</p>
       <div class="weights">
@@ -106,7 +117,7 @@ const donts = [
   </section>
 
   <section class="block" aria-labelledby="voice">
-    <SectionMark index={6} of={9} label="voice" id="voice" />
+    <SectionMark index={7} of={10} label="voice" id="voice" />
     <div class="voice">
       <p class="lead">Write the way you'd explain it to a friend.</p>
       <ul class="rows">
@@ -120,7 +131,7 @@ const donts = [
   </section>
 
   <section class="block" aria-labelledby="world">
-    <SectionMark index={7} of={9} label="in the world" id="world" />
+    <SectionMark index={8} of={10} label="in the world" id="world" />
 
     <div class="grid g3">
       <div class="panel p-white icons">
@@ -190,14 +201,14 @@ const donts = [
   </section>
 
   <section class="block" aria-labelledby="dont">
-    <SectionMark index={8} of={9} label="please don't" id="dont" />
+    <SectionMark index={9} of={10} label="please don't" id="dont" />
     <ul class="rows">
       {donts.map((d, i) => <li><span class="comment">{String(i + 1).padStart(2, "0")}</span><span>{d}</span></li>)}
     </ul>
   </section>
 
   <section class="block" aria-labelledby="files">
-    <SectionMark index={9} of={9} label="downloads" id="files" />
+    <SectionMark index={10} of={10} label="downloads" id="files" />
     <ul class="files">
       {files.map(([name, label]) => (
         <li>
@@ -233,6 +244,7 @@ const donts = [
   .p-white { background: #fff; color: #121512; }
   .p-paper { background: #eef0ec; color: #121512; }
   .p-night { background: #0f120f; color: #e6ebe5; }
+  .tall { min-height: 340px; }
   .p-signal { background: #ef4b2b; color: #fff; --signal: #0f120f; }
   .p-stage { background: #d5dbd2; color: #121512; }
   .cap { position: absolute; left: 16px; bottom: 12px; font-size: 11px; color: #5b625b; }

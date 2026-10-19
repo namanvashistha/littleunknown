@@ -1,0 +1,24 @@
+---
+// The transition: a band of known dots with a vermilion wave passing through.
+const cols = 24;
+const rows = 3;
+let body = "";
+for (let y = 0; y < rows; y++) {
+  for (let x = 0; x < cols; x++) {
+    body += `<circle style="--d:${(x * 0.045 + y * 0.03).toFixed(3)}s" cx="${x * 10 + 5}" cy="${y * 10 + 5}" r="2.6"/>`;
+  }
+}
+---
+<svg class="wave" viewBox={`0 0 ${cols * 10} ${rows * 10}`} aria-hidden="true" set:html={body} />
+
+<style>
+  .wave { width: 100%; max-width: 520px; height: auto; overflow: visible; }
+  .wave :global(circle) { fill: currentColor; fill-opacity: .2; transform-box: fill-box; transform-origin: center; }
+  @media (prefers-reduced-motion: no-preference) {
+    .wave :global(circle) { animation: wave 2.8s ease-in-out var(--d) infinite; }
+  }
+  @keyframes wave {
+    0%, 30%, 100% { fill: currentColor; fill-opacity: .2; transform: scale(1); }
+    12% { fill: var(--signal); fill-opacity: 1; transform: scale(1.35); }
+  }
+</style>
