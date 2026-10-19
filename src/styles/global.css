@@ -72,7 +72,7 @@ h1, h2, h3, nav, code, .comment, .mono, .wordmark, .lockup, .section-mark, .skip
 .site-header nav { display: flex; gap: 22px; font-size: 14px; }
 .site-header nav a { color: var(--graphite); }
 .site-header nav a:hover, .site-header nav a[aria-current="page"] { color: var(--ink); text-decoration: none; }
-@media (max-width: 480px) { .site-header nav { gap: 16px; } .site-header .home { font-size: 23px; } }
+@media (max-width: 480px) { .site-header nav { gap: 14px; font-size: 13px; } .site-header .home { font-size: 20px; } }
 
 main { flex: 1; }
 main.wrap { padding-block: 72px 120px; }

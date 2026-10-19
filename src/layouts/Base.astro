@@ -18,6 +18,7 @@ const path = Astro.url.pathname;
 const year = new Date().getFullYear();
 const nav = [
   ["/#work", "work"],
+  ["/blog/", "blog"],
   ["/about/", "about"],
   ["/brand/", "brand"],
 ];
@@ -38,7 +39,7 @@ const nav = [
     <a class="home" href="/" aria-label="little unknown, home"><Lockup /></a>
     <nav aria-label="Main">
       {nav.map(([href, label]) => (
-        <a href={href} aria-current={path === href ? "page" : undefined}>{label}</a>
+        <a href={href} aria-current={path === href || (href === "/blog/" && path.startsWith("/blog/")) ? "page" : undefined}>{label}</a>
       ))}
     </nav>
   </header>

@@ -11,10 +11,16 @@ The name is written "little unknown", in lowercase, as two words. The logo is a 
 - [Home](https://littleunknown.com/): the studio, its products and how it works
 - [About](https://littleunknown.com/about/): what the studio is, what the name means, who runs it and what it has made
 - [Brand](https://littleunknown.com/brand/): logo, colours, type, voice and logo files
+- [Blog](https://littleunknown.com/blog/): posts about the studio and its products ([RSS](https://littleunknown.com/rss.xml))
 
 ## Products
 
 - [Calm Chess](https://namanvashistha.com/chess/cozychess/): a chess app for iPhone and Android, subtitled "A kind coach beside you". After each move, a coach says whether it was great, good or a slip, and why. You can play three opponents, from the Rookie to the Grandmaster, or pass the phone to a friend. There's no account and there are no ads, and the engine runs offline on the phone. It's available in English, Hindi and Spanish, and it's coming to the App Store and Google Play.
+
+## Posts
+
+- [Introducing little unknown](https://littleunknown.com/blog/introducing-little-unknown/): the name, the logo and the first product
+- [Calm Chess](https://littleunknown.com/blog/calm-chess/): what Calm Chess is and how it works
 
 ## People
 

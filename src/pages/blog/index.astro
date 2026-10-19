@@ -1,0 +1,49 @@
+---
+import Base from "../../layouts/Base.astro";
+import PageHead from "../../components/PageHead.astro";
+import { site } from "../../site.js";
+import { posts, formatDate, isoDate } from "../../lib/blog";
+
+const list = await posts();
+const blogGraph = [
+  {
+    "@type": "Blog",
+    "@id": `${site.url}/blog/#blog`,
+    url: `${site.url}/blog/`,
+    name: `${site.name} blog`,
+    publisher: { "@id": `${site.url}/#organization` },
+    blogPost: list.map((p) => ({ "@id": `${site.url}/blog/${p.id}/#post` })),
+  },
+];
+---
+<Base
+  title={`blog · ${site.name}`}
+  description={`Posts from ${site.name} about the products it makes.`}
+  pageType="CollectionPage"
+  graph={blogGraph}
+>
+  <PageHead title="blog" intro="Notes on what we make and why." />
+
+  <ol class="posts">
+    {list.map((post) => (
+      <li>
+        <a href={`/blog/${post.id}/`}>
+          <time class="comment" datetime={isoDate(post.data.createdAt)}>{formatDate(post.data.createdAt)}</time>
+          <h2>{post.data.title}</h2>
+          <p>{post.data.description}</p>
+        </a>
+      </li>
+    ))}
+  </ol>
+</Base>
+
+<style>
+  .posts { list-style: none; margin-top: clamp(56px, 7vw, 96px); border-top: 1px solid var(--rule); }
+  .posts li { border-bottom: 1px solid var(--rule); }
+  .posts a { display: block; padding: 32px 0; color: var(--ink); }
+  .posts a:hover { text-decoration: none; }
+  .posts a:hover h2 { color: var(--signal); }
+  time { font-size: 14px; }
+  h2 { margin-top: 10px; font-size: clamp(1.5rem, 3.2vw, 2.1rem); font-weight: 700; letter-spacing: -0.035em; line-height: 1.15; transition: color .2s; }
+  p { margin-top: 10px; max-width: 60ch; color: var(--graphite); }
+</style>
