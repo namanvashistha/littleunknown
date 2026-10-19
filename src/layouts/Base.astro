@@ -48,24 +48,14 @@ const nav = [
   </main>
 
   <footer class="site-footer wrap">
-    <div class="footer-cols">
-      <p class="footer-note">// {site.tagline}</p>
-      <div>
-        <p class="comment">// studio</p>
-        <ul>{nav.map(([href, label]) => <li><a href={href}>{label}</a></li>)}</ul>
-      </div>
-      <div>
-        <p class="comment">// elsewhere</p>
-        <ul>
-          <li><a href={site.founder.url} rel="author">{site.founder.name}</a></li>
-          <li><a href="https://github.com/namanvashistha">GitHub</a></li>
-        </ul>
-      </div>
-    </div>
     <a class="footer-mark" href="/" aria-label="little unknown, home"><Wordmark /></a>
-    <div class="footer-base comment">
-      <span>© {year} {site.name}</span>
-      <a href="#content">back to top ↑</a>
+    <div class="footer-base">
+      <nav aria-label="Footer">
+        {nav.map(([href, label]) => <a href={href}>{label}</a>)}
+        <a href={site.founder.url} rel="author">{site.founder.name}</a>
+        <a href="https://github.com/namanvashistha">GitHub</a>
+      </nav>
+      <span class="comment">© {year} {site.name}</span>
     </div>
   </footer>
 </body>

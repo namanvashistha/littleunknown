@@ -28,7 +28,6 @@ const narrow = field(14, 9, [[3, 2], [9, 5], [12, 1]]);
 <div class:list={["dotfield", className]} data-dotfield>
   <svg class="df-wide" viewBox={`0 0 ${wide.w} ${wide.h}`} aria-hidden="true" set:html={wide.body} />
   <svg class="df-narrow" viewBox={`0 0 ${narrow.w} ${narrow.h}`} aria-hidden="true" set:html={narrow.body} />
-  <p class="df-hint comment" aria-hidden="true"><span class="hover">// move across the dots</span><span class="touch">// tap the dots</span></p>
 </div>
 
 <style>
@@ -43,10 +42,6 @@ const narrow = field(14, 9, [[3, 2], [9, 5], [12, 1]]);
   .dotfield :global(circle.lit),
   .dotfield :global(circle.on) { fill: var(--signal); fill-opacity: 1; transition-duration: .12s; }
   .dotfield :global(circle.on) { transform: scale(1.25); }
-  .df-hint { margin-top: 14px; font-size: 13px; text-align: right; }
-  .df-hint .touch { display: none; }
-  @media (hover: none) { .df-hint .hover { display: none; } .df-hint .touch { display: inline; } }
-  @media (prefers-reduced-motion: reduce) { .df-hint { display: none; } }
   /* the three little unknowns pulse gently, one at a time, like the mark */
   @media (prefers-reduced-motion: no-preference) {
     .dotfield :global(circle.lit) { animation: df-pulse 4.5s ease-in-out infinite; animation-delay: calc(var(--n) * 1.5s); }

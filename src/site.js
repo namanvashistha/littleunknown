@@ -24,7 +24,6 @@ export const products = [
     summary: "Learn chess without the pressure.",
     description:
       "Play the Rookie, the Master or the Grandmaster, or pass the phone to a friend. After each move, the coach tells you whether it was great, good or a slip, and why.",
-    highlights: ["a coach after every move", "no account, no ads", "works offline", "English, Hindi, Spanish"],
     platforms: ["iPhone", "Android"],
     status: "coming to the App Store and Google Play",
     url: "https://namanvashistha.com/chess/cozychess/",

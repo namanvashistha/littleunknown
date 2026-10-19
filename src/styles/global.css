@@ -67,27 +67,25 @@ h1, h2, h3, nav, code, .comment, .mono, .wordmark, .lockup, .section-mark, .skip
   display: flex; justify-content: space-between; align-items: center; gap: 16px;
   padding-top: 26px; padding-bottom: 26px;
 }
-.site-header .home { color: var(--ink); font-size: 22px; }
+.site-header .home { color: var(--ink); font-size: 28px; }
 .site-header .home:hover { text-decoration: none; }
 .site-header nav { display: flex; gap: 22px; font-size: 14px; }
 .site-header nav a { color: var(--graphite); }
 .site-header nav a:hover, .site-header nav a[aria-current="page"] { color: var(--ink); text-decoration: none; }
-@media (max-width: 480px) { .site-header nav { gap: 16px; } .site-header .home { font-size: 21px; } }
+@media (max-width: 480px) { .site-header nav { gap: 16px; } .site-header .home { font-size: 23px; } }
 
 main { flex: 1; }
 main.wrap { padding-block: 72px 120px; }
 
-.site-footer { padding-top: 56px; padding-bottom: 28px; border-top: 1px solid var(--rule); }
-.footer-cols { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) minmax(0, 1fr); gap: 32px; font-size: 14px; }
-.footer-note { font-family: var(--mono); font-size: clamp(1.1rem, 2vw, 1.35rem); color: var(--graphite); }
-.footer-base a { color: var(--graphite); }
-.footer-cols ul { list-style: none; margin-top: 8px; }
-.footer-cols li + li { margin-top: 4px; }
-.footer-cols a { color: var(--ink); }
-.footer-mark { display: block; margin-top: 72px; color: var(--ink); font-size: clamp(3.4rem, 22.5vw, 17.4rem); line-height: 1; }
+/* The footer: the wordmark across the content width, then one quiet row. */
+.site-footer { padding-bottom: 32px; container-type: inline-size; }
+/* The wordmark is 3.92em wide, so 100cqi / 3.95 fills the footer content width. */
+.footer-mark { display: block; padding-top: 64px; border-top: 1px solid var(--rule); color: var(--ink); font-size: calc(100cqi / 3.95); line-height: 1; }
 .footer-mark:hover { text-decoration: none; }
-.footer-base { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-top: 28px; font-size: 13px; }
-@media (max-width: 640px) { .footer-cols { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } .footer-note { grid-column: 1 / -1; } }
+.footer-base { display: flex; justify-content: space-between; align-items: baseline; gap: 12px 24px; flex-wrap: wrap; margin-top: 32px; font-size: 14px; }
+.footer-base nav { display: flex; flex-wrap: wrap; gap: 8px 22px; font-family: var(--mono); }
+.footer-base nav a { color: var(--graphite); }
+.footer-base nav a:hover { color: var(--ink); text-decoration: none; }
 
 /* The logo. "little" is tucked into the empty space above "un". */
 .wordmark { position: relative; display: inline-block; font-weight: 700; letter-spacing: -0.04em; line-height: 1; white-space: nowrap; }

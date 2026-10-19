@@ -20,18 +20,15 @@ const shots = [
 const principles = [
   {
     title: "question everything",
-    text: "Start with the real problem.",
     dots: ["ooooo", "oooao", "ooooo"],
   },
   {
     title: "build to find out",
-    text: "A prototype answers faster than a plan.",
     dots: ["aoooo", "oaooo", "ooaoo"],
     path: true,
   },
   {
     title: "ship what matters",
-    text: "It counts once people use it.",
     dots: ["oooo.", "oooo.", "ooooo"],
     escape: true,
   },
@@ -61,11 +58,7 @@ function diagram({ dots, path, escape }: { dots: string[]; path?: boolean; escap
     <DotField />
     <div class="hero-copy">
       <h1 id="hero-title">{site.manifesto}</h1>
-      <div class="hero-side">
-        <p class="comment">// product studio</p>
-        <p>We make apps for iPhone, Android and the web.</p>
-        <a class="now" href="#work"><span class="comment">&gt; now</span> {chess.name} <span aria-hidden="true">↓</span></a>
-      </div>
+      <p class="hero-side">We make apps for iPhone, Android and the web.</p>
     </div>
   </section>
 
@@ -76,17 +69,10 @@ function diagram({ dots, path, escape }: { dots: string[]; path?: boolean; escap
       <div class="product-copy">
         <div class="product-title">
           <Image src={icon} alt="" width={76} height={76} class="product-icon" />
-          <div>
-            <h3 id="calm-chess">{chess.name}</h3>
-            <p class="comment">// {chess.subtitle.toLowerCase()}</p>
-          </div>
+          <h3 id="calm-chess">{chess.name}</h3>
         </div>
         <p class="product-lead">{chess.summary}</p>
-        <ul class="highlights">{chess.highlights.map((h) => <li>{h}</li>)}</ul>
-        <div class="product-foot">
-          <span class="comment">// {chess.status}</span>
-          <a href={chess.url}>more about {chess.name} →</a>
-        </div>
+        <p class="product-foot"><span class="comment">{chess.status}</span> <a href={chess.url}>more →</a></p>
       </div>
 
       <div class="product-shots">
@@ -100,11 +86,10 @@ function diagram({ dots, path, escape }: { dots: string[]; path?: boolean; escap
   <section class="block" aria-labelledby="how-title">
     <SectionMark index={2} of={2} label="how we work" id="how-title" />
     <ol class="principles">
-      {principles.map((p, i) => (
+      {principles.map((p) => (
         <li>
           <svg class="diagram" viewBox="0 0 110 60" aria-hidden="true" set:html={diagram(p)} />
-          <h3><span class="comment">{String(i + 1).padStart(2, "0")}</span> {p.title}.</h3>
-          <p>{p.text}</p>
+          <h3>{p.title}</h3>
         </li>
       ))}
     </ol>
@@ -124,14 +109,7 @@ function diagram({ dots, path, escape }: { dots: string[]; path?: boolean; escap
     font-weight: 700; letter-spacing: -0.045em; line-height: 1.02;
     text-wrap: balance;
   }
-  .hero-side { display: flex; flex-direction: column; gap: 14px; font-size: 15px; max-width: 34ch; }
-  .now {
-    align-self: flex-start; margin-top: 8px;
-    display: inline-flex; gap: 10px; padding: 9px 16px;
-    border: 1px solid var(--rule); border-radius: 999px; color: var(--ink); font-size: 14px;
-  }
-  .now:hover { text-decoration: none; border-color: var(--graphite); }
-
+  .hero-side { max-width: 26ch; color: var(--graphite); }
 
   /* work */
   .product {
@@ -141,31 +119,24 @@ function diagram({ dots, path, escape }: { dots: string[]; path?: boolean; escap
   :global(.product-icon) { width: 76px; height: 76px; border-radius: 18px; border: 1px solid var(--rule); }
   h3 { font-weight: 700; letter-spacing: -0.035em; }
   .product-title h3 { font-size: clamp(2rem, 4.4vw, 3rem); line-height: 1; }
-  .product-lead { margin-top: 30px; font-size: clamp(1.15rem, 2.4vw, 1.45rem); font-weight: 500; line-height: 1.4; max-width: 30ch; }
-  .highlights { list-style: none; margin-top: 22px; display: flex; flex-wrap: wrap; gap: 8px; font-family: var(--mono); font-size: 13px; }
-  .highlights li { padding: 6px 12px; border: 1px solid var(--rule); border-radius: 999px; color: var(--graphite); }
-  .product-foot { margin-top: 24px; display: flex; justify-content: space-between; gap: 10px 24px; flex-wrap: wrap; font-size: 14px; }
+  .product-lead { margin-top: 28px; font-size: clamp(1.15rem, 2.4vw, 1.45rem); font-weight: 500; line-height: 1.4; max-width: 30ch; }
+  .product-foot { margin-top: 20px; font-size: 15px; }
+  .product-foot a { margin-left: 12px; }
 
   .product-shots { position: relative; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(10px, 1.6vw, 18px); align-items: center; }
   :global(.shot) { width: 100%; height: auto; border-radius: clamp(14px, 2vw, 24px); border: 1px solid var(--rule); background: var(--rule); box-shadow: 0 30px 60px -36px rgba(0, 0, 0, .45); }
-  :global(.shot-1) { transform: translateY(-28px); }
 
   /* how we work */
   .principles { list-style: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 48px; }
   .diagram { width: 132px; height: auto; overflow: visible; }
-  .diagram :global(circle) { fill: var(--ink); }
-  .diagram :global(circle.lit) { fill: var(--signal); }
+  .diagram :global(circle) { fill: var(--ink); fill-opacity: .2; }
+  .diagram :global(circle.lit) { fill: var(--signal); fill-opacity: 1; }
   .diagram :global(.link) { fill: none; stroke: var(--signal); stroke-width: 2; }
   .principles h3 { margin-top: 26px; font-size: clamp(1.2rem, 2.2vw, 1.45rem); font-weight: 700; line-height: 1.2; }
-  .principles h3 .comment { font-weight: 400; font-size: .7em; margin-right: 6px; letter-spacing: 0; }
-  .principles p { margin-top: 10px; color: var(--graphite); max-width: 38ch; }
 
   @media (max-width: 900px) {
     .hero-copy, .product { grid-template-columns: minmax(0, 1fr); }
     .principles { grid-template-columns: minmax(0, 1fr); gap: 44px; }
     .product-shots { max-width: 560px; }
-  }
-  @media (max-width: 480px) {
-    :global(.shot-1) { transform: translateY(-14px); }
   }
 </style>
