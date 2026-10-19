@@ -56,7 +56,7 @@ Field notes: a builder's lab notebook. Monospace, plain surfaces, one signal col
 | graphite | `#5b625b` | `#8a948a` | comments, secondary text               |
 | rule   | `#d5dad3` | `#262b26` | hairlines                                |
 
-- **Type:** JetBrains Mono, 400, 500 and 700. Nothing else.
+- **Type:** JetBrains Mono (400, 500, 700) for the logo, headings, labels and `//` comments; IBM Plex Sans (400, 500) for paragraphs and anything read at length.
 - **Vermilion is rare.** The lit dots, "little", links and one accent per view;
   never large fills except the one-colour logo panel.
 - **Comments are a voice.** Secondary lines start with `//` in graphite.
@@ -64,6 +64,7 @@ Field notes: a builder's lab notebook. Monospace, plain surfaces, one signal col
 
 ## Voice
 
-Plain, honest, a little dry. Short sentences. Lowercase is fine for lines and
-labels. Say what a thing does; skip "revolutionary", "seamless", "empower".
-Confident about the work, humble about the future.
+Write the way you'd explain it to a friend. Keep sentences short and say what a
+thing does. Say each thing once, in one place on the site. Lowercase is fine for
+labels. Avoid hype words (revolutionary, seamless, empower), "not X but Y" turns,
+dramatic colons and lists of three where one word would do.
