@@ -1,0 +1,22 @@
+---
+// The dots mark. Known dots take the text colour; lit dots take --signal.
+import { circles, PATTERN, PATTERN_SMALL } from "../lib/mark.js";
+
+interface Props {
+  size?: number | string;
+  small?: boolean;
+  twinkle?: boolean;
+  class?: string;
+}
+const { size = 24, small = false, twinkle = false, class: className } = Astro.props;
+const body = circles(small ? PATTERN_SMALL : PATTERN);
+---
+<svg
+  class:list={["mark", { twinkle }, className]}
+  width={size}
+  height={size}
+  viewBox="0 0 100 100"
+  aria-hidden="true"
+  focusable="false"
+  set:html={body}
+/>

@@ -4,12 +4,13 @@
 
 The studio's belief: every product starts as a little unknown, an open question about something people need. Its work is turning those unknowns into products people rely on. It works by three principles: question everything, build to find out, ship what matters.
 
-The name is written "little unknown" (lowercase, two words). The wordmark is "little_unknown_".
+The name is written "little unknown" (lowercase, two words). The logo is a band of dots with three lit in vermilion, beside the word "unknown" with a small "little" tucked above it. Brand guidelines and logo files: https://littleunknown.com/brand/
 
 ## Pages
 
 - [Home](https://littleunknown.com/): the studio's manifesto, principles and products
 - [About](https://littleunknown.com/about/): what the studio does, how it works, who runs it, key facts and FAQ
+- [Brand](https://littleunknown.com/brand/): logo, colours, type, voice and downloadable logo files
 
 ## Products
 

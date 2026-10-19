@@ -1,5 +1,6 @@
 ---
 import Seo from "../components/Seo.astro";
+import Lockup from "../components/Lockup.astro";
 import { site } from "../site.js";
 import "../styles/global.css";
 
@@ -10,9 +11,11 @@ interface Props {
   noindex?: boolean;
   graph?: object[];
   showMark?: boolean;
+  wide?: boolean;
 }
 
-const { showMark = true, ...seo } = Astro.props;
+const { showMark = true, wide = false, ...seo } = Astro.props;
+const wrap = wide ? "wrap wide" : "wrap";
 const path = Astro.url.pathname;
 const year = new Date().getFullYear();
 ---
@@ -27,26 +30,27 @@ const year = new Date().getFullYear();
   <Seo {...seo} />
 </head>
 <body>
-  <div class="wrap">
+  <div class={wrap}>
     <header class="site-header">
       {showMark
-        ? <a class="mark" href="/">{site.wordmark.slice(0, -1)}<span class="cursor">_</span></a>
+        ? <a class="home" href="/" aria-label="little unknown, home"><Lockup /></a>
         : <span class="comment">// product studio</span>}
       <nav class="comment" aria-label="Main">
         <a href="/#work">work</a>
         <a href="/about/" aria-current={path === "/about/" ? "page" : undefined}>about</a>
+        <a href="/brand/" aria-current={path === "/brand/" ? "page" : undefined}>brand</a>
       </nav>
     </header>
   </div>
 
-  <main class="wrap">
+  <main class={wrap}>
     <slot />
   </main>
 
-  <div class="wrap">
+  <div class={wrap}>
     <footer class="site-footer">
       <span class="comment">// a studio by <a href={site.founder.url} rel="author">naman vashistha</a></span>
-      <span class="comment">© {year} {site.name}</span>
+      <span class="comment"><a class="quiet" href="/brand/">brand</a> · © {year} {site.name}</span>
     </footer>
   </div>
 </body>

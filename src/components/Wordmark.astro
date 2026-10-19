@@ -1,0 +1,9 @@
+---
+// "unknown" set large, with "little" tucked into the empty space above "un".
+// Size it with font-size on the element or a parent.
+interface Props {
+  class?: string;
+}
+const { class: className } = Astro.props;
+---
+<span class:list={["wordmark", className]}><span class="sr-only">little unknown</span><span class="wordmark-little" aria-hidden="true">little</span><span aria-hidden="true">unknown</span></span>

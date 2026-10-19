@@ -1,6 +1,7 @@
 ---
 import { Image } from "astro:assets";
 import Base from "../layouts/Base.astro";
+import Lockup from "../components/Lockup.astro";
 import { site, products, productGraph } from "../site.js";
 import icon from "../assets/calm-chess/icon.png";
 import shotCoach from "../assets/calm-chess/2-coach.png";
@@ -21,7 +22,7 @@ const shots = [
   graph={productGraph}
 >
   <section class="hero" aria-label="little unknown">
-    <h1>little_unknown<span class="cursor" aria-hidden="true">_</span></h1>
+    <h1><Lockup twinkle /></h1>
     <p class="tagline comment">// {site.tagline}</p>
     <p class="statement">{site.manifesto}</p>
     <a class="now" href="#work">
@@ -95,12 +96,10 @@ const shots = [
     padding-bottom: 48px;
   }
   h1 {
-    font-weight: 500;
-    font-size: clamp(2.1rem, 8.4vw, 4.4rem);
-    letter-spacing: -0.04em;
+    font-size: clamp(2.6rem, 10.5vw, 5.6rem);
     line-height: 1;
-    white-space: nowrap;
   }
+  h1 :global(.lockup) { gap: .32em; }
   .tagline { margin-top: 20px; font-size: clamp(1rem, 2.6vw, 1.25rem); }
   .statement {
     margin-top: 48px;

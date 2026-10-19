@@ -2,7 +2,6 @@
 // Keep these plain and true: search engines and AI answer engines quote them.
 export const site = {
   name: "little unknown",
-  wordmark: "little_unknown_",
   url: "https://littleunknown.com",
   tagline: "everything starts unknown",
   manifesto: "We turn little unknowns into products people rely on.",
@@ -43,7 +42,6 @@ const org = {
   "@type": "Organization",
   "@id": `${site.url}/#organization`,
   name: site.name,
-  alternateName: site.wordmark,
   url: `${site.url}/`,
   logo: { "@type": "ImageObject", url: `${site.url}/icon-512.png`, width: 512, height: 512 },
   image: `${site.url}/og.png`,
@@ -66,7 +64,6 @@ const website = {
   "@id": `${site.url}/#website`,
   url: `${site.url}/`,
   name: site.name,
-  alternateName: site.wordmark,
   description: site.description,
   inLanguage: site.locale,
   publisher: { "@id": `${site.url}/#organization` },

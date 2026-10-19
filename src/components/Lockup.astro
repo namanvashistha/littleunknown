@@ -1,0 +1,12 @@
+---
+// The primary lockup: the dots mark beside the wordmark. Size it with font-size.
+import Mark from "./Mark.astro";
+import Wordmark from "./Wordmark.astro";
+
+interface Props {
+  twinkle?: boolean;
+  class?: string;
+}
+const { twinkle = false, class: className } = Astro.props;
+---
+<span class:list={["lockup", className]}><Mark size="1.5em" twinkle={twinkle} /><Wordmark /></span>

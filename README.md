@@ -7,7 +7,7 @@ GitHub Pages by `.github/workflows/deploy.yml` on every push to `main`.
 npm install
 npm run dev     # local dev server
 npm run build   # static site in dist/
-npm run og      # re-render public/og.png and the PNG icons after a brand change
+npm run brand   # regenerate the logo kit, favicons, app icons and og.png
 ```
 
 - Studio facts used for SEO, JSON-LD and `llms.txt` live in `src/site.js`; keep `public/llms.txt` in step with them.
