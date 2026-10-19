@@ -4,6 +4,7 @@ import SectionMark from "../components/SectionMark.astro";
 import PageHead from "../components/PageHead.astro";
 import LogoSting from "../components/LogoSting.astro";
 import DotWave from "../components/DotWave.astro";
+import BrandMotion from "../components/BrandMotion.astro";
 import Lockup from "../components/Lockup.astro";
 import Mark from "../components/Mark.astro";
 import Wordmark from "../components/Wordmark.astro";
@@ -69,9 +70,16 @@ const donts = [
   <section class="block" aria-labelledby="motion">
     <SectionMark index={3} of={10} label="motion" id="motion" />
     <div class="panel p-night tall"><LogoSting /><span class="cap">sting · for the start or end of a video</span></div>
-    <div class="grid g2" style="margin-top:16px">
-      <div class="panel p-night"><Mark size={150} twinkle /><span class="cap">loop · for avatars and backgrounds</span></div>
+    <div class="grid g3" style="margin-top:16px">
+      <div class="panel p-night"><Mark size={130} twinkle /><span class="cap">loop · avatars and backgrounds</span></div>
       <div class="panel p-night"><DotWave /><span class="cap">transition · between scenes</span></div>
+      <div class="panel p-night"><BrandMotion kind="loader" /><span class="cap">loader · while something loads</span></div>
+      <div class="panel p-night"><BrandMotion kind="discovery" /><span class="cap">discovery · finding the unknowns</span></div>
+      <div class="panel p-night"><BrandMotion kind="ripple" /><span class="cap">ripple · taps and launches</span></div>
+      <div class="panel p-night"><BrandMotion kind="connect" /><span class="cap">connect · build to find out</span></div>
+      <div class="panel p-night"><BrandMotion kind="ship" /><span class="cap">ship · release announcements</span></div>
+      <div class="panel p-night"><BrandMotion kind="tagline" /><span class="cap">tagline · titles and outros</span></div>
+      <div class="panel p-night"><BrandMotion kind="shrink" /><span class="cap">small sizes · the mark becomes the favicon</span></div>
     </div>
   </section>
 

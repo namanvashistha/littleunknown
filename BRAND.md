@@ -30,7 +30,12 @@ The public brand page with every mockup and the logo files is
 - **Wordmark:** "unknown" in JetBrains Mono Bold, with "little" in Medium at
   27% size, vermilion, tucked into the empty space above "un".
 - **Lockup:** the mark at 1.5× the wordmark's size, then the wordmark.
-- **Motion:** on screen the lit dots may pulse gently, one at a time.
+- **Motion:** on screen the lit dots may pulse gently, one at a time. The brand
+  page shows the motion set, all built from the dots in ink and vermilion:
+  the sting (the logo builds in about three seconds), loop, transition, loader,
+  discovery, ripple, connect, ship, tagline and small sizes. They live in
+  `LogoSting.astro`, `DotWave.astro` and `BrandMotion.astro`, and every one shows
+  a still frame when motion is reduced.
 - **Source of truth:** `src/lib/mark.js` (pattern and colours) and the
   `.wordmark` rules in `src/styles/global.css`. `npm run brand` regenerates the
   logo kit in `public/brand/`, the favicons, app icons and `og.png`.

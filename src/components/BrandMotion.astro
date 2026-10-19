@@ -1,0 +1,141 @@
+---
+// Small looping motions built from the dots. Each one is a single idea:
+// the same dot, the same two colours, ease-in-out timing. With reduced
+// motion, each shows a still frame that still reads.
+import { dots, PATTERN, PATTERN_SMALL } from "../lib/mark.js";
+
+type Kind = "loader" | "discovery" | "ripple" | "connect" | "ship" | "tagline" | "shrink";
+interface Props { kind: Kind }
+const { kind } = Astro.props;
+
+const STEP = 10;
+const R = 2.6;
+const at = (x: number, y: number) => [x * STEP + STEP / 2, y * STEP + STEP / 2];
+const c = (x: number, y: number, attrs = "") => {
+  const [cx, cy] = at(x, y);
+  return `<circle cx="${cx}" cy="${cy}" r="${R}" ${attrs}/>`;
+};
+
+let svg = "";
+let viewBox = "";
+
+if (kind === "loader") {
+  svg = [0, 1, 2].map((i) => c(i, 0, `class="pulse" style="--d:${i * 0.18}s"`)).join("");
+  viewBox = "0 0 30 10";
+}
+
+if (kind === "discovery") {
+  // A light passes over every dot in reading order; three of them stay lit.
+  const cols = 8, rows = 3, keep = new Set(["2,0", "5,1", "1,2"]);
+  for (let y = 0; y < rows; y++)
+    for (let x = 0; x < cols; x++) {
+      const i = y * cols + x;
+      svg += c(x, y, `class="${keep.has(`${x},${y}`) ? "keep" : "pass"}" style="--d:${(i * 0.11).toFixed(2)}s"`);
+    }
+  viewBox = `0 0 ${cols * STEP} ${rows * STEP}`;
+}
+
+if (kind === "ripple") {
+  const cols = 9, rows = 5, cx = 4, cy = 2;
+  for (let y = 0; y < rows; y++)
+    for (let x = 0; x < cols; x++) {
+      const d = Math.hypot(x - cx, y - cy);
+      svg += c(x, y, d === 0 ? 'class="source"' : `class="ring" style="--d:${(d * 0.14).toFixed(2)}s"`);
+    }
+  viewBox = `0 0 ${cols * STEP} ${rows * STEP}`;
+}
+
+if (kind === "connect") {
+  const lit = [[0, 0], [2, 1], [4, 2]];
+  const path = lit.map(([x, y]) => at(x, y).join(" ")).join(" L");
+  svg = `<path class="line" d="M${path}" pathLength="1"/>`;
+  for (let y = 0; y < 3; y++)
+    for (let x = 0; x < 5; x++)
+      svg += c(x, y, lit.some(([lx, ly]) => lx === x && ly === y) ? 'class="node"' : "");
+  viewBox = "0 0 50 30";
+}
+
+if (kind === "ship") {
+  for (let y = 0; y < 3; y++)
+    for (let x = 0; x < 5; x++) if (!(x === 4 && y === 0)) svg += c(x, y);
+  svg += c(4, 0, 'class="leaver"');
+  viewBox = "0 0 50 30";
+}
+
+if (kind === "shrink") {
+  const big = dots(PATTERN).map(({ cx, cy, r, lit }) => `<circle cx="${cx}" cy="${cy}" r="${r}" class="${lit ? "lit" : ""}"/>`).join("");
+  const small = dots(PATTERN_SMALL).map(({ cx, cy, r, lit }) => `<circle cx="${cx}" cy="${cy}" r="${r}" class="${lit ? "lit" : ""}"/>`).join("");
+  svg = `<g class="big">${big}</g><g class="small">${small}</g>`;
+  viewBox = "0 0 100 100";
+}
+---
+{kind === "tagline"
+  ? <p class="motion tagline"><span class="typed">// everything starts unknown</span><span class="caret" aria-hidden="true"></span></p>
+  : <svg class:list={["motion", kind]} viewBox={viewBox} aria-hidden="true" set:html={svg} />}
+
+<style>
+  .motion { color: inherit; overflow: visible; }
+  svg.motion { width: 100%; height: auto; }
+  svg.motion :global(circle) { fill: currentColor; fill-opacity: .2; transform-box: fill-box; transform-origin: center; }
+  .loader { max-width: 120px; }
+  .discovery { max-width: 300px; }
+  .ripple { max-width: 300px; }
+  .connect, .ship { max-width: 190px; }
+  .shrink { max-width: 160px; }
+
+  /* still frames, used as they are when motion is reduced */
+  .loader :global(circle:first-child),
+  .discovery :global(.keep),
+  .ripple :global(.source),
+  .connect :global(.node),
+  .ship :global(.leaver),
+  .shrink :global(.lit) { fill: var(--signal); fill-opacity: 1; }
+  .shrink :global(circle:not(.lit)) { fill-opacity: 1; }
+  .shrink :global(.small) { opacity: 0; }
+  .connect :global(.line) { fill: none; stroke: var(--signal); stroke-width: 1.4; stroke-linecap: round; }
+  .tagline { font-family: var(--mono); font-size: clamp(15px, 2vw, 19px); display: inline-flex; align-items: center; white-space: nowrap; }
+  .typed { display: inline-block; overflow: hidden; color: #8a948a; }
+  .caret { width: .6em; height: 1.1em; margin-left: .15em; background: var(--signal); }
+
+  @media (prefers-reduced-motion: no-preference) {
+    /* loader: three dots light in turn */
+    .loader :global(.pulse) { animation: flash 1.2s ease-in-out var(--d) infinite; }
+    .loader :global(circle:first-child) { fill: currentColor; fill-opacity: .2; }
+
+    /* discovery: a light passes over each dot; three stay lit */
+    .discovery :global(.pass) { animation: pass 4.4s ease-out var(--d) infinite; }
+    .discovery :global(.keep) { animation: keep 4.4s ease-out var(--d) infinite; }
+
+    /* ripple: light spreads outward from one dot */
+    .ripple :global(.ring) { animation: flash 2.6s ease-out var(--d) infinite; }
+
+    /* connect: a line draws between the lit dots, then fades */
+    .connect :global(.line) { stroke-dasharray: 1; animation: draw 3.2s ease-in-out infinite; }
+
+    /* ship: the lit dot leaves the grid, then a new one takes its place */
+    .ship :global(.leaver) { animation: leave 3.4s cubic-bezier(.5, 0, .2, 1) infinite; }
+
+    /* tagline: typed out, held, cleared */
+    .typed { animation: type 6s steps(28, end) infinite; }
+    .caret { animation: blink 1s steps(1) infinite; }
+
+    /* shrink: the full mark becomes the six-dot favicon and back */
+    .shrink :global(.big) { animation: big 5s ease-in-out infinite; transform-origin: 50% 50%; }
+    .shrink :global(.small) { animation: small 5s ease-in-out infinite; transform-origin: 50% 50%; }
+  }
+
+  @keyframes flash { 0%, 100% { fill: currentColor; fill-opacity: .2; transform: scale(1); } 15% { fill: var(--signal); fill-opacity: 1; transform: scale(1.3); } 40% { fill: currentColor; fill-opacity: .2; transform: scale(1); } }
+  @keyframes pass { 0% { fill: currentColor; fill-opacity: .2; } 3% { fill: var(--signal); fill-opacity: 1; } 10%, 100% { fill: currentColor; fill-opacity: .2; } }
+  @keyframes keep { 0% { fill: currentColor; fill-opacity: .2; transform: scale(1); } 3% { fill: var(--signal); fill-opacity: 1; transform: scale(1.35); } 8%, 72% { fill: var(--signal); fill-opacity: 1; transform: scale(1); } 80%, 100% { fill: currentColor; fill-opacity: .2; } }
+  @keyframes draw { 0% { stroke-dashoffset: 1; opacity: 1; } 55% { stroke-dashoffset: 0; opacity: 1; } 85%, 100% { stroke-dashoffset: 0; opacity: 0; } }
+  @keyframes leave {
+    0%, 25% { translate: 0 0; opacity: 1; }
+    65% { translate: 16px -14px; opacity: 0; }
+    66% { translate: 0 0; opacity: 0; scale: .2; }
+    90%, 100% { translate: 0 0; opacity: 1; scale: 1; }
+  }
+  @keyframes type { 0% { width: 0; } 45%, 80% { width: 28ch; } 100% { width: 0; } }
+  @keyframes blink { 50% { opacity: 0; } }
+  @keyframes big { 0%, 35% { opacity: 1; scale: 1; } 50%, 85% { opacity: 0; scale: .45; } 100% { opacity: 1; scale: 1; } }
+  @keyframes small { 0%, 35% { opacity: 0; scale: 1.6; } 50%, 85% { opacity: 1; scale: 1; } 100% { opacity: 0; scale: 1.6; } }
+</style>
