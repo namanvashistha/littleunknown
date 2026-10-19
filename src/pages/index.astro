@@ -1,7 +1,8 @@
 ---
 import { Image } from "astro:assets";
 import Base from "../layouts/Base.astro";
-import Lockup from "../components/Lockup.astro";
+import DotField from "../components/DotField.astro";
+import SectionMark from "../components/SectionMark.astro";
 import { site, products, productGraph } from "../site.js";
 import icon from "../assets/calm-chess/icon.png";
 import shotCoach from "../assets/calm-chess/2-coach.png";
@@ -10,38 +11,72 @@ import shotDark from "../assets/calm-chess/5-dark.png";
 
 const chess = products[0];
 const shots = [
-  { src: shotCoach, alt: "Calm Chess: the coach says “Great move, claims the centre” after 1. e4" },
   { src: shotPress, alt: "Calm Chess: holding a piece shows what guards it and what attacks it" },
+  { src: shotCoach, alt: "Calm Chess: the coach says “Great move, claims the centre” after 1. e4" },
   { src: shotDark, alt: "Calm Chess in dark mode, showing a knight's moves as lines of light" },
 ];
+
+// Small dot diagrams for the three principles: o known, a lit, . empty.
+const principles = [
+  {
+    title: "question everything",
+    text: "We start from what people actually need, not from what's expected. Most of what's known is noise; the lit dot is the question worth answering.",
+    dots: ["ooooo", "oooao", "ooooo"],
+  },
+  {
+    title: "build to find out",
+    text: "We answer questions by making things, not by waiting for certainty. Each build connects one unknown to the next.",
+    dots: ["aoooo", "oaooo", "ooaoo"],
+    path: true,
+  },
+  {
+    title: "ship what matters",
+    text: "We put the work in people's hands and keep improving it. Shipping is how a little unknown leaves the grid.",
+    dots: ["oooo.", "oooo.", "ooooo"],
+    escape: true,
+  },
+];
+
+function diagram({ dots, path, escape }: { dots: string[]; path?: boolean; escape?: boolean }) {
+  const step = 20;
+  let out = "";
+  const lit: [number, number][] = [];
+  dots.forEach((row, y) => [...row].forEach((ch, x) => {
+    if (ch === ".") return;
+    const cx = x * step + 10, cy = y * step + 10;
+    if (ch === "a") lit.push([cx, cy]);
+    out += `<circle cx="${cx}" cy="${cy}" r="5" class="${ch === "a" ? "lit" : ""}"/>`;
+  }));
+  if (path && lit.length > 1) out = `<path d="M${lit.map((p) => p.join(" ")).join(" L")}" class="link"/>` + out;
+  if (escape) out += `<circle cx="${4 * step + 16}" cy="4" r="5" class="lit"/>`;
+  return out;
+}
 ---
 <Base
   title={`${site.name} · product studio`}
   description={`${site.manifesto} ${site.name} designs, builds and ships apps and software products, including ${chess.name}.`}
-  showMark={false}
   graph={productGraph}
+  wide
 >
-  <section class="hero" aria-label="little unknown">
-    <h1><Lockup twinkle /></h1>
-    <p class="tagline comment">// {site.tagline}</p>
-    <p class="statement">{site.manifesto}</p>
-    <a class="now" href="#work">
-      <span class="comment">&gt; now</span>
-      <span>{chess.name.toLowerCase()}</span>
-      <span aria-hidden="true">↓</span>
-    </a>
+  <section class="hero" aria-labelledby="hero-title">
+    <DotField />
+    <div class="hero-copy">
+      <h1 id="hero-title">{site.manifesto}</h1>
+      <div class="hero-side">
+        <p class="comment">// {site.tagline}</p>
+        <p>little unknown is a product studio. We design, build and ship apps for iPhone, Android and the web.</p>
+        <a class="now" href="#work"><span class="comment">&gt; now</span> {chess.name.toLowerCase()} <span aria-hidden="true">↓</span></a>
+      </div>
+    </div>
   </section>
 
-  <section id="work" class="work" aria-labelledby="work-title">
-    <div class="work-head">
-      <h2 id="work-title" class="comment">// work</h2>
-      <span class="comment">{chess.platforms.join(" · ").toLowerCase()}</span>
-    </div>
+  <section id="work" class="block" aria-labelledby="work-title">
+    <SectionMark index={1} of={3} label="work" id="work-title" />
 
     <article class="product" aria-labelledby="calm-chess">
       <div class="product-copy">
         <div class="product-title">
-          <Image src={icon} alt="" width={72} height={72} class="product-icon" loading="eager" />
+          <Image src={icon} alt="" width={76} height={76} class="product-icon" />
           <div>
             <h3 id="calm-chess">{chess.name}</h3>
             <p class="comment">// {chess.subtitle.toLowerCase()}</p>
@@ -49,123 +84,117 @@ const shots = [
         </div>
         <p class="product-lead">{chess.summary}</p>
         <p class="product-body">{chess.description}</p>
-
         <ol class="rows">
           {chess.features.map(([title, text], i) => (
             <li>
               <span class="comment">{String(i + 1).padStart(2, "0")}</span>
-              <span><strong>{title}.</strong> <span class="comment-soft">{text}.</span></span>
+              <span><strong>{title}.</strong> <span class="soft">{text}.</span></span>
             </li>
           ))}
         </ol>
-
         <div class="product-foot">
-          <span class="comment">// {chess.status}</span>
+          <span class="comment">// {chess.platforms.join(" · ").toLowerCase()} · {chess.status}</span>
           <a href={chess.url}>more about {chess.name.toLowerCase()} →</a>
         </div>
       </div>
 
-      <div class="shots">
+      <div class="product-shots">
         {shots.map(({ src, alt }, i) => (
-          <Image src={src} alt={alt} widths={[240, 360, 480]} sizes="(max-width: 600px) 30vw, 200px" class={`shot shot-${i}`} />
+          <Image src={src} alt={alt} widths={[280, 420, 560]} sizes="(max-width: 900px) 30vw, 230px" class={`shot shot-${i}`} />
         ))}
       </div>
     </article>
   </section>
 
-  <section class="section manifesto" aria-labelledby="manifesto">
-    <h2 id="manifesto" class="comment label">// manifesto</h2>
-    <div>
-      <p class="lead">Every product we make began as an open question.</p>
-      <p style="margin-top:22px">Something people needed that nobody had answered well. We take those questions seriously, build until the answer is right, and keep shipping.</p>
-      <ol class="rows">
-        <li><span class="comment">01</span><span>question everything.</span></li>
-        <li><span class="comment">02</span><span>build to find out.</span></li>
-        <li><span class="comment">03</span><span>ship what matters.</span></li>
-      </ol>
+  <section class="block" aria-labelledby="how-title">
+    <SectionMark index={2} of={3} label="how we work" id="how-title" />
+    <ol class="principles">
+      {principles.map((p, i) => (
+        <li>
+          <svg class="diagram" viewBox="0 0 110 60" aria-hidden="true" set:html={diagram(p)} />
+          <h3><span class="comment">{String(i + 1).padStart(2, "0")}</span> {p.title}.</h3>
+          <p>{p.text}</p>
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  <section class="block" aria-labelledby="studio-title">
+    <SectionMark index={3} of={3} label="the studio" id="studio-title" />
+    <div class="studio">
+      <p class="studio-lead">Every product we make began as an open question: something people needed that nobody had answered well.</p>
+      <div class="studio-side">
+        <p>little unknown is run by <a href={site.founder.url} rel="author">{site.founder.name}</a>, who designs, builds and ships each product end to end: research, design, engineering and launch, in one place.</p>
+        <p><a href="/about/">about the studio →</a></p>
+      </div>
     </div>
   </section>
 </Base>
 
 <style>
-  .hero {
-    min-height: min(78svh, 720px);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding-bottom: 48px;
+  /* hero */
+  .hero { padding-top: 8px; }
+  .hero-copy {
+    margin-top: clamp(40px, 7vw, 72px);
+    display: grid; grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr); gap: 40px 64px; align-items: end;
   }
   h1 {
-    font-size: clamp(2.6rem, 10.5vw, 5.6rem);
-    line-height: 1;
-  }
-  h1 :global(.lockup) { gap: .32em; }
-  .tagline { margin-top: 20px; font-size: clamp(1rem, 2.6vw, 1.25rem); }
-  .statement {
-    margin-top: 48px;
-    max-width: 30ch;
+    font-size: clamp(2.1rem, 5.6vw, 4.6rem);
+    font-weight: 700; letter-spacing: -0.045em; line-height: 1.02;
     text-wrap: balance;
-    font-size: clamp(1.25rem, 3.2vw, 1.75rem);
-    font-weight: 500;
-    line-height: 1.35;
-    letter-spacing: -0.015em;
   }
+  .hero-side { display: flex; flex-direction: column; gap: 14px; font-size: 15px; max-width: 34ch; }
   .now {
-    margin-top: 40px;
-    align-self: flex-start;
-    display: inline-flex;
-    gap: 12px;
-    padding: 10px 16px;
-    border: 1px solid var(--rule);
-    border-radius: 999px;
-    color: var(--ink);
-    font-size: 14px;
+    align-self: flex-start; margin-top: 8px;
+    display: inline-flex; gap: 10px; padding: 9px 16px;
+    border: 1px solid var(--rule); border-radius: 999px; color: var(--ink); font-size: 14px;
   }
   .now:hover { text-decoration: none; border-color: var(--graphite); }
 
-  .work { scroll-margin-top: 24px; }
-  .work-head {
-    display: flex; justify-content: space-between; align-items: baseline;
-    padding-bottom: 14px;
-    border-bottom: 1px solid var(--ink);
-  }
-  .work-head h2 { font-size: inherit; font-weight: 400; }
+  .block { margin-top: clamp(112px, 16vw, 176px); scroll-margin-top: 24px; }
+  .block > :global(.section-mark) { padding-bottom: 16px; border-bottom: 1px solid var(--ink); }
 
+  /* work */
   .product {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    gap: 40px;
-    padding: 40px 0 8px;
+    margin-top: 48px;
+    display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 56px; align-items: center;
   }
   .product-title { display: flex; align-items: center; gap: 18px; }
-  :global(.product-icon) { width: 72px; height: 72px; border-radius: 17px; border: 1px solid var(--rule); }
-  h3 { font-size: clamp(1.75rem, 4.4vw, 2.5rem); font-weight: 500; letter-spacing: -0.03em; line-height: 1.05; }
-  .product-lead { margin-top: 28px; font-size: clamp(1.1rem, 2.6vw, 1.35rem); font-weight: 500; line-height: 1.4; max-width: 34ch; }
-  .product-body { margin-top: 14px; max-width: 58ch; }
-  .product .rows { margin-top: 28px; }
+  :global(.product-icon) { width: 76px; height: 76px; border-radius: 18px; border: 1px solid var(--rule); }
+  h3 { font-weight: 700; letter-spacing: -0.035em; }
+  .product-title h3 { font-size: clamp(2rem, 4.4vw, 3rem); line-height: 1; }
+  .product-lead { margin-top: 30px; font-size: clamp(1.15rem, 2.4vw, 1.45rem); font-weight: 500; line-height: 1.4; max-width: 30ch; }
+  .product-body { margin-top: 14px; max-width: 56ch; }
+  .rows { margin-top: 28px; }
   strong { font-weight: 500; }
-  .comment-soft { color: var(--graphite); }
-  .product-foot {
-    margin-top: 24px;
-    display: flex; justify-content: space-between; align-items: baseline; gap: 12px 24px; flex-wrap: wrap;
-    font-size: 14px;
-  }
+  .soft { color: var(--graphite); }
+  .product-foot { margin-top: 24px; display: flex; justify-content: space-between; gap: 10px 24px; flex-wrap: wrap; font-size: 14px; }
 
-  .shots {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: clamp(10px, 2.4vw, 20px);
-    align-items: start;
-  }
-  :global(.shot) {
-    width: 100%;
-    height: auto;
-    border-radius: clamp(12px, 2.4vw, 22px);
-    border: 1px solid var(--rule);
-    background: var(--rule);
-  }
-  :global(.shot-1) { margin-top: clamp(16px, 4vw, 40px); }
+  .product-shots { position: relative; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(10px, 1.6vw, 18px); align-items: center; }
+  :global(.shot) { width: 100%; height: auto; border-radius: clamp(14px, 2vw, 24px); border: 1px solid var(--rule); background: var(--rule); box-shadow: 0 30px 60px -36px rgba(0, 0, 0, .45); }
+  :global(.shot-1) { transform: translateY(-28px); }
 
-  .manifesto { margin-top: 112px; }
-  .label { font-size: inherit; font-weight: 400; }
+  /* how we work */
+  .principles { list-style: none; margin-top: 48px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 48px; }
+  .diagram { width: 132px; height: auto; overflow: visible; }
+  .diagram :global(circle) { fill: var(--ink); }
+  .diagram :global(circle.lit) { fill: var(--signal); }
+  .diagram :global(.link) { fill: none; stroke: var(--signal); stroke-width: 2; }
+  .principles h3 { margin-top: 26px; font-size: clamp(1.2rem, 2.2vw, 1.45rem); font-weight: 700; line-height: 1.2; }
+  .principles h3 .comment { font-weight: 400; font-size: .7em; margin-right: 6px; letter-spacing: 0; }
+  .principles p { margin-top: 10px; color: var(--graphite); max-width: 38ch; }
+
+  /* studio */
+  .studio { margin-top: 48px; display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 40px 64px; align-items: start; }
+  .studio-lead { font-size: clamp(1.4rem, 3.4vw, 2.4rem); font-weight: 700; letter-spacing: -0.035em; line-height: 1.15; text-wrap: balance; }
+  .studio-side p + p { margin-top: 16px; }
+
+  @media (max-width: 900px) {
+    .hero-copy, .product, .studio { grid-template-columns: minmax(0, 1fr); }
+    .principles { grid-template-columns: minmax(0, 1fr); gap: 44px; }
+    .product-shots { max-width: 560px; }
+  }
+  @media (max-width: 480px) {
+    :global(.shot-1) { transform: translateY(-14px); }
+  }
 </style>

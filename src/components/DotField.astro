@@ -1,0 +1,82 @@
+---
+// A field of known dots with a few lit. Moving the pointer across it lights
+// the dots nearby for a moment: discovering little unknowns. Two densities,
+// swapped by CSS, keep the dots a steady size from phone to desktop.
+interface Props {
+  class?: string;
+}
+const { class: className } = Astro.props;
+
+function field(cols: number, rows: number, lit: [number, number][]) {
+  const step = 10;
+  const r = 2.1;
+  const on = new Set(lit.map(([x, y]) => `${x},${y}`));
+  let body = "";
+  let n = 0;
+  for (let y = 0; y < rows; y++) {
+    for (let x = 0; x < cols; x++) {
+      const cls = on.has(`${x},${y}`) ? ` class="lit" style="--n:${n++}"` : "";
+      body += `<circle${cls} cx="${x * step + step / 2}" cy="${y * step + step / 2}" r="${r}"/>`;
+    }
+  }
+  return { body, w: cols * step, h: rows * step };
+}
+
+const wide = field(30, 9, [[7, 2], [19, 5], [26, 1]]);
+const narrow = field(14, 9, [[3, 2], [9, 5], [12, 1]]);
+---
+<div class:list={["dotfield", className]} data-dotfield>
+  <svg class="df-wide" viewBox={`0 0 ${wide.w} ${wide.h}`} aria-hidden="true" set:html={wide.body} />
+  <svg class="df-narrow" viewBox={`0 0 ${narrow.w} ${narrow.h}`} aria-hidden="true" set:html={narrow.body} />
+  <p class="df-hint comment" aria-hidden="true"><span class="hover">// move across the dots</span><span class="touch">// tap the dots</span></p>
+</div>
+
+<style>
+  .dotfield { position: relative; width: 100%; touch-action: pan-y; }
+  .dotfield svg { display: block; width: 100%; height: auto; overflow: visible; }
+  .df-narrow { display: none !important; }
+  @media (max-width: 640px) {
+    .df-wide { display: none !important; }
+    .df-narrow { display: block !important; }
+  }
+  .dotfield :global(circle) { fill: var(--ink); transition: fill .9s ease-out, transform .9s ease-out; transform-box: fill-box; transform-origin: center; }
+  .dotfield :global(circle.lit),
+  .dotfield :global(circle.on) { fill: var(--signal); transition-duration: .12s; }
+  .dotfield :global(circle.on) { transform: scale(1.25); }
+  .df-hint { margin-top: 14px; font-size: 12px; text-align: right; }
+  .df-hint .touch { display: none; }
+  @media (hover: none) { .df-hint .hover { display: none; } .df-hint .touch { display: inline; } }
+  @media (prefers-reduced-motion: reduce) { .df-hint { display: none; } }
+  /* the three little unknowns pulse gently, one at a time, like the mark */
+  @media (prefers-reduced-motion: no-preference) {
+    .dotfield :global(circle.lit) { animation: df-pulse 4.5s ease-in-out infinite; animation-delay: calc(var(--n) * 1.5s); }
+    @keyframes df-pulse { 0%, 70%, 100% { opacity: 1; } 85% { opacity: .55; } }
+  }
+</style>
+
+<script>
+  // Light the dots near the pointer; they fade back on their own.
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  for (const root of document.querySelectorAll<HTMLElement>("[data-dotfield]")) {
+    if (reduce) continue;
+    const timers = new WeakMap<Element, number>();
+    const light = (e: PointerEvent) => {
+      const svg = [...root.querySelectorAll("svg")].find((s) => s.getBoundingClientRect().width > 0);
+      if (!svg) return;
+      const box = svg.getBoundingClientRect();
+      const scale = box.width / svg.viewBox.baseVal.width;
+      const px = (e.clientX - box.left) / scale;
+      const py = (e.clientY - box.top) / scale;
+      for (const c of svg.querySelectorAll("circle")) {
+        const dx = c.cx.baseVal.value - px;
+        const dy = c.cy.baseVal.value - py;
+        if (dx * dx + dy * dy > 13 * 13) continue;
+        c.classList.add("on");
+        clearTimeout(timers.get(c));
+        timers.set(c, window.setTimeout(() => c.classList.remove("on"), 260));
+      }
+    };
+    root.addEventListener("pointermove", light);
+    root.addEventListener("pointerdown", light);
+  }
+</script>

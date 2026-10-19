@@ -3,14 +3,19 @@ import Base from "../layouts/Base.astro";
 import { site } from "../site.js";
 ---
 <Base title={`not found · ${site.name}`} description="This page doesn't exist." noindex>
-  <h1>404<span class="cursor" aria-hidden="true">_</span></h1>
-  <p class="comment">// this one is still unknown.</p>
+  <svg class="band" viewBox="0 0 84 38" aria-hidden="true">
+    {Array.from({ length: 18 }, (_, i) => <circle cx={7 + (i % 6) * 14} cy={5 + Math.floor(i / 6) * 14} r="5" />)}
+  </svg>
+  <h1>404</h1>
+  <p class="comment">// no little unknown here. this page doesn't exist.</p>
   <p class="back"><a href="/">← back to littleunknown.com</a></p>
 </Base>
 
 <style>
   :global(main) { display: flex; flex-direction: column; justify-content: center; }
-  h1 { font-weight: 500; font-size: clamp(2.5rem, 9vw, 4.4rem); letter-spacing: -0.04em; line-height: 1; }
+  .band { width: 120px; height: auto; overflow: visible; }
+  .band circle { fill: var(--ink); opacity: .9; }
+  h1 { margin-top: 36px; font-weight: 700; font-size: clamp(2.5rem, 9vw, 4.4rem); letter-spacing: -0.045em; line-height: 1; }
   p { margin-top: 18px; }
   .back { margin-top: 40px; }
 </style>

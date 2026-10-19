@@ -41,7 +41,7 @@ a:focus-visible { outline: 2px solid var(--signal); outline-offset: 3px; }
 ::selection { background: var(--signal); color: var(--paper); }
 
 .wrap { width: 100%; max-width: 760px; margin: 0 auto; padding: 0 24px; }
-.wrap.wide { max-width: 1120px; }
+.wrap.wide { max-width: 1160px; }
 @media (max-width: 480px) { .wrap { padding: 0 16px; } }
 
 .comment { color: var(--graphite); }
@@ -52,24 +52,33 @@ a:focus-visible { outline: 2px solid var(--signal); outline-offset: 3px; }
   @keyframes blink { 50% { opacity: 0; } }
 }
 
-.site-header, .site-footer {
-  display: flex; justify-content: space-between; align-items: baseline;
-  gap: 16px; flex-wrap: wrap;
-  font-size: 13px;
+.skip { position: absolute; left: 16px; top: -40px; padding: 6px 12px; background: var(--ink); color: var(--paper); border-radius: 6px; font-size: 13px; z-index: 10; }
+.skip:focus { top: 12px; }
+
+.site-header {
+  display: flex; justify-content: space-between; align-items: center; gap: 16px;
+  padding-top: 26px; padding-bottom: 26px;
 }
-.site-header { padding-top: 28px; }
-.site-header .home { color: var(--ink); font-size: 18px; }
+.site-header .home { color: var(--ink); font-size: 22px; }
 .site-header .home:hover { text-decoration: none; }
+.site-header nav { display: flex; gap: 22px; font-size: 13px; }
 .site-header nav a { color: var(--graphite); }
-.site-header nav a + a { margin-left: 20px; }
-.site-header nav a:hover, .site-header nav a[aria-current="page"] { color: var(--ink); }
+.site-header nav a:hover, .site-header nav a[aria-current="page"] { color: var(--ink); text-decoration: none; }
+@media (max-width: 480px) { .site-header nav { gap: 16px; } .site-header .home { font-size: 21px; } }
 
 main { flex: 1; }
-main.wrap { padding-block: 96px; }
+main.wrap { padding-block: 72px 120px; }
 
-.site-footer { padding: 24px 0 32px; border-top: 1px solid var(--rule); }
-.site-footer a.quiet { color: var(--graphite); }
-.site-footer a.quiet:hover { color: var(--ink); }
+.site-footer { padding-top: 56px; padding-bottom: 28px; border-top: 1px solid var(--rule); }
+.footer-cols { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) minmax(0, 1fr); gap: 32px; font-size: 14px; }
+.footer-note { max-width: 28ch; font-weight: 500; }
+.footer-cols ul { list-style: none; margin-top: 8px; }
+.footer-cols li + li { margin-top: 4px; }
+.footer-cols a { color: var(--ink); }
+.footer-mark { display: block; margin-top: 72px; color: var(--ink); font-size: clamp(3.4rem, 22.5vw, 17.4rem); line-height: 1; }
+.footer-mark:hover { text-decoration: none; }
+.footer-base { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-top: 28px; font-size: 12px; }
+@media (max-width: 640px) { .footer-cols { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } .footer-note { grid-column: 1 / -1; } }
 
 /* The logo. "little" is tucked into the empty space above "un". */
 .wordmark { position: relative; display: inline-block; font-weight: 700; letter-spacing: -0.04em; line-height: 1; white-space: nowrap; }
@@ -87,9 +96,11 @@ main.wrap { padding-block: 96px; }
   padding-top: 28px;
   border-top: 1px solid var(--rule);
   display: grid;
-  grid-template-columns: 9rem minmax(0, 1fr);
-  gap: 12px 24px;
+  grid-template-columns: 12.5rem minmax(0, 1fr);
+  gap: 16px 24px;
+  align-items: start;
 }
+.section > .section-mark { padding-top: 2px; white-space: nowrap; }
 .section + .section { margin-top: 56px; }
 .section p { max-width: 52ch; }
 .section p + p { margin-top: 14px; }

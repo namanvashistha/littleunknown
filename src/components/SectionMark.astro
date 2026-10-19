@@ -1,0 +1,23 @@
+---
+// A section label: a band of dots where the lit one marks the section's place.
+interface Props {
+  index: number;
+  of: number;
+  label: string;
+  id?: string;
+}
+const { index, of, label, id } = Astro.props;
+---
+<h2 class="section-mark" id={id}>
+  <span class="sm-dots" aria-hidden="true">
+    {Array.from({ length: of }, (_, i) => <i class:list={{ lit: i === index - 1 }} />)}
+  </span>
+  <span class="sm-label">{label}</span>
+</h2>
+
+<style>
+  .section-mark { display: flex; align-items: center; gap: 14px; font-size: 13px; font-weight: 400; color: var(--graphite); }
+  .sm-dots { display: inline-flex; gap: 5px; }
+  .sm-dots i { width: 7px; height: 7px; border-radius: 50%; background: var(--ink); opacity: .85; }
+  .sm-dots i.lit { background: var(--signal); opacity: 1; }
+</style>
