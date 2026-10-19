@@ -1,0 +1,63 @@
+---
+import { site, baseGraph } from "../site.js";
+
+interface Props {
+  title: string;
+  description: string;
+  pageType?: string;
+  noindex?: boolean;
+  graph?: object[];
+}
+
+const { title, description, pageType = "WebPage", noindex = false, graph = [] } = Astro.props;
+const canonical = new URL(Astro.url.pathname, site.url).href;
+const ogImage = `${site.url}/og.png`;
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    ...baseGraph,
+    {
+      "@type": pageType,
+      "@id": `${canonical}#webpage`,
+      url: canonical,
+      name: title,
+      description,
+      inLanguage: site.locale,
+      isPartOf: { "@id": `${site.url}/#website` },
+      about: { "@id": `${site.url}/#organization` },
+      primaryImageOfPage: { "@type": "ImageObject", url: ogImage },
+    },
+    ...graph,
+  ],
+};
+---
+<title>{title}</title>
+<meta name="description" content={description}>
+{!noindex && <link rel="canonical" href={canonical}>}
+{noindex ? <meta name="robots" content="noindex, follow"> : <meta name="robots" content="index, follow, max-image-preview:large">}
+<meta name="author" content={site.founder.name}>
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content={site.name}>
+<meta property="og:locale" content="en_US">
+<meta property="og:url" content={canonical}>
+<meta property="og:title" content={title}>
+<meta property="og:description" content={description}>
+<meta property="og:image" content={ogImage}>
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content={`${site.wordmark} — ${site.tagline}`}>
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content={title}>
+<meta name="twitter:description" content={description}>
+<meta name="twitter:image" content={ogImage}>
+
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="sitemap" href="/sitemap-index.xml">
+<link rel="alternate" type="text/plain" href="/llms.txt" title="llms.txt">
+
+<script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />

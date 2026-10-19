@@ -1,0 +1,52 @@
+---
+import Seo from "../components/Seo.astro";
+import { site } from "../site.js";
+import "../styles/global.css";
+
+interface Props {
+  title: string;
+  description: string;
+  pageType?: string;
+  noindex?: boolean;
+  graph?: object[];
+  showMark?: boolean;
+}
+
+const { showMark = true, ...seo } = Astro.props;
+const path = Astro.url.pathname;
+const year = new Date().getFullYear();
+---
+<!doctype html>
+<html lang={site.locale}>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#eef0ec" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0f120f" media="(prefers-color-scheme: dark)">
+  <meta name="color-scheme" content="light dark">
+  <Seo {...seo} />
+</head>
+<body>
+  <div class="wrap">
+    <header class="site-header">
+      {showMark
+        ? <a class="mark" href="/">{site.wordmark.slice(0, -1)}<span class="cursor">_</span></a>
+        : <span class="comment">// product studio</span>}
+      <nav class="comment" aria-label="Main">
+        <a href="/about/" aria-current={path === "/about/" ? "page" : undefined}>about</a>
+      </nav>
+    </header>
+  </div>
+
+  <main class="wrap">
+    <slot />
+  </main>
+
+  <div class="wrap">
+    <footer class="site-footer">
+      <span class="comment">// a studio by <a href={site.founder.url} rel="author">naman vashistha</a></span>
+      <span class="comment">© {year} {site.name}</span>
+    </footer>
+  </div>
+</body>
+</html>

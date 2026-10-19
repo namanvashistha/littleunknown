@@ -1,0 +1,111 @@
+---
+import Base from "../layouts/Base.astro";
+import { site } from "../site.js";
+
+// Questions people (and AI answer engines) ask about the studio, answered plainly.
+const faq = [
+  {
+    q: "What is little unknown?",
+    a: `${site.name} is a product studio. It designs, builds and ships apps and software products for the web, mobile and the browser.`,
+  },
+  {
+    q: "Who runs little unknown?",
+    a: `${site.name} was founded and is run by ${site.founder.name}, a software engineer who designs, builds and ships each product end to end.`,
+  },
+  {
+    q: "What does the name mean?",
+    a: "Every product starts as a little unknown: an open question about something people need. The studio's work is turning those unknowns into products people rely on.",
+  },
+];
+
+const faqGraph = [
+  {
+    "@type": "FAQPage",
+    "@id": `${site.url}/about/#faq`,
+    mainEntity: faq.map(({ q, a }) => ({
+      "@type": "Question",
+      name: q,
+      acceptedAnswer: { "@type": "Answer", text: a },
+    })),
+  },
+];
+---
+<Base
+  title={`about · ${site.name}`}
+  description={site.description}
+  pageType="AboutPage"
+  graph={faqGraph}
+>
+  <h1>about</h1>
+  <p class="intro">{site.description}</p>
+
+  <section class="section" aria-labelledby="what">
+    <h2 id="what" class="comment">// what we do</h2>
+    <div>
+      <p>We take a product from the first open question to something people use every day: research, design, engineering and shipping, all in one place.</p>
+      <p>Our work spans web apps, native mobile apps and browser extensions.</p>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="how">
+    <h2 id="how" class="comment">// how we work</h2>
+    <ol class="rows">
+      <li><span class="comment">01</span><span><strong>question everything.</strong> We start from what people actually need, not from what's expected.</span></li>
+      <li><span class="comment">02</span><span><strong>build to find out.</strong> We answer questions by making things, not by waiting for certainty.</span></li>
+      <li><span class="comment">03</span><span><strong>ship what matters.</strong> We put work in people's hands and keep improving it.</span></li>
+    </ol>
+  </section>
+
+  <section class="section" aria-labelledby="who">
+    <h2 id="who" class="comment">// who</h2>
+    <div>
+      <p>{site.name} is run by <a href={site.founder.url} rel="author">{site.founder.name}</a>.</p>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="facts">
+    <h2 id="facts" class="comment">// facts</h2>
+    <dl class="facts">
+      <dt class="comment">name</dt><dd>{site.name}</dd>
+      <dt class="comment">type</dt><dd>product studio</dd>
+      <dt class="comment">founder</dt><dd>{site.founder.name}</dd>
+      <dt class="comment">makes</dt><dd>apps and software products for web, mobile and the browser</dd>
+      <dt class="comment">tagline</dt><dd>// {site.tagline}</dd>
+      <dt class="comment">website</dt><dd><a href={`${site.url}/`}>littleunknown.com</a></dd>
+    </dl>
+  </section>
+
+  <section class="section" aria-labelledby="faq">
+    <h2 id="faq" class="comment">// faq</h2>
+    <div class="faq">
+      {faq.map(({ q, a }) => (
+        <div>
+          <h3>{q}</h3>
+          <p>{a}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+</Base>
+
+<style>
+  h1 {
+    font-weight: 500;
+    font-size: clamp(2rem, 6vw, 3.25rem);
+    letter-spacing: -0.04em;
+    line-height: 1;
+  }
+  .intro {
+    margin: 24px 0 72px;
+    max-width: 44ch;
+    font-size: clamp(1.05rem, 2.4vw, 1.25rem);
+    line-height: 1.55;
+  }
+  h2 { font-size: inherit; font-weight: 400; }
+  .rows { margin-top: 0; }
+  strong { font-weight: 500; }
+  .facts { display: grid; grid-template-columns: 6rem minmax(0, 1fr); gap: 8px 16px; }
+  .faq > div + div { margin-top: 22px; }
+  h3 { font-size: inherit; font-weight: 500; }
+  h3 + p { margin-top: 4px; }
+</style>

@@ -1,0 +1,41 @@
+---
+import Base from "../layouts/Base.astro";
+import { site } from "../site.js";
+---
+<Base
+  title={`${site.name} · product studio`}
+  description={`${site.manifesto} ${site.name} designs, builds and ships apps and software products. Everything starts unknown.`}
+  showMark={false}
+>
+  <div class="hero">
+    <h1>little_unknown<span class="cursor" aria-hidden="true">_</span></h1>
+    <p class="tagline comment">// {site.tagline}</p>
+  </div>
+
+  <section class="section manifesto" aria-labelledby="manifesto">
+    <h2 id="manifesto" class="comment label">// manifesto</h2>
+    <div>
+      <p class="lead">{site.manifesto}</p>
+      <p style="margin-top:22px">Every product we make began as an open question: something people needed that nobody had answered well. We take those questions seriously, build until the answer is right, and keep shipping.</p>
+      <ol class="rows">
+        <li><span class="comment">01</span><span>question everything.</span></li>
+        <li><span class="comment">02</span><span>build to find out.</span></li>
+        <li><span class="comment">03</span><span>ship what matters.</span></li>
+      </ol>
+    </div>
+  </section>
+</Base>
+
+<style>
+  :global(main) { display: flex; flex-direction: column; justify-content: center; }
+  h1 {
+    font-weight: 500;
+    font-size: clamp(2.1rem, 8.4vw, 4.4rem);
+    letter-spacing: -0.04em;
+    line-height: 1;
+    white-space: nowrap;
+  }
+  .tagline { margin-top: 20px; font-size: clamp(1rem, 2.6vw, 1.25rem); }
+  .manifesto { margin-top: clamp(72px, 14vh, 128px); }
+  .label { font-size: inherit; font-weight: 400; }
+</style>

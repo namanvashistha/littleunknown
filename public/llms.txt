@@ -1,0 +1,16 @@
+# little unknown
+
+> little unknown is a product studio founded by Naman Vashistha. It designs, builds and ships apps and software products for the web, mobile and the browser. Tagline: "everything starts unknown".
+
+The studio's belief: every product starts as a little unknown, an open question about something people need. Its work is turning those unknowns into products people rely on. It works by three principles: question everything, build to find out, ship what matters.
+
+The name is written "little unknown" (lowercase, two words). The wordmark is "little_unknown_".
+
+## Pages
+
+- [Home](https://littleunknown.com/): the studio's manifesto and principles
+- [About](https://littleunknown.com/about/): what the studio does, how it works, who runs it, key facts and FAQ
+
+## People
+
+- [Naman Vashistha](https://namanvashistha.com): founder; software engineer who designs, builds and ships each product end to end
