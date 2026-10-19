@@ -2,7 +2,7 @@
 
 ## Idea
 
-Every great product starts as a little unknown.
+We turn little unknowns into products people rely on.
 
 little unknown is an umbrella for the apps and products Naman Vashistha builds.
 The name is the starting point, not the size: every product begins as an open
@@ -10,7 +10,8 @@ question, an idea nobody has proven yet. little unknown is where those questions
 are explored, built and shipped until they become products people rely on.
 
 "Little" is the seed, never the ambition. Never describe the products as small,
-minor or side projects.
+minor or side projects, and never sound like we are just getting started:
+speak as a studio with a track record, in the present tense.
 
 Three ideas sit underneath it:
 
@@ -22,7 +23,7 @@ Three ideas sit underneath it:
 
 - **Wordmark:** `little_unknown_` (lowercase, underscore between words, green cursor at the end)
 - **Tagline:** `// everything starts unknown`
-- **Manifesto:** Every great product starts as a little unknown.
+- **Manifesto:** We turn little unknowns into products people rely on.
 - **Principles:** question everything. build to find out. ship what matters.
 
 Write the name as **little unknown** in running text: lowercase, two words.
