@@ -1,6 +1,7 @@
 ---
 import Base from "../layouts/Base.astro";
 import SectionMark from "../components/SectionMark.astro";
+import PageHead from "../components/PageHead.astro";
 import { site, products } from "../site.js";
 
 const chess = products[0];
@@ -54,20 +55,19 @@ const faqGraph = [
   pageType="AboutPage"
   graph={faqGraph}
 >
-  <h1>about</h1>
-  <p class="intro">The studio behind {chess.name}.</p>
+  <PageHead title="about" intro={`The studio behind ${chess.name}.`} />
 
   {answers.map(({ id, label, a, link }, i) => (
-    <section class="section" aria-labelledby={id}>
+    <section class="block" aria-labelledby={id}>
       <SectionMark index={i + 1} of={answers.length + 1} label={label} id={id} />
-      <div>
+      <div class="measure answer">
         <p>{a}</p>
-        {link && <p class="more"><a href={link[0]}>{link[1]} →</a></p>}
+        {link && <p><a href={link[0]}>{link[1]} →</a></p>}
       </div>
     </section>
   ))}
 
-  <section class="section" aria-labelledby="facts">
+  <section class="block" aria-labelledby="facts">
     <SectionMark index={answers.length + 1} of={answers.length + 1} label="facts" id="facts" />
     <dl class="facts">
       <dt class="comment">name</dt><dd>{site.name}</dd>
@@ -82,18 +82,8 @@ const faqGraph = [
 </Base>
 
 <style>
-  h1 {
-    font-weight: 700;
-    font-size: clamp(2.4rem, 7vw, 4rem);
-    letter-spacing: -0.045em;
-    line-height: 1;
-  }
-  .intro {
-    margin: 20px 0 72px;
-    font-size: clamp(1.15rem, 2.4vw, 1.35rem);
-    line-height: 1.5;
-  }
-  .section p { max-width: 54ch; }
-  .more { margin-top: 12px; }
-  .facts { display: grid; grid-template-columns: 7rem minmax(0, 1fr); gap: 8px 16px; }
+  /* About is a short page: its answers sit closer together than home's sections. */
+  .block { margin-top: clamp(64px, 8vw, 96px); }
+  .answer { font-size: clamp(1.1rem, 2vw, 1.3rem); line-height: 1.55; }
+  .facts { display: grid; grid-template-columns: 7rem minmax(0, 1fr); gap: 8px 16px; max-width: 60ch; }
 </style>

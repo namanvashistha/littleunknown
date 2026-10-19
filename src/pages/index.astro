@@ -56,7 +56,6 @@ function diagram({ dots, path, escape }: { dots: string[]; path?: boolean; escap
   title={`${site.name} · product studio`}
   description={`${site.name} is a product studio that makes apps for iPhone, Android and the web. Its work includes ${chess.name}.`}
   graph={productGraph}
-  wide
 >
   <section class="hero" aria-labelledby="hero-title">
     <DotField />
@@ -65,7 +64,7 @@ function diagram({ dots, path, escape }: { dots: string[]; path?: boolean; escap
       <div class="hero-side">
         <p class="comment">// product studio</p>
         <p>We make apps for iPhone, Android and the web.</p>
-        <a class="now" href="#work"><span class="comment">&gt; now</span> {chess.name.toLowerCase()} <span aria-hidden="true">↓</span></a>
+        <a class="now" href="#work"><span class="comment">&gt; now</span> {chess.name} <span aria-hidden="true">↓</span></a>
       </div>
     </div>
   </section>
@@ -86,7 +85,7 @@ function diagram({ dots, path, escape }: { dots: string[]; path?: boolean; escap
         <ul class="highlights">{chess.highlights.map((h) => <li>{h}</li>)}</ul>
         <div class="product-foot">
           <span class="comment">// {chess.status}</span>
-          <a href={chess.url}>more about {chess.name.toLowerCase()} →</a>
+          <a href={chess.url}>more about {chess.name} →</a>
         </div>
       </div>
 
@@ -133,12 +132,9 @@ function diagram({ dots, path, escape }: { dots: string[]; path?: boolean; escap
   }
   .now:hover { text-decoration: none; border-color: var(--graphite); }
 
-  .block { margin-top: clamp(112px, 16vw, 176px); scroll-margin-top: 24px; }
-  .block > :global(.section-mark) { padding-bottom: 16px; border-bottom: 1px solid var(--ink); }
 
   /* work */
   .product {
-    margin-top: 48px;
     display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 56px; align-items: center;
   }
   .product-title { display: flex; align-items: center; gap: 18px; }
@@ -155,7 +151,7 @@ function diagram({ dots, path, escape }: { dots: string[]; path?: boolean; escap
   :global(.shot-1) { transform: translateY(-28px); }
 
   /* how we work */
-  .principles { list-style: none; margin-top: 48px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 48px; }
+  .principles { list-style: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 48px; }
   .diagram { width: 132px; height: auto; overflow: visible; }
   .diagram :global(circle) { fill: var(--ink); }
   .diagram :global(circle.lit) { fill: var(--signal); }

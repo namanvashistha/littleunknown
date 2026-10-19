@@ -1,6 +1,7 @@
 ---
 import Base from "../layouts/Base.astro";
 import SectionMark from "../components/SectionMark.astro";
+import PageHead from "../components/PageHead.astro";
 import Lockup from "../components/Lockup.astro";
 import Mark from "../components/Mark.astro";
 import Wordmark from "../components/Wordmark.astro";
@@ -39,10 +40,8 @@ const donts = [
 <Base
   title={`brand · ${site.name}`}
   description="The little unknown logo, colours, type and voice, with logo files to download."
-  wide
 >
-  <h1 class="title">brand</h1>
-  <p class="intro">How to use the logo, colours, type and voice. The files are at the bottom of the page.</p>
+  <PageHead title="brand" intro="How to use the logo, colours, type and voice. The files are at the bottom of the page." />
 
   <section class="block" aria-labelledby="idea">
     <SectionMark index={1} of={9} label="the idea" id="idea" />
@@ -214,10 +213,6 @@ const donts = [
 </Base>
 
 <style>
-  .title { font-weight: 700; font-size: clamp(2.4rem, 7vw, 4rem); letter-spacing: -0.04em; line-height: 1; }
-  .intro { margin-top: 20px; max-width: 46ch; font-size: clamp(1.05rem, 2.4vw, 1.25rem); line-height: 1.55; }
-  .block { margin-top: 88px; }
-  .block > :global(.section-mark) { margin-bottom: 20px; padding-bottom: 14px; border-bottom: 1px solid var(--rule); }
   .lead { font-size: clamp(1.15rem, 2.8vw, 1.5rem); font-weight: 500; line-height: 1.4; max-width: 34ch; }
   .idea p + p { margin-top: 14px; max-width: 58ch; }
   strong { font-weight: 500; }

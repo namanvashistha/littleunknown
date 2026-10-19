@@ -1,0 +1,12 @@
+---
+// The title and one-line intro at the top of every page other than home.
+interface Props {
+  title: string;
+  intro: string;
+}
+const { title, intro } = Astro.props;
+---
+<header class="page-head">
+  <h1>{title}</h1>
+  <p>{intro}</p>
+</header>

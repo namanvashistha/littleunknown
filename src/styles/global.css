@@ -5,6 +5,7 @@
 @import "@fontsource/ibm-plex-sans/latin-500.css";
 
 :root {
+  --gap-section: clamp(96px, 12vw, 152px);
   --mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
   --sans: "IBM Plex Sans", -apple-system, "Segoe UI", system-ui, sans-serif;
   --paper: #eef0ec;
@@ -44,8 +45,8 @@ a:hover { text-decoration: underline; text-underline-offset: 3px; }
 a:focus-visible { outline: 2px solid var(--signal); outline-offset: 3px; }
 ::selection { background: var(--signal); color: var(--paper); }
 
-.wrap { width: 100%; max-width: 760px; margin: 0 auto; padding: 0 24px; }
-.wrap.wide { max-width: 1160px; }
+/* One width for everything, so every page lines up with the logo. */
+.wrap { width: 100%; max-width: 1160px; margin: 0 auto; padding: 0 24px; }
 @media (max-width: 480px) { .wrap { padding: 0 16px; } }
 
 /* Monospace carries the brand: headings, labels, // comments, nav and the logo.
@@ -99,23 +100,15 @@ main.wrap { padding-block: 72px 120px; }
   @keyframes twinkle { 0%, 70%, 100% { opacity: 1; } 85% { opacity: .55; } }
 }
 
-/* Two-column section: a // label on the left, content on the right. */
-.section {
-  padding-top: 28px;
-  border-top: 1px solid var(--rule);
-  display: grid;
-  grid-template-columns: 12.5rem minmax(0, 1fr);
-  gap: 16px 24px;
-  align-items: start;
-}
-.section > .section-mark { padding-top: 2px; white-space: nowrap; }
-.section + .section { margin-top: 56px; }
-.section p { max-width: 52ch; }
-.section p + p { margin-top: 14px; }
+/* Page structure, shared by every page:
+   a page head, then blocks, each opened by a dot section mark on a hairline. */
+.page-head h1 { font-size: clamp(2.4rem, 7vw, 4.4rem); font-weight: 700; letter-spacing: -0.045em; line-height: 1; }
+.page-head p { margin-top: 20px; max-width: 40ch; font-size: clamp(1.15rem, 2.4vw, 1.4rem); line-height: 1.5; }
+.block { margin-top: var(--gap-section); scroll-margin-top: 24px; }
+.block > .section-mark { margin-bottom: 40px; padding-bottom: 14px; border-bottom: 1px solid var(--rule); }
+.measure { max-width: 60ch; }
+.measure > * + * { margin-top: 14px; }
 .lead { font-size: clamp(1.15rem, 2.8vw, 1.5rem); font-weight: 500; line-height: 1.4; letter-spacing: -0.01em; max-width: 30ch; }
 .rows { list-style: none; margin-top: 22px; }
 .rows li { padding: 10px 0; border-top: 1px solid var(--rule); display: grid; grid-template-columns: 2.5rem minmax(0, 1fr); }
 .rows li:last-child { border-bottom: 1px solid var(--rule); }
-@media (max-width: 600px) {
-  .section { grid-template-columns: minmax(0, 1fr); }
-}

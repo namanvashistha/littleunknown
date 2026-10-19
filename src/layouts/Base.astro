@@ -11,10 +11,9 @@ interface Props {
   pageType?: string;
   noindex?: boolean;
   graph?: object[];
-  wide?: boolean;
 }
 
-const { wide = false, ...seo } = Astro.props;
+const seo = Astro.props;
 const path = Astro.url.pathname;
 const year = new Date().getFullYear();
 const nav = [
@@ -35,7 +34,7 @@ const nav = [
 </head>
 <body>
   <a class="skip" href="#content">skip to content</a>
-  <header class="site-header wrap wide">
+  <header class="site-header wrap">
     <a class="home" href="/" aria-label="little unknown, home"><Lockup /></a>
     <nav aria-label="Main">
       {nav.map(([href, label]) => (
@@ -44,11 +43,11 @@ const nav = [
     </nav>
   </header>
 
-  <main id="content" class:list={["wrap", { wide }]}>
+  <main id="content" class="wrap">
     <slot />
   </main>
 
-  <footer class="site-footer wrap wide">
+  <footer class="site-footer wrap">
     <div class="footer-cols">
       <p class="footer-note">// {site.tagline}</p>
       <div>
@@ -58,8 +57,8 @@ const nav = [
       <div>
         <p class="comment">// elsewhere</p>
         <ul>
-          <li><a href={site.founder.url} rel="author">naman vashistha</a></li>
-          <li><a href="https://github.com/namanvashistha">github</a></li>
+          <li><a href={site.founder.url} rel="author">{site.founder.name}</a></li>
+          <li><a href="https://github.com/namanvashistha">GitHub</a></li>
         </ul>
       </div>
     </div>
