@@ -1,8 +1,12 @@
 @import "@fontsource/jetbrains-mono/latin-400.css";
 @import "@fontsource/jetbrains-mono/latin-500.css";
 @import "@fontsource/jetbrains-mono/latin-700.css";
+@import "@fontsource/ibm-plex-sans/latin-400.css";
+@import "@fontsource/ibm-plex-sans/latin-500.css";
 
 :root {
+  --mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+  --sans: "IBM Plex Sans", -apple-system, "Segoe UI", system-ui, sans-serif;
   --paper: #eef0ec;
   --ink: #121512;
   --signal: #ef4b2b;      /* vermilion: the lit dots, the cursor, "little" */
@@ -30,9 +34,9 @@ body {
   flex-direction: column;
   background: var(--paper);
   color: var(--ink);
-  font-family: "JetBrains Mono", ui-monospace, Menlo, monospace;
-  font-size: 15px;
-  line-height: 1.7;
+  font-family: var(--sans);
+  font-size: 17px;
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
 }
 a { color: var(--link); text-decoration: none; }
@@ -44,6 +48,9 @@ a:focus-visible { outline: 2px solid var(--signal); outline-offset: 3px; }
 .wrap.wide { max-width: 1160px; }
 @media (max-width: 480px) { .wrap { padding: 0 16px; } }
 
+/* Monospace carries the brand: headings, labels, // comments, nav and the logo.
+   Reading text is set in IBM Plex Sans. */
+h1, h2, h3, nav, code, .comment, .mono, .wordmark, .lockup, .section-mark, .skip { font-family: var(--mono); }
 .comment { color: var(--graphite); }
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 .cursor { color: var(--signal); }
@@ -61,7 +68,7 @@ a:focus-visible { outline: 2px solid var(--signal); outline-offset: 3px; }
 }
 .site-header .home { color: var(--ink); font-size: 22px; }
 .site-header .home:hover { text-decoration: none; }
-.site-header nav { display: flex; gap: 22px; font-size: 13px; }
+.site-header nav { display: flex; gap: 22px; font-size: 14px; }
 .site-header nav a { color: var(--graphite); }
 .site-header nav a:hover, .site-header nav a[aria-current="page"] { color: var(--ink); text-decoration: none; }
 @media (max-width: 480px) { .site-header nav { gap: 16px; } .site-header .home { font-size: 21px; } }
@@ -71,13 +78,14 @@ main.wrap { padding-block: 72px 120px; }
 
 .site-footer { padding-top: 56px; padding-bottom: 28px; border-top: 1px solid var(--rule); }
 .footer-cols { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) minmax(0, 1fr); gap: 32px; font-size: 14px; }
-.footer-note { max-width: 28ch; font-weight: 500; }
+.footer-note { font-family: var(--mono); font-size: clamp(1.1rem, 2vw, 1.35rem); color: var(--graphite); }
+.footer-base a { color: var(--graphite); }
 .footer-cols ul { list-style: none; margin-top: 8px; }
 .footer-cols li + li { margin-top: 4px; }
 .footer-cols a { color: var(--ink); }
 .footer-mark { display: block; margin-top: 72px; color: var(--ink); font-size: clamp(3.4rem, 22.5vw, 17.4rem); line-height: 1; }
 .footer-mark:hover { text-decoration: none; }
-.footer-base { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-top: 28px; font-size: 12px; }
+.footer-base { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-top: 28px; font-size: 13px; }
 @media (max-width: 640px) { .footer-cols { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } .footer-note { grid-column: 1 / -1; } }
 
 /* The logo. "little" is tucked into the empty space above "un". */

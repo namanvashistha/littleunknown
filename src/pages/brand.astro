@@ -31,24 +31,24 @@ const f = (name, ext) => `/brand/little-unknown-${name}.${ext}`;
 const donts = [
   "Don't recolour the dots, or light more or fewer than three.",
   "Don't rearrange the dots or move the lit ones.",
-  "Don't move \"little\" out of the space above \"un\", or set it in another colour than vermilion (or night, on vermilion).",
+  "Don't move \"little\" out of the space above \"un\". Set it in vermilion, or in night when the background is vermilion.",
   "Don't set the wordmark in another font, stretch it, or add shadows, outlines or gradients.",
-  "Don't place the logo on busy photos or colours other than paper, white, night and vermilion.",
+  "Only place the logo on paper, white, night or vermilion, and never on a busy photo.",
 ];
 ---
 <Base
   title={`brand · ${site.name}`}
-  description="The little unknown brand: logo, mark, colours, typography and voice, with logo files to download."
+  description="The little unknown logo, colours, type and voice, with logo files to download."
   wide
 >
   <h1 class="title">brand</h1>
-  <p class="intro">The little unknown logo, colours, type and voice, with files to download. Use them as they are.</p>
+  <p class="intro">How to use the logo, colours, type and voice. The files are at the bottom of the page.</p>
 
   <section class="block" aria-labelledby="idea">
     <SectionMark index={1} of={9} label="the idea" id="idea" />
     <div class="idea">
-      <p class="lead">A band of dots is everything that's known. Three are lit: the little unknowns, the questions worth building.</p>
-      <p>Beside it, <strong>unknown</strong>, with <strong class="v">little</strong> tucked into the empty space above "un". The little word fits exactly in the room the unknown leaves.</p>
+      <p class="lead">The dark dots stand for what's already known. The three lit ones are little unknowns, the questions we build products around.</p>
+      <p>In the wordmark, <strong class="v">little</strong> sits in the empty space above the "un" of <strong>unknown</strong>, so the small word fits inside the big one.</p>
     </div>
   </section>
 
@@ -59,7 +59,7 @@ const donts = [
       <div class="panel p-night"><Lockup class="s58" /><span class="cap">on dark</span></div>
     </div>
     <div class="grid g3" style="margin-top:16px">
-      <div class="panel p-paper"><Mark size={150} twinkle /><span class="cap">mark · the lit dots gently pulse on screen</span></div>
+      <div class="panel p-paper"><Mark size={150} twinkle /><span class="cap">mark</span></div>
       <div class="panel p-white"><Wordmark class="s60" /><span class="cap">wordmark</span></div>
       <div class="panel p-signal"><Lockup class="s38" /><span class="cap">one colour, on vermilion</span></div>
     </div>
@@ -70,8 +70,8 @@ const donts = [
     <div class="rules">
       <div><h3>clear space</h3><p>Keep empty space around the logo at least the height of the dot band on every side.</p></div>
       <div><h3>minimum size</h3><p>The full logo: 120px wide on screen, 30mm in print. The mark alone: 24px.</p></div>
-      <div><h3>small sizes</h3><p>Below 24px, use the simplified mark: three by two dots, one lit. It's the favicon.</p></div>
-      <div><h3>motion</h3><p>On screen, the lit dots may pulse gently, one at a time. Nothing else moves.</p></div>
+      <div><h3>small sizes</h3><p>Below 24px, use the simplified mark of six dots with one lit. It's also the favicon.</p></div>
+      <div><h3>motion</h3><p>On screen, the lit dots can pulse gently, one after another. Nothing else in the logo moves.</p></div>
     </div>
   </section>
 
@@ -94,23 +94,28 @@ const donts = [
     <div class="type">
       <p class="type-big">JetBrains Mono</p>
       <div class="weights">
-        <p><span class="w700">Bold 700</span><span class="comment">the wordmark</span></p>
-        <p><span class="w500">Medium 500</span><span class="comment">"little", headings, emphasis</span></p>
-        <p><span class="w400">Regular 400</span><span class="comment">everything else</span></p>
+        <p><span class="w700">Bold 700</span><span class="comment">the wordmark and headings</span></p>
+        <p><span class="w500">Medium 500</span><span class="comment">"little" and emphasis</span></p>
+        <p><span class="w400">Regular 400</span><span class="comment">labels, navigation and // comments</span></p>
       </div>
-      <p class="comment small">One family, three weights. Lowercase is fine for lines and labels; secondary lines start with //.</p>
+      <p class="type-big sans">IBM Plex Sans</p>
+      <div class="weights">
+        <p><span class="sans">Regular 400 and Medium 500</span><span class="comment">paragraphs and anything meant to be read at length</span></p>
+      </div>
+      <p class="small">Labels can be lowercase. Secondary lines start with // in graphite.</p>
     </div>
   </section>
 
   <section class="block" aria-labelledby="voice">
     <SectionMark index={6} of={9} label="voice" id="voice" />
     <div class="voice">
-      <p class="lead">Plain, honest, a little dry. Confident about the work.</p>
+      <p class="lead">Write the way you'd explain it to a friend.</p>
       <ul class="rows">
-        <li><span class="comment">01</span><span>Short sentences. Say what a thing does.</span></li>
-        <li><span class="comment">02</span><span>Speak as a studio with a track record, in the present tense.</span></li>
-        <li><span class="comment">03</span><span>Never call the products small or side projects. "Little" is where things start, not their size.</span></li>
-        <li><span class="comment">04</span><span>Skip "revolutionary", "seamless", "empower".</span></li>
+        <li><span class="comment">01</span><span>Keep sentences short and say what a thing does.</span></li>
+        <li><span class="comment">02</span><span>Write in the present tense, as a studio that has shipped work.</span></li>
+        <li><span class="comment">03</span><span>Don't call the products small or side projects. "Little" describes where an idea starts.</span></li>
+        <li><span class="comment">04</span><span>Leave out hype words such as revolutionary, seamless and empower.</span></li>
+        <li><span class="comment">05</span><span>Say each thing once.</span></li>
       </ul>
     </div>
   </section>
@@ -167,7 +172,7 @@ const donts = [
         <div class="social">
           <div class="banner"><Wordmark class="s30" /></div>
           <div class="avatar"><Mark size={56} /></div>
-          <div class="who"><b>little unknown</b>@littleunknown · product studio<br />everything starts unknown.</div>
+          <div class="who"><b>little unknown</b>@littleunknown · product studio<br />everything starts unknown</div>
         </div>
         <span class="cap">social profile</span>
       </div>
@@ -204,7 +209,7 @@ const donts = [
       <li><span>App icon, 1024 × 1024</span><span class="links"><a href="/brand/little-unknown-app-icon.png" download>png</a></span></li>
       <li><span>Simplified mark, for small sizes</span><span class="links"><a href="/brand/little-unknown-favicon.svg" download>svg</a></span></li>
     </ul>
-    <p class="comment small" style="margin-top:16px">Text in every file is converted to outlines, so no font is needed. Questions about using the brand: <a href={site.founder.url}>{site.founder.name}</a>.</p>
+    <p class="small" style="margin-top:16px">The text in every file is converted to outlines, so you don't need the fonts installed. For anything else about the brand, contact <a href={site.founder.url}>{site.founder.name}</a>.</p>
   </section>
 </Base>
 
@@ -217,7 +222,7 @@ const donts = [
   .idea p + p { margin-top: 14px; max-width: 58ch; }
   strong { font-weight: 500; }
   .v { color: var(--signal); }
-  .small { font-size: 13px; }
+  .small { font-size: 15px; }
 
   .grid { display: grid; gap: 16px; }
   .g2 { grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr)); }
@@ -254,14 +259,16 @@ const donts = [
   .swatches li { display: grid; grid-template-columns: 56px minmax(0, 1fr); grid-template-rows: auto auto auto; column-gap: 14px; align-items: center; }
   .chip { grid-row: 1 / 4; width: 56px; height: 56px; border-radius: 12px; border: 1px solid var(--rule); }
   .sw-name { font-weight: 500; }
-  code { font-family: inherit; font-size: 13px; }
-  .sw-use { font-size: 12px; line-height: 1.4; }
+  code { font-size: 14px; }
+  .sw-use { font-size: 14px; line-height: 1.4; }
 
   .type-big { font-size: clamp(2rem, 6vw, 3.4rem); font-weight: 700; letter-spacing: -0.03em; line-height: 1.1; }
   .weights { margin: 20px 0 16px; }
   .weights p { display: flex; justify-content: space-between; gap: 16px; padding: 10px 0; border-top: 1px solid var(--rule); flex-wrap: wrap; }
   .weights p:last-child { border-bottom: 1px solid var(--rule); }
   .w700 { font-weight: 700; } .w500 { font-weight: 500; } .w400 { font-weight: 400; }
+  .type-big.sans, .sans { font-family: var(--sans); }
+  .type-big.sans { margin-top: 36px; font-weight: 500; letter-spacing: -0.02em; }
 
   .rows { list-style: none; margin-top: 18px; }
   .rows li { padding: 10px 0; border-top: 1px solid var(--rule); display: grid; grid-template-columns: 2.5rem minmax(0, 1fr); }

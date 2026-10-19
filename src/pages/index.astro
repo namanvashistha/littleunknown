@@ -20,18 +20,18 @@ const shots = [
 const principles = [
   {
     title: "question everything",
-    text: "We start from what people actually need, not from what's expected. Most of what's known is noise; the lit dot is the question worth answering.",
+    text: "Start with the real problem.",
     dots: ["ooooo", "oooao", "ooooo"],
   },
   {
     title: "build to find out",
-    text: "We answer questions by making things, not by waiting for certainty. Each build connects one unknown to the next.",
+    text: "A prototype answers faster than a plan.",
     dots: ["aoooo", "oaooo", "ooaoo"],
     path: true,
   },
   {
     title: "ship what matters",
-    text: "We put the work in people's hands and keep improving it. Shipping is how a little unknown leaves the grid.",
+    text: "It counts once people use it.",
     dots: ["oooo.", "oooo.", "ooooo"],
     escape: true,
   },
@@ -54,7 +54,7 @@ function diagram({ dots, path, escape }: { dots: string[]; path?: boolean; escap
 ---
 <Base
   title={`${site.name} · product studio`}
-  description={`${site.manifesto} ${site.name} designs, builds and ships apps and software products, including ${chess.name}.`}
+  description={`${site.name} is a product studio that makes apps for iPhone, Android and the web. Its work includes ${chess.name}.`}
   graph={productGraph}
   wide
 >
@@ -63,15 +63,15 @@ function diagram({ dots, path, escape }: { dots: string[]; path?: boolean; escap
     <div class="hero-copy">
       <h1 id="hero-title">{site.manifesto}</h1>
       <div class="hero-side">
-        <p class="comment">// {site.tagline}</p>
-        <p>little unknown is a product studio. We design, build and ship apps for iPhone, Android and the web.</p>
+        <p class="comment">// product studio</p>
+        <p>We make apps for iPhone, Android and the web.</p>
         <a class="now" href="#work"><span class="comment">&gt; now</span> {chess.name.toLowerCase()} <span aria-hidden="true">↓</span></a>
       </div>
     </div>
   </section>
 
   <section id="work" class="block" aria-labelledby="work-title">
-    <SectionMark index={1} of={3} label="work" id="work-title" />
+    <SectionMark index={1} of={2} label="work" id="work-title" />
 
     <article class="product" aria-labelledby="calm-chess">
       <div class="product-copy">
@@ -83,17 +83,9 @@ function diagram({ dots, path, escape }: { dots: string[]; path?: boolean; escap
           </div>
         </div>
         <p class="product-lead">{chess.summary}</p>
-        <p class="product-body">{chess.description}</p>
-        <ol class="rows">
-          {chess.features.map(([title, text], i) => (
-            <li>
-              <span class="comment">{String(i + 1).padStart(2, "0")}</span>
-              <span><strong>{title}.</strong> <span class="soft">{text}.</span></span>
-            </li>
-          ))}
-        </ol>
+        <ul class="highlights">{chess.highlights.map((h) => <li>{h}</li>)}</ul>
         <div class="product-foot">
-          <span class="comment">// {chess.platforms.join(" · ").toLowerCase()} · {chess.status}</span>
+          <span class="comment">// {chess.status}</span>
           <a href={chess.url}>more about {chess.name.toLowerCase()} →</a>
         </div>
       </div>
@@ -107,7 +99,7 @@ function diagram({ dots, path, escape }: { dots: string[]; path?: boolean; escap
   </section>
 
   <section class="block" aria-labelledby="how-title">
-    <SectionMark index={2} of={3} label="how we work" id="how-title" />
+    <SectionMark index={2} of={2} label="how we work" id="how-title" />
     <ol class="principles">
       {principles.map((p, i) => (
         <li>
@@ -119,16 +111,6 @@ function diagram({ dots, path, escape }: { dots: string[]; path?: boolean; escap
     </ol>
   </section>
 
-  <section class="block" aria-labelledby="studio-title">
-    <SectionMark index={3} of={3} label="the studio" id="studio-title" />
-    <div class="studio">
-      <p class="studio-lead">Every product we make began as an open question: something people needed that nobody had answered well.</p>
-      <div class="studio-side">
-        <p>little unknown is run by <a href={site.founder.url} rel="author">{site.founder.name}</a>, who designs, builds and ships each product end to end: research, design, engineering and launch, in one place.</p>
-        <p><a href="/about/">about the studio →</a></p>
-      </div>
-    </div>
-  </section>
 </Base>
 
 <style>
@@ -164,10 +146,8 @@ function diagram({ dots, path, escape }: { dots: string[]; path?: boolean; escap
   h3 { font-weight: 700; letter-spacing: -0.035em; }
   .product-title h3 { font-size: clamp(2rem, 4.4vw, 3rem); line-height: 1; }
   .product-lead { margin-top: 30px; font-size: clamp(1.15rem, 2.4vw, 1.45rem); font-weight: 500; line-height: 1.4; max-width: 30ch; }
-  .product-body { margin-top: 14px; max-width: 56ch; }
-  .rows { margin-top: 28px; }
-  strong { font-weight: 500; }
-  .soft { color: var(--graphite); }
+  .highlights { list-style: none; margin-top: 22px; display: flex; flex-wrap: wrap; gap: 8px; font-family: var(--mono); font-size: 13px; }
+  .highlights li { padding: 6px 12px; border: 1px solid var(--rule); border-radius: 999px; color: var(--graphite); }
   .product-foot { margin-top: 24px; display: flex; justify-content: space-between; gap: 10px 24px; flex-wrap: wrap; font-size: 14px; }
 
   .product-shots { position: relative; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(10px, 1.6vw, 18px); align-items: center; }
@@ -184,13 +164,8 @@ function diagram({ dots, path, escape }: { dots: string[]; path?: boolean; escap
   .principles h3 .comment { font-weight: 400; font-size: .7em; margin-right: 6px; letter-spacing: 0; }
   .principles p { margin-top: 10px; color: var(--graphite); max-width: 38ch; }
 
-  /* studio */
-  .studio { margin-top: 48px; display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 40px 64px; align-items: start; }
-  .studio-lead { font-size: clamp(1.4rem, 3.4vw, 2.4rem); font-weight: 700; letter-spacing: -0.035em; line-height: 1.15; text-wrap: balance; }
-  .studio-side p + p { margin-top: 16px; }
-
   @media (max-width: 900px) {
-    .hero-copy, .product, .studio { grid-template-columns: minmax(0, 1fr); }
+    .hero-copy, .product { grid-template-columns: minmax(0, 1fr); }
     .principles { grid-template-columns: minmax(0, 1fr); gap: 44px; }
     .product-shots { max-width: 560px; }
   }

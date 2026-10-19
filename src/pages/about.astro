@@ -1,21 +1,38 @@
 ---
 import Base from "../layouts/Base.astro";
 import SectionMark from "../components/SectionMark.astro";
-import { site } from "../site.js";
+import { site, products } from "../site.js";
 
-// Questions people (and AI answer engines) ask about the studio, answered plainly.
-const faq = [
+const chess = products[0];
+
+// Each section answers one question, once. The same answers feed the FAQ
+// structured data, so search and AI answer engines quote what the page says.
+const answers = [
   {
+    id: "what",
+    label: "what it is",
     q: "What is little unknown?",
-    a: `${site.name} is a product studio. It designs, builds and ships apps and software products for the web, mobile and the browser.`,
+    a: `${site.name} is a product studio that makes apps for iPhone, Android and the web. It takes each product from the first idea to its release in the app stores.`,
   },
   {
+    id: "name",
+    label: "the name",
+    q: "What does the name little unknown mean?",
+    a: "Most products start as a small question that nobody has answered well yet. We call those little unknowns, and finding them is where our work begins.",
+  },
+  {
+    id: "who",
+    label: "who runs it",
     q: "Who runs little unknown?",
-    a: `${site.name} was founded and is run by ${site.founder.name}, a software engineer who designs, builds and ships each product end to end.`,
+    a: `${site.founder.name}, a software engineer, founded the studio and runs it.`,
+    link: [site.founder.url, "namanvashistha.com"],
   },
   {
-    q: "What does the name mean?",
-    a: "Every product starts as a little unknown: an open question about something people need. The studio's work is turning those unknowns into products people rely on.",
+    id: "made",
+    label: "what we've made",
+    q: "What has little unknown made?",
+    a: `${chess.name}, a chess app for iPhone and Android with a coach that explains every move. It's coming to the App Store and Google Play.`,
+    link: ["/#work", `see ${chess.name}`],
   },
 ];
 
@@ -23,7 +40,7 @@ const faqGraph = [
   {
     "@type": "FAQPage",
     "@id": `${site.url}/about/#faq`,
-    mainEntity: faq.map(({ q, a }) => ({
+    mainEntity: answers.map(({ q, a }) => ({
       "@type": "Question",
       name: q,
       acceptedAnswer: { "@type": "Answer", text: a },
@@ -33,60 +50,34 @@ const faqGraph = [
 ---
 <Base
   title={`about · ${site.name}`}
-  description={site.description}
+  description={`What ${site.name} is, what the name means, who runs it and what it has made.`}
   pageType="AboutPage"
   graph={faqGraph}
 >
   <h1>about</h1>
-  <p class="intro">{site.description}</p>
+  <p class="intro">The studio behind {chess.name}.</p>
 
-  <section class="section" aria-labelledby="what">
-    <SectionMark index={1} of={5} label="what we do" id="what" />
-    <div>
-      <p>We take a product from the first open question to something people use every day: research, design, engineering and shipping, all in one place.</p>
-      <p>Our work spans web apps, native mobile apps and browser extensions.</p>
-    </div>
-  </section>
-
-  <section class="section" aria-labelledby="how">
-    <SectionMark index={2} of={5} label="how we work" id="how" />
-    <ol class="rows">
-      <li><span class="comment">01</span><span><strong>question everything.</strong> We start from what people actually need, not from what's expected.</span></li>
-      <li><span class="comment">02</span><span><strong>build to find out.</strong> We answer questions by making things, not by waiting for certainty.</span></li>
-      <li><span class="comment">03</span><span><strong>ship what matters.</strong> We put work in people's hands and keep improving it.</span></li>
-    </ol>
-  </section>
-
-  <section class="section" aria-labelledby="who">
-    <SectionMark index={3} of={5} label="who" id="who" />
-    <div>
-      <p>{site.name} is run by <a href={site.founder.url} rel="author">{site.founder.name}</a>.</p>
-    </div>
-  </section>
+  {answers.map(({ id, label, a, link }, i) => (
+    <section class="section" aria-labelledby={id}>
+      <SectionMark index={i + 1} of={answers.length + 1} label={label} id={id} />
+      <div>
+        <p>{a}</p>
+        {link && <p class="more"><a href={link[0]}>{link[1]} →</a></p>}
+      </div>
+    </section>
+  ))}
 
   <section class="section" aria-labelledby="facts">
-    <SectionMark index={4} of={5} label="facts" id="facts" />
+    <SectionMark index={answers.length + 1} of={answers.length + 1} label="facts" id="facts" />
     <dl class="facts">
       <dt class="comment">name</dt><dd>{site.name}</dd>
       <dt class="comment">type</dt><dd>product studio</dd>
       <dt class="comment">founder</dt><dd>{site.founder.name}</dd>
-      <dt class="comment">makes</dt><dd>apps and software products for web, mobile and the browser</dd>
-      <dt class="comment">products</dt><dd><a href="/#work">Calm Chess</a></dd>
-      <dt class="comment">tagline</dt><dd>// {site.tagline}</dd>
-      <dt class="comment">website</dt><dd><a href={`${site.url}/`}>littleunknown.com</a></dd>
+      <dt class="comment">platforms</dt><dd>iPhone, Android and the web</dd>
+      <dt class="comment">products</dt><dd>{chess.name}</dd>
+      <dt class="comment">tagline</dt><dd>{site.tagline}</dd>
+      <dt class="comment">website</dt><dd>littleunknown.com</dd>
     </dl>
-  </section>
-
-  <section class="section" aria-labelledby="faq">
-    <SectionMark index={5} of={5} label="faq" id="faq" />
-    <div class="faq">
-      {faq.map(({ q, a }) => (
-        <div>
-          <h3>{q}</h3>
-          <p>{a}</p>
-        </div>
-      ))}
-    </div>
   </section>
 </Base>
 
@@ -98,15 +89,11 @@ const faqGraph = [
     line-height: 1;
   }
   .intro {
-    margin: 24px 0 72px;
-    max-width: 44ch;
-    font-size: clamp(1.05rem, 2.4vw, 1.25rem);
-    line-height: 1.55;
+    margin: 20px 0 72px;
+    font-size: clamp(1.15rem, 2.4vw, 1.35rem);
+    line-height: 1.5;
   }
-  .rows { margin-top: 0; }
-  strong { font-weight: 500; }
-  .facts { display: grid; grid-template-columns: 6rem minmax(0, 1fr); gap: 8px 16px; }
-  .faq > div + div { margin-top: 22px; }
-  h3 { font-size: inherit; font-weight: 500; }
-  h3 + p { margin-top: 4px; }
+  .section p { max-width: 54ch; }
+  .more { margin-top: 12px; }
+  .facts { display: grid; grid-template-columns: 7rem minmax(0, 1fr); gap: 8px 16px; }
 </style>

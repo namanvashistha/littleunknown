@@ -50,7 +50,7 @@ const nav = [
 
   <footer class="site-footer wrap wide">
     <div class="footer-cols">
-      <p class="footer-note">{site.manifesto}</p>
+      <p class="footer-note">// {site.tagline}</p>
       <div>
         <p class="comment">// studio</p>
         <ul>{nav.map(([href, label]) => <li><a href={href}>{label}</a></li>)}</ul>
@@ -65,8 +65,8 @@ const nav = [
     </div>
     <a class="footer-mark" href="/" aria-label="little unknown, home"><Wordmark /></a>
     <div class="footer-base comment">
-      <span>// {site.tagline}</span>
       <span>© {year} {site.name}</span>
+      <a href="#content">back to top ↑</a>
     </div>
   </footer>
 </body>

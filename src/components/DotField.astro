@@ -39,11 +39,11 @@ const narrow = field(14, 9, [[3, 2], [9, 5], [12, 1]]);
     .df-wide { display: none !important; }
     .df-narrow { display: block !important; }
   }
-  .dotfield :global(circle) { fill: var(--ink); transition: fill .9s ease-out, transform .9s ease-out; transform-box: fill-box; transform-origin: center; }
+  .dotfield :global(circle) { fill: var(--ink); fill-opacity: .2; transition: fill .9s ease-out, fill-opacity .9s ease-out, transform .9s ease-out; transform-box: fill-box; transform-origin: center; }
   .dotfield :global(circle.lit),
-  .dotfield :global(circle.on) { fill: var(--signal); transition-duration: .12s; }
+  .dotfield :global(circle.on) { fill: var(--signal); fill-opacity: 1; transition-duration: .12s; }
   .dotfield :global(circle.on) { transform: scale(1.25); }
-  .df-hint { margin-top: 14px; font-size: 12px; text-align: right; }
+  .df-hint { margin-top: 14px; font-size: 13px; text-align: right; }
   .df-hint .touch { display: none; }
   @media (hover: none) { .df-hint .hover { display: none; } .df-hint .touch { display: inline; } }
   @media (prefers-reduced-motion: reduce) { .df-hint { display: none; } }

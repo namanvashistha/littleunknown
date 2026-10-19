@@ -5,8 +5,8 @@ export const site = {
   url: "https://littleunknown.com",
   tagline: "everything starts unknown",
   manifesto: "We turn little unknowns into products people rely on.",
-  description:
-    "little unknown is a product studio founded by Naman Vashistha. It designs, builds and ships apps and software products for the web, mobile and the browser.",
+  // One plain sentence about what the studio is. Pages say more in their own words.
+  description: "little unknown is a product studio founded by Naman Vashistha that makes apps for iPhone, Android and the web.",
   founder: {
     name: "Naman Vashistha",
     url: "https://namanvashistha.com",
@@ -21,15 +21,10 @@ export const products = [
     slug: "calm-chess",
     name: "Calm Chess",
     subtitle: "A kind coach beside you",
-    summary: "Learn chess without the noise. A kind coach explains every move.",
+    summary: "Learn chess without the pressure.",
     description:
-      "Calm Chess is chess without the pressure. Play the Rookie, the Master or the Grandmaster, or pass the phone to a friend. After every move a kind coach says, in plain words, whether it was great, good or a slip, and why.",
-    features: [
-      ["a coach, not a critic", "every move explained in plain words, never scolded"],
-      ["see the game", "lines of light show where a piece can go, and what guards it"],
-      ["private by design", "no account, no ads, no tracking; the engine runs offline on your phone"],
-      ["for everyone", "in english, hindi and spanish, in light and dark"],
-    ],
+      "Play the Rookie, the Master or the Grandmaster, or pass the phone to a friend. After each move, the coach tells you whether it was great, good or a slip, and why.",
+    highlights: ["a coach after every move", "no account, no ads", "works offline", "English, Hindi, Spanish"],
     platforms: ["iPhone", "Android"],
     status: "coming to the App Store and Google Play",
     url: "https://namanvashistha.com/chess/cozychess/",
