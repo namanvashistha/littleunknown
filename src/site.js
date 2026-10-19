@@ -16,6 +16,29 @@ export const site = {
   locale: "en",
 };
 
+// Products shown on the home page and described in JSON-LD and llms.txt.
+export const products = [
+  {
+    slug: "calm-chess",
+    name: "Calm Chess",
+    subtitle: "A kind coach beside you",
+    summary: "Learn chess without the noise. A kind coach explains every move.",
+    description:
+      "Calm Chess is chess without the pressure. Play the Rookie, the Master or the Grandmaster, or pass the phone to a friend. After every move a kind coach says, in plain words, whether it was great, good or a slip, and why.",
+    features: [
+      ["a coach, not a critic", "every move explained in plain words, never scolded"],
+      ["see the game", "lines of light show where a piece can go, and what guards it"],
+      ["private by design", "no account, no ads, no tracking; the engine runs offline on your phone"],
+      ["for everyone", "in english, hindi and spanish, in light and dark"],
+    ],
+    platforms: ["iPhone", "Android"],
+    status: "coming to the App Store and Google Play",
+    url: "https://namanvashistha.com/chess/cozychess/",
+    category: "GameApplication",
+    languages: ["en", "hi", "es"],
+  },
+];
+
 const org = {
   "@type": "Organization",
   "@id": `${site.url}/#organization`,
@@ -51,3 +74,20 @@ const website = {
 
 // The graph every page carries; pages add their own WebPage node on top.
 export const baseGraph = [org, founder, website];
+
+export const productGraph = products.map((p) => ({
+  "@type": "MobileApplication",
+  "@id": `${site.url}/#${p.slug}`,
+  name: p.name,
+  alternativeHeadline: p.subtitle,
+  description: p.description,
+  url: p.url,
+  image: `${site.url}/products/${p.slug}.png`,
+  applicationCategory: p.category,
+  applicationSubCategory: "Board game",
+  operatingSystem: "iOS, Android",
+  inLanguage: p.languages,
+  isAccessibleForFree: true,
+  author: { "@id": `${site.url}/#organization` },
+  publisher: { "@id": `${site.url}/#organization` },
+}));

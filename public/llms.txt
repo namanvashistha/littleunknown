@@ -8,8 +8,12 @@ The name is written "little unknown" (lowercase, two words). The wordmark is "li
 
 ## Pages
 
-- [Home](https://littleunknown.com/): the studio's manifesto and principles
+- [Home](https://littleunknown.com/): the studio's manifesto, principles and products
 - [About](https://littleunknown.com/about/): what the studio does, how it works, who runs it, key facts and FAQ
+
+## Products
+
+- [Calm Chess](https://namanvashistha.com/chess/cozychess/): chess without the pressure, for iPhone and Android ("A kind coach beside you"). A kind coach explains every move in plain words; three opponents from Rookie to Grandmaster plus pass-and-play; no account, no ads, no tracking, fully offline; in English, Hindi and Spanish. Coming to the App Store and Google Play.
 
 ## People
 

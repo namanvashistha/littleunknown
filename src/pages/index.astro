@@ -1,22 +1,82 @@
 ---
+import { Image } from "astro:assets";
 import Base from "../layouts/Base.astro";
-import { site } from "../site.js";
+import { site, products, productGraph } from "../site.js";
+import icon from "../assets/calm-chess/icon.png";
+import shotCoach from "../assets/calm-chess/2-coach.png";
+import shotPress from "../assets/calm-chess/3-long-press.png";
+import shotDark from "../assets/calm-chess/5-dark.png";
+
+const chess = products[0];
+const shots = [
+  { src: shotCoach, alt: "Calm Chess: the coach says “Great move, claims the centre” after 1. e4" },
+  { src: shotPress, alt: "Calm Chess: holding a piece shows what guards it and what attacks it" },
+  { src: shotDark, alt: "Calm Chess in dark mode, showing a knight's moves as lines of light" },
+];
 ---
 <Base
   title={`${site.name} · product studio`}
-  description={`${site.manifesto} ${site.name} designs, builds and ships apps and software products. Everything starts unknown.`}
+  description={`${site.manifesto} ${site.name} designs, builds and ships apps and software products, including ${chess.name}.`}
   showMark={false}
+  graph={productGraph}
 >
-  <div class="hero">
+  <section class="hero" aria-label="little unknown">
     <h1>little_unknown<span class="cursor" aria-hidden="true">_</span></h1>
     <p class="tagline comment">// {site.tagline}</p>
-  </div>
+    <p class="statement">{site.manifesto}</p>
+    <a class="now" href="#work">
+      <span class="comment">&gt; now</span>
+      <span>{chess.name.toLowerCase()}</span>
+      <span aria-hidden="true">↓</span>
+    </a>
+  </section>
+
+  <section id="work" class="work" aria-labelledby="work-title">
+    <div class="work-head">
+      <h2 id="work-title" class="comment">// work</h2>
+      <span class="comment">{chess.platforms.join(" · ").toLowerCase()}</span>
+    </div>
+
+    <article class="product" aria-labelledby="calm-chess">
+      <div class="product-copy">
+        <div class="product-title">
+          <Image src={icon} alt="" width={72} height={72} class="product-icon" loading="eager" />
+          <div>
+            <h3 id="calm-chess">{chess.name}</h3>
+            <p class="comment">// {chess.subtitle.toLowerCase()}</p>
+          </div>
+        </div>
+        <p class="product-lead">{chess.summary}</p>
+        <p class="product-body">{chess.description}</p>
+
+        <ol class="rows">
+          {chess.features.map(([title, text], i) => (
+            <li>
+              <span class="comment">{String(i + 1).padStart(2, "0")}</span>
+              <span><strong>{title}.</strong> <span class="comment-soft">{text}.</span></span>
+            </li>
+          ))}
+        </ol>
+
+        <div class="product-foot">
+          <span class="comment">// {chess.status}</span>
+          <a href={chess.url}>more about {chess.name.toLowerCase()} →</a>
+        </div>
+      </div>
+
+      <div class="shots">
+        {shots.map(({ src, alt }, i) => (
+          <Image src={src} alt={alt} widths={[240, 360, 480]} sizes="(max-width: 600px) 30vw, 200px" class={`shot shot-${i}`} />
+        ))}
+      </div>
+    </article>
+  </section>
 
   <section class="section manifesto" aria-labelledby="manifesto">
     <h2 id="manifesto" class="comment label">// manifesto</h2>
     <div>
-      <p class="lead">{site.manifesto}</p>
-      <p style="margin-top:22px">Every product we make began as an open question: something people needed that nobody had answered well. We take those questions seriously, build until the answer is right, and keep shipping.</p>
+      <p class="lead">Every product we make began as an open question.</p>
+      <p style="margin-top:22px">Something people needed that nobody had answered well. We take those questions seriously, build until the answer is right, and keep shipping.</p>
       <ol class="rows">
         <li><span class="comment">01</span><span>question everything.</span></li>
         <li><span class="comment">02</span><span>build to find out.</span></li>
@@ -27,7 +87,13 @@ import { site } from "../site.js";
 </Base>
 
 <style>
-  :global(main) { display: flex; flex-direction: column; justify-content: center; }
+  .hero {
+    min-height: min(78svh, 720px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-bottom: 48px;
+  }
   h1 {
     font-weight: 500;
     font-size: clamp(2.1rem, 8.4vw, 4.4rem);
@@ -36,6 +102,71 @@ import { site } from "../site.js";
     white-space: nowrap;
   }
   .tagline { margin-top: 20px; font-size: clamp(1rem, 2.6vw, 1.25rem); }
-  .manifesto { margin-top: clamp(72px, 14vh, 128px); }
+  .statement {
+    margin-top: 48px;
+    max-width: 30ch;
+    text-wrap: balance;
+    font-size: clamp(1.25rem, 3.2vw, 1.75rem);
+    font-weight: 500;
+    line-height: 1.35;
+    letter-spacing: -0.015em;
+  }
+  .now {
+    margin-top: 40px;
+    align-self: flex-start;
+    display: inline-flex;
+    gap: 12px;
+    padding: 10px 16px;
+    border: 1px solid var(--rule);
+    border-radius: 999px;
+    color: var(--ink);
+    font-size: 14px;
+  }
+  .now:hover { text-decoration: none; border-color: var(--graphite); }
+
+  .work { scroll-margin-top: 24px; }
+  .work-head {
+    display: flex; justify-content: space-between; align-items: baseline;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--ink);
+  }
+  .work-head h2 { font-size: inherit; font-weight: 400; }
+
+  .product {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 40px;
+    padding: 40px 0 8px;
+  }
+  .product-title { display: flex; align-items: center; gap: 18px; }
+  :global(.product-icon) { width: 72px; height: 72px; border-radius: 17px; border: 1px solid var(--rule); }
+  h3 { font-size: clamp(1.75rem, 4.4vw, 2.5rem); font-weight: 500; letter-spacing: -0.03em; line-height: 1.05; }
+  .product-lead { margin-top: 28px; font-size: clamp(1.1rem, 2.6vw, 1.35rem); font-weight: 500; line-height: 1.4; max-width: 34ch; }
+  .product-body { margin-top: 14px; max-width: 58ch; }
+  .product .rows { margin-top: 28px; }
+  strong { font-weight: 500; }
+  .comment-soft { color: var(--graphite); }
+  .product-foot {
+    margin-top: 24px;
+    display: flex; justify-content: space-between; align-items: baseline; gap: 12px 24px; flex-wrap: wrap;
+    font-size: 14px;
+  }
+
+  .shots {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(10px, 2.4vw, 20px);
+    align-items: start;
+  }
+  :global(.shot) {
+    width: 100%;
+    height: auto;
+    border-radius: clamp(12px, 2.4vw, 22px);
+    border: 1px solid var(--rule);
+    background: var(--rule);
+  }
+  :global(.shot-1) { margin-top: clamp(16px, 4vw, 40px); }
+
+  .manifesto { margin-top: 112px; }
   .label { font-size: inherit; font-weight: 400; }
 </style>

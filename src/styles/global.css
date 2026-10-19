@@ -56,6 +56,7 @@ a:focus-visible { outline: 2px solid var(--signal); outline-offset: 3px; }
 .site-header .mark { color: var(--ink); font-weight: 500; }
 .site-header .mark:hover { text-decoration: none; }
 .site-header nav a { color: var(--graphite); }
+.site-header nav a + a { margin-left: 20px; }
 .site-header nav a:hover, .site-header nav a[aria-current="page"] { color: var(--ink); }
 
 main { flex: 1; }
