@@ -21,7 +21,7 @@ export const products = [
       "Play the Rookie, the Master or the Grandmaster, or pass the phone to a friend. After each move, the coach tells you whether it was great, good or a slip, and why.",
     platforms: ["iPhone", "Android"],
     status: "coming to the App Store and Google Play",
-    url: "https://namanvashistha.com/chess/cozychess/",
+    url: `${site.url}/blog/calm-chess/`,
     category: "GameApplication",
     languages: ["en", "hi", "es"],
   },
