@@ -4,7 +4,7 @@
 
 We turn little unknowns into products people rely on.
 
-little unknown is an umbrella for the apps and products Naman Vashistha builds.
+little unknown is an umbrella for the apps and products we build.
 The name is the starting point, not the size: every product begins as an open
 question, an idea nobody has proven yet. little unknown is where those questions
 are explored, built and shipped until they become products people rely on.

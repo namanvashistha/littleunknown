@@ -6,12 +6,7 @@ export const site = {
   tagline: "everything starts unknown",
   manifesto: "We turn little unknowns into products people rely on.",
   // One plain sentence about what the studio is. Pages say more in their own words.
-  description: "little unknown is a product studio founded by Naman Vashistha that makes apps for iPhone, Android and the web.",
-  founder: {
-    name: "Naman Vashistha",
-    url: "https://namanvashistha.com",
-    sameAs: ["https://github.com/namanvashistha", "https://namanvashistha.com"],
-  },
+  description: "little unknown is a product studio that makes apps for iPhone, Android and the web.",
   locale: "en",
 };
 
@@ -41,16 +36,6 @@ const org = {
   image: `${site.url}/og.png`,
   slogan: site.tagline,
   description: site.description,
-  founder: { "@id": `${site.url}/#founder` },
-};
-
-const founder = {
-  "@type": "Person",
-  "@id": `${site.url}/#founder`,
-  name: site.founder.name,
-  url: site.founder.url,
-  sameAs: site.founder.sameAs,
-  worksFor: { "@id": `${site.url}/#organization` },
 };
 
 const website = {
@@ -64,7 +49,7 @@ const website = {
 };
 
 // The graph every page carries; pages add their own WebPage node on top.
-export const baseGraph = [org, founder, website];
+export const baseGraph = [org, website];
 
 export const productGraph = products.map((p) => ({
   "@type": "MobileApplication",

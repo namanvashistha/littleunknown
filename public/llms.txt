@@ -1,6 +1,6 @@
 # little unknown
 
-> little unknown is a product studio founded by Naman Vashistha that makes apps for iPhone, Android and the web. Its tagline is "everything starts unknown".
+> little unknown is a product studio that makes apps for iPhone, Android and the web. Its tagline is "everything starts unknown".
 
 Most products start as a small question that nobody has answered well yet. The studio calls those questions little unknowns and builds its products around them. It works by three principles: question everything, build to find out, and ship what matters.
 
@@ -21,7 +21,3 @@ The name is written "little unknown", in lowercase, as two words. The logo is a 
 
 - [Introducing little unknown](https://littleunknown.com/blog/introducing-little-unknown/): the name, the logo and the first product
 - [Calm Chess](https://littleunknown.com/blog/calm-chess/): what Calm Chess is and how it works
-
-## People
-
-- [Naman Vashistha](https://namanvashistha.com): founder of little unknown, a software engineer
