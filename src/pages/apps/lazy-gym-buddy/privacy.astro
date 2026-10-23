@@ -1,0 +1,31 @@
+---
+import Base from "../../../layouts/Base.astro";
+import PageHead from "../../../components/PageHead.astro";
+---
+<Base
+  title="Lazy Gym Buddy · privacy"
+  description="Privacy policy for Lazy Gym Buddy. Your health data stays on your iPhone."
+>
+  <PageHead title="privacy" intro="Lazy Gym Buddy collects nothing. Your health data stays on your iPhone." />
+  <div class="measure doc">
+    <p>The app has no accounts, no analytics, no advertising and no tracking. It makes no network requests, so nothing you do in it is sent to us or to anyone else.</p>
+    <h2>Apple Health</h2>
+    <p>With your permission, the app reads these from Apple Health: workouts, heart rate, active energy burned and step count. It uses them only on your iPhone, to show which days you worked out this week and to notice a workout you recorded elsewhere, such as on an Apple Watch.</p>
+    <ul>
+      <li>It never writes anything to Apple Health.</li>
+      <li>Health data is never sent off your device, sold, shared, or used for advertising or marketing.</li>
+      <li>You can turn access off at any time in Settings → Health → Data Access &amp; Devices.</li>
+    </ul>
+    <h2>What stays on your iPhone</h2>
+    <p>The date of the last workout the panda has seen, so it can greet a new one. Deleting the app deletes it.</p>
+    <h2>Children</h2>
+    <p>Because the app collects no personal information, it collects none from children either.</p>
+    <h2>Changes and contact</h2>
+    <p>If this ever changes, this page will be updated before the app does. Questions: <a href="mailto:hello@mail.littleunknown.com">hello@mail.littleunknown.com</a>.</p>
+    <p class="comment">Last updated 23 October 2026.</p>
+  </div>
+</Base>
+<style>
+  .doc { font-size: 1.1rem; line-height: 1.6; }
+  .doc h2 { margin-top: 2.5rem; }
+</style>

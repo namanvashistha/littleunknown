@@ -1,0 +1,22 @@
+---
+import Base from "../../../layouts/Base.astro";
+import PageHead from "../../../components/PageHead.astro";
+---
+<Base
+  title="Lazy Gym Buddy · support"
+  description="Help for Lazy Gym Buddy, the panda who loves working out but won't go alone."
+>
+  <PageHead title="lazy gym buddy" intro="Bao loves working out. He's just too lazy to do it alone." />
+  <div class="measure doc">
+    <h2>Help</h2>
+    <p><b>Why does it ask for Apple Health?</b> So Bao knows when you moved, including workouts tracked on an Apple Watch or in another app. It reads workouts, heart rate, active energy and steps, and never writes anything to Health.</p>
+    <p><b>I said no to Health. Can I change it?</b> Yes: Settings → Health → Data Access &amp; Devices → Lazy Gym Buddy.</p>
+    <p><b>Where is my data?</b> On your iPhone only. There is no account and nothing is uploaded.</p>
+    <p><b>Something else?</b> Write to <a href="mailto:hello@mail.littleunknown.com">hello@mail.littleunknown.com</a>.</p>
+    <p><a href="/apps/lazy-gym-buddy/privacy/">Privacy policy →</a></p>
+  </div>
+</Base>
+<style>
+  .doc { font-size: 1.1rem; line-height: 1.6; }
+  .doc h2 { margin-top: 2.5rem; }
+</style>
