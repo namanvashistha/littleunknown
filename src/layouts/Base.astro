@@ -34,6 +34,8 @@ const nav = [
   <Seo {...seo} />
 </head>
 <body>
+  <!-- data-nosnippet keeps site chrome out of search snippets; Google honours it on div, not header/footer. -->
+  <div data-nosnippet>
   <a class="skip" href="#content">skip to content</a>
   <header class="site-header wrap">
     <a class="home" href="/" aria-label="little unknown, home"><Lockup /></a>
@@ -43,11 +45,13 @@ const nav = [
       ))}
     </nav>
   </header>
+  </div>
 
   <main id="content" class="wrap">
     <slot />
   </main>
 
+  <div data-nosnippet>
   <footer class="site-footer wrap">
     <a class="footer-mark" href="/" aria-label="little unknown, home"><Wordmark /></a>
     <div class="footer-base">
@@ -57,5 +61,6 @@ const nav = [
       <span class="comment">© {year} {site.name}</span>
     </div>
   </footer>
+  </div>
 </body>
 </html>
