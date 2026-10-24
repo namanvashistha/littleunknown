@@ -9,7 +9,7 @@ export const site = {
   description: "little unknown is a product studio that makes apps for iPhone, Android and the web.",
   locale: "en",
   // Umami Cloud website ID for littleunknown.com. Public, not a secret. Empty means no analytics script.
-  umamiWebsiteId: "",
+  umamiWebsiteId: "76a70c42-04ea-47ba-972b-2d569a1379d9",
 };
 
 // Products shown on the home page and described in JSON-LD and llms.txt.
