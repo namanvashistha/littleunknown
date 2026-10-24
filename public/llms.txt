@@ -16,8 +16,12 @@ The name is written "little unknown", in lowercase, as two words. The logo is a 
 ## Products
 
 - [Calm Chess](https://littleunknown.com/blog/calm-chess/): a chess app for iPhone and Android, subtitled "A kind coach beside you". After each move, a coach says whether it was great, good or a slip, and why. You can play three opponents, from the Rookie to the Grandmaster, or pass the phone to a friend. There's no account and there are no ads, and the engine runs offline on the phone. It's available in English, Hindi and Spanish, and it's coming to the App Store and Google Play.
+- [Einbürgerungstest: Leben in DE](https://littleunknown.com/blog/einbuergerungstest/): an app for iPhone and iPad that prepares people for Germany's "Leben in Deutschland" test and Einbürgerungstest. It has all 310 questions a person studies (300 general and 10 for their federal state), each shown in German as in the test with a translation in one of 20 languages underneath. It reads questions aloud, runs mock tests in the real format (33 questions, 60 minutes, 17 to pass) and estimates the score you would get today. It's free, with no ads, no account and no subscription, and works offline. It's independent and not affiliated with BAMF. It's coming to the App Store. Support: https://littleunknown.com/apps/einbuergerungstest/
+- [Lazy Gym Buddy](https://littleunknown.com/blog/lazy-gym-buddy/): an iPhone app about getting up to exercise. Bao, a panda who loves working out but won't go alone, waits on the sofa until you start; you work out together, tap when you're done, and he naps. It reads workouts and steps from Apple Health (read-only), has no streaks, no ads and no account, and keeps data on the phone. It's coming to the App Store. Support: https://littleunknown.com/apps/lazy-gym-buddy/
 
 ## Posts
 
 - [Introducing little unknown](https://littleunknown.com/blog/introducing-little-unknown/): the name, the logo and the first product
 - [Calm Chess](https://littleunknown.com/blog/calm-chess/): what Calm Chess is and how it works
+- [Einbürgerungstest: Leben in DE](https://littleunknown.com/blog/einbuergerungstest/): what the citizenship test app is and how it works
+- [Lazy Gym Buddy](https://littleunknown.com/blog/lazy-gym-buddy/): what Lazy Gym Buddy is and how it works

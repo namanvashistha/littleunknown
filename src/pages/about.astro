@@ -4,7 +4,8 @@ import SectionMark from "../components/SectionMark.astro";
 import PageHead from "../components/PageHead.astro";
 import { site, products } from "../site.js";
 
-const chess = products[0];
+const names = products.map((p) => p.shortName ?? p.name);
+const list = `${names.slice(0, -1).join(", ")} and ${names.at(-1)}`;
 
 // Each section answers one question, once. The same answers feed the FAQ
 // structured data, so search and AI answer engines quote what the page says.
@@ -31,8 +32,8 @@ const answers = [
     id: "made",
     label: "what we've made",
     q: "What has little unknown made?",
-    a: `${chess.name}, a chess app for iPhone and Android with a coach that explains every move. It's coming to the App Store and Google Play.`,
-    link: ["/#work", `see ${chess.name}`],
+    a: "Calm Chess, a chess app for iPhone and Android with a coach that explains every move. Einbürgerungstest: Leben in DE, which prepares people for the German citizenship test in German and their own language. And Lazy Gym Buddy, a panda who loves working out but won't go alone. All three are coming to the App Store.",
+    link: ["/#work", "see the work"],
   },
 ];
 
@@ -54,7 +55,7 @@ const faqGraph = [
   pageType="AboutPage"
   graph={faqGraph}
 >
-  <PageHead title="about" intro={`The studio behind ${chess.name}.`} />
+  <PageHead title="about" intro={`The studio behind ${list}.`} />
 
   {answers.map(({ id, label, a, link }, i) => (
     <section class="block" aria-labelledby={id}>
@@ -72,7 +73,7 @@ const faqGraph = [
       <dt class="comment">name</dt><dd>{site.name}</dd>
       <dt class="comment">type</dt><dd>product studio</dd>
       <dt class="comment">platforms</dt><dd>iPhone, Android and the web</dd>
-      <dt class="comment">products</dt><dd>{chess.name}</dd>
+      <dt class="comment">products</dt><dd>{list}</dd>
       <dt class="comment">tagline</dt><dd>{site.tagline}</dd>
       <dt class="comment">website</dt><dd>littleunknown.com</dd>
     </dl>

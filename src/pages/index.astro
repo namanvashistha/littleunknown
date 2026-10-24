@@ -4,17 +4,48 @@ import Base from "../layouts/Base.astro";
 import DotField from "../components/DotField.astro";
 import SectionMark from "../components/SectionMark.astro";
 import { site, products, productGraph } from "../site.js";
-import icon from "../assets/calm-chess/icon.png";
-import shotCoach from "../assets/calm-chess/2-coach.png";
-import shotPress from "../assets/calm-chess/3-long-press.png";
-import shotDark from "../assets/calm-chess/5-dark.png";
+import chessIcon from "../assets/calm-chess/icon.png";
+import chessCoach from "../assets/calm-chess/2-coach.png";
+import chessPress from "../assets/calm-chess/3-long-press.png";
+import chessDark from "../assets/calm-chess/5-dark.png";
+import testIcon from "../assets/einbuergerungstest/icon.png";
+import testHome from "../assets/einbuergerungstest/1-home.png";
+import testQuestion from "../assets/einbuergerungstest/2-question.png";
+import testMocks from "../assets/einbuergerungstest/3-mock-tests.png";
+import pandaIcon from "../assets/lazy-gym-buddy/icon.png";
+import pandaSofa from "../assets/lazy-gym-buddy/1-sofa.png";
+import pandaWorkout from "../assets/lazy-gym-buddy/2-working-out.png";
+import pandaDone from "../assets/lazy-gym-buddy/3-we-did-it.png";
 
-const chess = products[0];
-const shots = [
-  { src: shotPress, alt: "Calm Chess: holding a piece shows what guards it and what attacks it" },
-  { src: shotCoach, alt: "Calm Chess: the coach says “Great move, claims the centre” after 1. e4" },
-  { src: shotDark, alt: "Calm Chess in dark mode, showing a knight's moves as lines of light" },
-];
+// Icon and three screenshots per product, keyed by slug in site.js.
+const media = {
+  "calm-chess": {
+    icon: chessIcon,
+    shots: [
+      { src: chessPress, alt: "Calm Chess: holding a piece shows what guards it and what attacks it" },
+      { src: chessCoach, alt: "Calm Chess: the coach says “Great move, claims the centre” after 1. e4" },
+      { src: chessDark, alt: "Calm Chess in dark mode, showing a knight's moves as lines of light" },
+    ],
+  },
+  einbuergerungstest: {
+    icon: testIcon,
+    shots: [
+      { src: testHome, alt: "Einbürgerungstest: an estimated score of 18 of 33 today, and progress across all 310 questions" },
+      { src: testQuestion, alt: "Einbürgerungstest: a question in German with the English translation under it and the right answer marked" },
+      { src: testMocks, alt: "Einbürgerungstest: mock test history with the best score, the average and a chart against the pass mark" },
+    ],
+  },
+  "lazy-gym-buddy": {
+    icon: pandaIcon,
+    shots: [
+      { src: pandaSofa, alt: "Lazy Gym Buddy: Bao on the sofa says “i'll work out... if you do”" },
+      { src: pandaWorkout, alt: "Lazy Gym Buddy: Bao working out beside a timer, saying “glad you came. i wouldn't have.”" },
+      { src: pandaDone, alt: "Lazy Gym Buddy: Bao cheering “we did it!” over the minutes, steps and days this week" },
+    ],
+  },
+};
+const shortNames = products.map((p) => p.shortName ?? p.name);
+const names = `${shortNames.slice(0, -1).join(", ")} and ${shortNames.at(-1)}`;
 
 // Small dot diagrams for the three principles: o known, a lit, . empty.
 const principles = [
@@ -51,7 +82,7 @@ function diagram({ dots, path, escape }: { dots: string[]; path?: boolean; escap
 ---
 <Base
   title={`${site.name} · product studio`}
-  description={`${site.name} is a product studio that makes apps for iPhone, Android and the web. Its work includes ${chess.name}.`}
+  description={`${site.name} is a product studio that makes apps for iPhone, Android and the web. Its work includes ${names}.`}
   graph={productGraph}
 >
   <section class="hero" aria-labelledby="hero-title">
@@ -65,22 +96,24 @@ function diagram({ dots, path, escape }: { dots: string[]; path?: boolean; escap
   <section id="work" class="block" aria-labelledby="work-title">
     <SectionMark index={1} of={2} label="work" id="work-title" />
 
-    <article class="product" aria-labelledby="calm-chess">
-      <div class="product-copy">
-        <div class="product-title">
-          <Image src={icon} alt="" width={76} height={76} class="product-icon" />
-          <h3 id="calm-chess">{chess.name}</h3>
+    {products.map((p) => (
+      <article class="product" aria-labelledby={p.slug}>
+        <div class="product-copy">
+          <div class="product-title">
+            <Image src={media[p.slug].icon} alt="" width={76} height={76} class="product-icon" />
+            <h3 id={p.slug} lang={p.nameLang}>{p.shortName ?? p.name}</h3>
+          </div>
+          <p class="product-lead">{p.summary}</p>
+          <p class="product-foot"><span class="comment">{p.status}</span> <a href={p.url}>more →</a></p>
         </div>
-        <p class="product-lead">{chess.summary}</p>
-        <p class="product-foot"><span class="comment">{chess.status}</span> <a href={chess.url}>more →</a></p>
-      </div>
 
-      <div class="product-shots">
-        {shots.map(({ src, alt }, i) => (
-          <Image src={src} alt={alt} widths={[280, 420, 560]} sizes="(max-width: 900px) 30vw, 230px" class={`shot shot-${i}`} />
-        ))}
-      </div>
-    </article>
+        <div class="product-shots">
+          {media[p.slug].shots.map(({ src, alt }, i) => (
+            <Image src={src} alt={alt} widths={[280, 420, 560]} sizes="(max-width: 900px) 30vw, 230px" class={`shot shot-${i}`} />
+          ))}
+        </div>
+      </article>
+    ))}
   </section>
 
   <section class="block" aria-labelledby="how-title">
@@ -112,13 +145,14 @@ function diagram({ dots, path, escape }: { dots: string[]; path?: boolean; escap
   .hero-side { max-width: 26ch; color: var(--graphite); }
 
   /* work */
+  .product + .product { margin-top: clamp(72px, 10vw, 120px); }
   .product {
     display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 56px; align-items: center;
   }
   .product-title { display: flex; align-items: center; gap: 18px; }
   :global(.product-icon) { width: 76px; height: 76px; border-radius: 18px; border: 1px solid var(--rule); }
   h3 { font-weight: 700; letter-spacing: -0.035em; }
-  .product-title h3 { font-size: clamp(2rem, 4.4vw, 3rem); line-height: 1; }
+  .product-title h3 { font-size: clamp(2rem, 4.4vw, 3rem); line-height: 1; min-width: 0; hyphens: auto; overflow-wrap: break-word; }
   .product-lead { margin-top: 28px; font-size: clamp(1.15rem, 2.4vw, 1.45rem); font-weight: 500; line-height: 1.4; max-width: 30ch; }
   .product-foot { margin-top: 20px; font-size: 15px; }
   .product-foot a { margin-left: 12px; }

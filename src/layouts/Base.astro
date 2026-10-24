@@ -32,6 +32,9 @@ const nav = [
   <meta name="theme-color" content="#0f120f" media="(prefers-color-scheme: dark)">
   <meta name="color-scheme" content="light dark">
   <Seo {...seo} />
+  {site.umamiWebsiteId && (
+    <script is:inline defer src="https://cloud.umami.is/script.js" data-website-id={site.umamiWebsiteId} data-domains="littleunknown.com"></script>
+  )}
 </head>
 <body>
   <!-- data-nosnippet keeps site chrome out of search snippets; Google honours it on div, not header/footer. -->
