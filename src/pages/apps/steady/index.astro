@@ -1,0 +1,24 @@
+---
+import Base from "../../../layouts/Base.astro";
+import PageHead from "../../../components/PageHead.astro";
+---
+<Base
+  title="Ebb · support"
+  description="Help for Ebb, the free GLP-1 dose tracker with no account and no ads."
+>
+  <PageHead title="ebb" intro="A calm, free tracker for GLP-1 medicines. No subscription, no ads, no account." />
+  <div class="measure doc">
+    <h2>Help</h2>
+    <p><b>Where is my data?</b> On your iPhone only, in one file the app and its widget share. It's included in your iCloud backup. There is no account, so it doesn't move between devices any other way. Deleting the app deletes it.</p>
+    <p><b>What is the "estimated level"?</b> A curve drawn from each medicine's published half-life and the doses you logged. It's shown as a share of the peak, without units. It's an estimate of the shape over time, not a measurement, and not something to base a dose on.</p>
+    <p><b>Does Ebb tell me what dose to take?</b> No. It records what you took. Your prescriber decides your dose.</p>
+    <p><b>How do I log a dose?</b> Press and hold the round button on Home until the ring fills, or tap "I took it" on the reminder or the widget. To change the date, dose or injection site, use the form behind the slider button.</p>
+    <p><b>Why does it ask for Apple Health?</b> Only if you turn it on in Settings. It reads your weight, so weigh-ins from a smart scale count, and saves the weights you log in the app. Nothing else.</p>
+    <p><b>Something else?</b> Write to <a href="mailto:hello@mail.littleunknown.com">hello@mail.littleunknown.com</a>.</p>
+    <p><a href="/apps/steady/privacy/">Privacy policy →</a></p>
+  </div>
+</Base>
+<style>
+  .doc { font-size: 1.1rem; line-height: 1.6; }
+  .doc h2 { margin-top: 2.5rem; }
+</style>

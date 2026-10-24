@@ -1,0 +1,33 @@
+---
+import Base from "../../../layouts/Base.astro";
+import PageHead from "../../../components/PageHead.astro";
+---
+<Base
+  title="Ebb · privacy"
+  description="Privacy policy for Ebb. Your doses, weight and health data stay on your iPhone."
+>
+  <PageHead title="privacy" intro="Ebb collects nothing. Your doses, weight and side effects stay on your iPhone." />
+  <div class="measure doc">
+    <p>The app has no accounts, no analytics, no advertising and no tracking. It makes no network requests, so nothing you log is sent to us or to anyone else.</p>
+    <h2>What stays on your iPhone</h2>
+    <p>Your medicine and dose plan, the doses you log (date, dose, injection site and any note), your weights and the side effects you record. They're kept in one file that the app and its widget share, and they're included in your iPhone's iCloud backup like any other app's data. Deleting the app, or "Delete all data" in Settings, removes them.</p>
+    <h2>Apple Health</h2>
+    <p>If you turn it on, the app reads body weight from Apple Health and saves the weights you log in the app to it. It reads and writes nothing else.</p>
+    <ul>
+      <li>Health data is used only on your iPhone, to draw your weight trend.</li>
+      <li>It is never sent off your device, sold, shared, or used for advertising or marketing.</li>
+      <li>You can turn access off at any time in Settings → Health → Data Access &amp; Devices.</li>
+    </ul>
+    <h2>What you choose to share</h2>
+    <p>The doctor summary (PDF) and the data export (CSV) are created on your iPhone. They go wherever you send them through the share sheet, and nowhere else.</p>
+    <h2>Children</h2>
+    <p>Because the app collects no personal information, it collects none from children either.</p>
+    <h2>Changes and contact</h2>
+    <p>If this ever changes, this page will be updated before the app does. Questions: <a href="mailto:hello@mail.littleunknown.com">hello@mail.littleunknown.com</a>.</p>
+    <p class="comment">Last updated 24 October 2026.</p>
+  </div>
+</Base>
+<style>
+  .doc { font-size: 1.1rem; line-height: 1.6; }
+  .doc h2 { margin-top: 2.5rem; }
+</style>
