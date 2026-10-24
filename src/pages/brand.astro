@@ -10,6 +10,7 @@ import Mark from "../components/Mark.astro";
 import Wordmark from "../components/Wordmark.astro";
 import { site } from "../site.js";
 import { colors as c } from "../lib/mark.js";
+import { social } from "../lib/social.js";
 
 const swatches = [
   ["paper", c.paper, "backgrounds"],
@@ -227,6 +228,17 @@ const donts = [
       <li><span>App icon, 1024 × 1024</span><span class="links"><a href="/brand/little-unknown-app-icon.png" download>png</a></span></li>
       <li><span>Simplified mark, for small sizes</span><span class="links"><a href="/brand/little-unknown-favicon.svg" download>svg</a></span></li>
     </ul>
+    <h3 class="files-head">Social banners</h3>
+    <ul class="files">
+      {social.map(([name, w, h, label]) => (
+        <li>
+          <span>{label}, {w} × {h}</span>
+          <span class="links">
+            <a href={`/brand/social/little-unknown-${name}-light.png`} download>light</a><a href={`/brand/social/little-unknown-${name}-dark.png`} download>dark</a>
+          </span>
+        </li>
+      ))}
+    </ul>
     <p class="small" style="margin-top:16px">The text in every file is converted to outlines, so you don't need the fonts installed.</p>
   </section>
 </Base>
@@ -291,6 +303,7 @@ const donts = [
   
 
   .files { list-style: none; }
+  .files-head { margin: 40px 0 12px; font-size: 1rem; font-weight: 700; }
   .files li { display: flex; justify-content: space-between; gap: 16px; padding: 12px 0; border-top: 1px solid var(--rule); flex-wrap: wrap; }
   .files li:last-child { border-bottom: 1px solid var(--rule); }
   .links a + a { margin-left: 18px; }

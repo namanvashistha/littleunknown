@@ -38,7 +38,8 @@ The public brand page with every mockup and the logo files is
   a still frame when motion is reduced.
 - **Source of truth:** `src/lib/mark.js` (pattern and colours) and the
   `.wordmark` rules in `src/styles/global.css`. `npm run brand` regenerates the
-  logo kit in `public/brand/`, the favicons, app icons and `og.png`.
+  logo kit in `public/brand/`, the social banners in `public/brand/social/` (sizes in
+  `src/lib/social.js`), the favicons, app icons and `og.png`.
 
 ## Lines
 

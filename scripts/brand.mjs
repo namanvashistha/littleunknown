@@ -8,6 +8,7 @@ import { createRequire } from "node:module";
 import opentype from "opentype.js";
 import { Resvg } from "@resvg/resvg-js";
 import { circles, colors as c, PATTERN, PATTERN_SMALL } from "../src/lib/mark.js";
+import { social } from "../src/lib/social.js";
 
 const require = createRequire(import.meta.url);
 const font = (file) => {
@@ -127,3 +128,35 @@ const og = (() => {
 </svg>`;
 })();
 write("og.png", png(og, 1200));
+
+// --- social banners ---
+// One per profile surface, light (paper) and dark (night). The lockup sits centred, which keeps
+// it clear of the avatar LinkedIn and X overlay on the lower left, with the tagline under it.
+// Lockup proportions at font size 1: total width, and height from the top of "little" to the baseline area.
+const LOCKUP_W = 1.5 + 0.42 + 7 * 0.56;
+const LOCKUP_H = 1.14;
+function banner(w, h, theme) {
+  const [bg, ink, quiet] = theme === "dark" ? [c.night, c.moon, "#7d877d"] : [c.paper, c.ink, c.graphite];
+  // YouTube shows only the middle 1546 × 423 on every device, so size against that safe area.
+  const [sw, sh] = w === 2560 ? [1546, 423] : [w, h];
+  const F = Math.min((sw * (h >= w ? 0.8 : 0.62)) / LOCKUP_W, (sh * 0.42) / LOCKUP_H);
+  const m = 1.5 * F;
+  const tag = Math.max(14, F * 0.24);
+  const blockH = LOCKUP_H * F + tag * 2.6;
+  const x = (w - LOCKUP_W * F) / 2 - (MARK_BOX.x0 / 100) * m;
+  const y = (h - blockH) / 2;
+  const wm = wordmark(F, x + m + 0.42 * F, y + 0.06 * F + 0.25 * F, ink, c.vermilion);
+  const tagline = "// everything starts unknown";
+  const tagW = tagline.length * 0.6 * tag;
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}">
+  <rect width="${w}" height="${h}" fill="${bg}"/>
+  ${mark(m, x, y + 0.06 * F, ink, c.vermilion)}${wm.svg}
+  <path d="${text(regular, tagline, (w - tagW) / 2, y + LOCKUP_H * F + tag * 2.3, tag)}" fill="${quiet}"/>
+</svg>`;
+}
+mkdirSync(pub("brand/social"), { recursive: true });
+for (const [name, w, h] of social) {
+  for (const theme of ["light", "dark"]) {
+    write(`brand/social/little-unknown-${name}-${theme}.png`, png(banner(w, h, theme), w));
+  }
+}
