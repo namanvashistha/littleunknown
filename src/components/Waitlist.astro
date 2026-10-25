@@ -1,24 +1,23 @@
 ---
 // An email sign-up for one app's waitlist. Posts straight to Supabase (insert-only key);
-// a repeat sign-up counts as already on the list. Without a key it offers an email link.
+// a repeat sign-up counts as already on the list. Without a key it opens an email instead.
 import { waitlist } from "../site.js";
 
 interface Props {
   app: string;      // the slug, as allowed by the waitlist table
-  name: string;     // shown in the label and the fallback email
+  name: string;     // used in the field's label
   source?: string;  // where the sign-up came from, e.g. "links"
 }
 const { app, name, source = "site" } = Astro.props;
 const id = `wl-${app}`;
 ---
 <form class="waitlist" data-app={app} data-source={source} data-url={waitlist.url} data-key={waitlist.key} novalidate>
-  <label class="sr-only" for={id}>Email for the {name} waitlist</label>
+  <label class="sr-only" for={id}>Email for {name}</label>
   <div class="row">
-    <input id={id} name="email" type="email" inputmode="email" autocomplete="email" placeholder="you@email.com" required maxlength="254" />
-    <button type="submit">join</button>
+    <input id={id} name="email" type="email" inputmode="email" autocomplete="email" placeholder="Your email" required maxlength="254" />
+    <button type="submit">Notify me</button>
   </div>
-  <p class="note comment" aria-live="polite">// one email when it's out. nothing else.</p>
-  <noscript><p class="note comment">// or write to <a href={`mailto:hello@mail.littleunknown.com?subject=${encodeURIComponent(`${name} waitlist`)}`}>hello@mail.littleunknown.com</a></p></noscript>
+  <p class="status" aria-live="polite"></p>
 </form>
 
 <script>
@@ -27,58 +26,62 @@ const id = `wl-${app}`;
   for (const form of document.querySelectorAll<HTMLFormElement>("form.waitlist")) {
     const input = form.querySelector("input")!;
     const button = form.querySelector("button")!;
-    const note = form.querySelector(".note")!;
+    const status = form.querySelector(".status")!;
     const { app, source, url, key } = form.dataset;
-    const say = (text: string, ok = true) => { note.textContent = text; note.classList.toggle("bad", !ok); };
+    const say = (text: string, ok = true) => { status.textContent = text; status.classList.toggle("bad", !ok); };
 
+    input.addEventListener("input", () => say(""));
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
       const email = input.value.trim().toLowerCase();
-      if (!input.checkValidity() || !email) return say("// that email doesn't look right.", false);
+      if (!email || !input.checkValidity()) return say("That email doesn't look right.", false);
       if (!key) {
         location.href = `mailto:${FALLBACK}?subject=${encodeURIComponent(`${app} waitlist`)}&body=${encodeURIComponent(email)}`;
         return;
       }
       button.disabled = true;
-      say("// adding you…");
+      button.textContent = "Adding…";
       try {
         const res = await fetch(url!, {
           method: "POST",
           headers: { apikey: key, Authorization: `Bearer ${key}`, "Content-Type": "application/json", Prefer: "return=minimal" },
           body: JSON.stringify({ app, email, source }),
         });
-        if (res.ok || res.status === 409) {
-          form.classList.add("done");
-          say(res.ok ? "// you're on the list. we'll write once, when it's out." : "// you're already on the list.");
-          (window as any).umami?.track("waitlist", { app, source });
-        } else {
-          throw new Error(String(res.status));
-        }
+        if (!res.ok && res.status !== 409) throw new Error(String(res.status));
+        form.classList.add("done");
+        say(res.ok ? "You're on the list. We'll email you once, when it's out." : "You're already on the list.");
+        (window as any).umami?.track("waitlist", { app, source });
       } catch {
         button.disabled = false;
-        say(`// that didn't go through. try again, or write to ${FALLBACK}.`, false);
+        button.textContent = "Notify me";
+        say("That didn't go through. Try again in a moment.", false);
       }
     });
   }
 </script>
 
 <style>
-  .waitlist { margin-top: 16px; }
   .row { display: flex; gap: 8px; }
   input {
-    flex: 1; min-width: 0; padding: 11px 14px; border: 1px solid var(--rule); border-radius: 10px;
-    background: transparent; color: var(--ink); font: 16px var(--sans);
+    flex: 1; min-width: 0; height: 46px; padding: 0 16px;
+    border: 1px solid var(--rule); border-radius: 12px; background: var(--paper);
+    color: var(--ink); font: 16px var(--sans);
+    transition: border-color .15s;
   }
   input::placeholder { color: var(--graphite); }
-  input:focus-visible, button:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
+  input:focus { outline: none; border-color: var(--ink); }
   button {
-    flex: none; padding: 11px 16px; border: 0; border-radius: 10px; cursor: pointer;
-    background: var(--ink); color: var(--paper); font: 500 14px var(--mono);
+    flex: none; height: 46px; padding: 0 18px; border: 0; border-radius: 12px; cursor: pointer;
+    background: var(--ink); color: var(--paper); font: 500 15px var(--sans);
+    transition: transform .1s, opacity .15s;
   }
-  button:disabled { opacity: .5; cursor: default; }
-  .note { margin-top: 8px; font-size: 13px; }
-  .note.bad { color: var(--link); }
+  button:active { transform: scale(.97); }
+  button:disabled { opacity: .55; cursor: default; }
+  button:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
+  .status { font-size: 14px; color: var(--graphite); }
+  .status:not(:empty) { margin-top: 10px; }
+  .status.bad { color: var(--link); }
   .done .row { display: none; }
-  .done .note { margin-top: 0; color: var(--ink); }
-  @media (max-width: 340px) { .row { flex-direction: column; } }
+  .done .status { margin-top: 0; color: var(--ink); font-weight: 500; }
+  .done .status::before { content: "✓  "; color: var(--signal); }
 </style>

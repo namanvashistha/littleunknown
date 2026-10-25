@@ -1,6 +1,6 @@
 ---
-// The link in bio for @solve.little.unknown and other socials: one card per app,
-// with its TestFlight beta when there is one, and its waitlist.
+// The link in bio for @solve.little.unknown and other socials: one card per app.
+// An app with a TestFlight beta links straight to it; the others open a one-field waitlist.
 import { Image } from "astro:assets";
 import Base from "../layouts/Base.astro";
 import Lockup from "../components/Lockup.astro";
@@ -16,69 +16,125 @@ const apps = [
   { ...bySlug["calm-chess"], icon: chessIcon },
   { ...bySlug["lazy-gym-buddy"], icon: pandaIcon },
   // The vault app isn't on the site yet; its icon is the dot mark until it has its own.
-  { slug: "unknown", name: "unknown", summary: "A private vault for your iPhone. Encrypted on your device, backed up with iCloud.", platforms: ["iPhone"] },
+  { slug: "unknown", name: "unknown", summary: "A private vault for your photos, encrypted on your iPhone.", platforms: ["iPhone"] },
   { ...bySlug["einbuergerungstest"], icon: testIcon },
 ];
+const label = (a) => a.shortName ?? a.name;
 ---
-<Base
-  bare
-  noindex
-  title={`${site.name} · links`}
-  description="Our apps: try the betas and join the waitlists."
->
+<Base bare noindex title={`${site.name} · links`} description="Try our apps early: betas and waitlists.">
   <header class="top">
     <a href="/" aria-label="little unknown, home"><Lockup twinkle /></a>
-    <p class="comment">// {site.tagline}</p>
+    <p>Apps we're making. Try them early.</p>
   </header>
 
   <ul class="apps">
     {apps.map((a) => (
       <li id={a.slug}>
-        <div class="title">
-          {a.icon
-            ? <Image src={a.icon} alt="" width={56} height={56} class="icon" />
-            : <span class="icon dots"><Mark size={34} /></span>}
-          <div>
-            <h2 lang={a.nameLang}>{a.shortName ?? a.name}</h2>
-            <p class="comment">// {a.platforms.join(" · ")}</p>
+        {a.beta ? (
+          <div class="card">
+            <a class="head" href={a.beta} data-umami-event="beta" data-umami-event-app={a.slug}>
+              {a.icon ? <Image src={a.icon} alt="" width={112} height={112} class="icon" /> : <span class="icon dots"><Mark size={36} /></span>}
+              <span class="text"><b lang={a.nameLang}>{label(a)}</b><span>{a.summary}</span></span>
+              <span class="pill hot">Get beta</span>
+            </a>
+            {a.platforms.includes("Android") && (
+              <details class="more">
+                <summary>On Android? Get notified</summary>
+                <Waitlist app={a.slug} name={label(a)} source="links" />
+              </details>
+            )}
           </div>
-        </div>
-        <p class="summary">{a.summary}</p>
-        {a.beta && (
-          <a class="beta" href={a.beta} data-umami-event="beta" data-umami-event-app={a.slug}>try the beta on TestFlight →</a>
+        ) : (
+          <details class="card" name="waitlist">
+            <summary class="head">
+              {a.icon ? <Image src={a.icon} alt="" width={112} height={112} class="icon" /> : <span class="icon dots"><Mark size={36} /></span>}
+              <span class="text"><b lang={a.nameLang}>{label(a)}</b><span>{a.summary}</span></span>
+              <span class="pill">Notify me</span>
+            </summary>
+            <div class="body"><Waitlist app={a.slug} name={label(a)} source="links" /></div>
+          </details>
         )}
-        {a.beta && a.platforms.includes("Android")
-          ? <><p class="comment or">// on Android? join the waitlist.</p><Waitlist app={a.slug} name={a.shortName ?? a.name} source="links" /></>
-          : !a.beta && <Waitlist app={a.slug} name={a.shortName ?? a.name} source="links" />}
       </li>
     ))}
   </ul>
 
-  <p class="foot"><a href="/">littleunknown.com →</a></p>
+  <a class="foot" href="/">littleunknown.com</a>
 </Base>
 
+<script>
+  // Opening a card puts the cursor in its email field, so it's one tap, type, done.
+  for (const d of document.querySelectorAll<HTMLDetailsElement>("details")) {
+    d.addEventListener("toggle", () => { if (d.open) d.querySelector("input")?.focus({ preventScroll: true }); });
+  }
+  // A link to #slug opens that app's card.
+  const target = location.hash && document.querySelector<HTMLDetailsElement>(`${location.hash} details.card`);
+  if (target) target.open = true;
+</script>
+
 <style>
-  :global(main.bare) { max-width: 520px; padding-block: 40px 56px !important; }
+  :global(main.bare) { max-width: 480px; padding-block: 48px 40px !important; display: flex; flex-direction: column; }
+
   .top { text-align: center; }
   .top a { color: var(--ink); font-size: 30px; }
   .top a:hover { text-decoration: none; }
-  .top p { margin-top: 10px; font-size: 14px; }
+  .top p { margin-top: 14px; color: var(--graphite); font-size: 16px; }
 
-  .apps { list-style: none; margin-top: 36px; display: grid; gap: 14px; }
-  li { padding: 20px; border: 1px solid var(--rule); border-radius: 18px; scroll-margin-top: 16px; }
-  li:target { border-color: var(--signal); }
-  .title { display: flex; align-items: center; gap: 14px; }
-  :global(.icon) { flex: none; width: 56px; height: 56px; border-radius: 14px; border: 1px solid var(--rule); }
-  .dots { display: grid; place-items: center; background: var(--paper); color: var(--ink); }
-  h2 { font-size: 1.3rem; font-weight: 700; letter-spacing: -0.03em; line-height: 1.15; }
-  .title .comment { font-size: 13px; }
-  .summary { margin-top: 12px; line-height: 1.5; }
-  .beta {
-    display: block; margin-top: 16px; padding: 12px 16px; border-radius: 10px; text-align: center;
-    background: var(--signal); color: #fff; font: 500 15px var(--mono);
+  .apps { list-style: none; margin-top: 36px; display: grid; gap: 12px; }
+  .card {
+    border: 1px solid var(--rule); border-radius: 20px; overflow: hidden;
+    background: color-mix(in srgb, var(--ink) 2.5%, var(--paper));
+    transition: border-color .2s;
   }
-  .beta:hover { text-decoration: none; filter: brightness(1.05); }
-  .or { margin-top: 14px; font-size: 13px; }
-  .or + :global(.waitlist) { margin-top: 8px; }
-  .foot { margin-top: 32px; text-align: center; font: 14px var(--mono); }
+  li:target .card, details.card[open] { border-color: color-mix(in srgb, var(--ink) 30%, var(--rule)); }
+
+  .head {
+    display: grid; grid-template-columns: 56px minmax(0, 1fr) auto; align-items: center; gap: 12px;
+    padding: 12px; color: var(--ink); cursor: pointer; list-style: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .head::-webkit-details-marker { display: none; }
+  .head:hover { text-decoration: none; }
+  .head:focus-visible { outline: 2px solid var(--signal); outline-offset: -2px; border-radius: 20px; }
+  :global(.icon) { width: 56px; height: 56px; border-radius: 14px; border: 1px solid var(--rule); }
+  .dots { display: grid; place-items: center; background: #0f120f; color: #e6ebe5; }
+  .text { display: grid; gap: 2px; }
+  .text b { font: 700 16px/1.2 var(--mono); letter-spacing: -0.03em; }
+  .text span { color: var(--graphite); font-size: 13.5px; line-height: 1.35; }
+
+  .pill {
+    padding: 8px 13px; border-radius: 999px; white-space: nowrap;
+    border: 1px solid var(--rule); font: 500 13.5px var(--sans); color: var(--ink);
+    transition: transform .1s, background .15s;
+  }
+  .pill.hot { border-color: var(--signal); background: var(--signal); color: #fff; }
+  .head:active .pill { transform: scale(.96); }
+  @media (hover: hover) {
+    .head:hover .pill:not(.hot) { background: color-mix(in srgb, var(--ink) 6%, transparent); }
+  }
+  details.card[open] .pill { opacity: 0; pointer-events: none; }
+
+  .body { padding: 0 12px 12px; }
+  @media (prefers-reduced-motion: no-preference) {
+    details[open] .body, .more[open] :global(.waitlist) { animation: open .25s ease-out; }
+    @keyframes open { from { opacity: 0; transform: translateY(-4px); } }
+  }
+
+  .more { border-top: 1px solid var(--rule); }
+  .more summary {
+    padding: 12px 16px; list-style: none; cursor: pointer; text-align: center;
+    color: var(--graphite); font-size: 14px;
+  }
+  .more summary::-webkit-details-marker { display: none; }
+  .more summary:hover { color: var(--ink); }
+  .more[open] summary { padding-bottom: 10px; }
+  .more :global(.waitlist) { padding: 0 12px 12px; }
+
+  .foot { margin-top: 40px; align-self: center; color: var(--graphite); font: 14px var(--mono); }
+  .foot:hover { color: var(--ink); text-decoration: none; }
+
+  @media (max-width: 360px) {
+    .head { grid-template-columns: 52px minmax(0, 1fr); }
+    :global(.icon) { width: 52px; height: 52px; }
+    .pill { grid-column: 1 / -1; text-align: center; }
+  }
 </style>
