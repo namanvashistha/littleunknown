@@ -17,7 +17,7 @@ export const site = {
 // never read one. Empty key means the forms fall back to an email link.
 export const waitlist = {
   url: "https://zjqkjrbfwzitsiwxqhsa.supabase.co/rest/v1/waitlist",
-  key: "",
+  key: "sb_publishable_60cMOrqGGxQ1z1yOrVxCwA_aNWpUNQv",
 };
 
 // Products shown on the home page and described in JSON-LD and llms.txt.
