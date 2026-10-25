@@ -11,9 +11,11 @@ interface Props {
   pageType?: string;
   noindex?: boolean;
   graph?: object[];
+  // A single-column page with no site nav or footer (the bio links).
+  bare?: boolean;
 }
 
-const seo = Astro.props;
+const { bare = false, ...seo } = Astro.props;
 const path = Astro.url.pathname;
 const year = new Date().getFullYear();
 const nav = [
@@ -38,7 +40,7 @@ const nav = [
 </head>
 <body>
   <!-- data-nosnippet keeps site chrome out of search snippets; Google honours it on div, not header/footer. -->
-  <div data-nosnippet>
+  {!bare && (<div data-nosnippet>
   <a class="skip" href="#content">skip to content</a>
   <header class="site-header wrap">
     <a class="home" href="/" aria-label="little unknown, home"><Lockup /></a>
@@ -48,13 +50,13 @@ const nav = [
       ))}
     </nav>
   </header>
-  </div>
+  </div>)}
 
-  <main id="content" class="wrap">
+  <main id="content" class:list={["wrap", { bare }]}>
     <slot />
   </main>
 
-  <div data-nosnippet>
+  {!bare && (<div data-nosnippet>
   <footer class="site-footer wrap">
     <a class="footer-mark" href="/" aria-label="little unknown, home"><Wordmark /></a>
     <div class="footer-base">
@@ -64,6 +66,6 @@ const nav = [
       <span class="comment">© {year} {site.name}</span>
     </div>
   </footer>
-  </div>
+  </div>)}
 </body>
 </html>

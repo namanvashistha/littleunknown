@@ -104,7 +104,7 @@ function diagram({ dots, path, escape }: { dots: string[]; path?: boolean; escap
             <h3 id={p.slug} lang={p.nameLang}>{p.shortName ?? p.name}</h3>
           </div>
           <p class="product-lead">{p.summary}</p>
-          <p class="product-foot"><span class="comment">{p.status}</span> <a href={p.url}>more →</a></p>
+          <p class="product-foot"><span class="comment">{p.status}</span> <a href={p.url}>more →</a> <a href={`/links/#${p.slug}`}>{p.beta ? "try the beta →" : "join the waitlist →"}</a></p>
         </div>
 
         <div class="product-shots">

@@ -1,0 +1,84 @@
+---
+// The link in bio for @solve.little.unknown and other socials: one card per app,
+// with its TestFlight beta when there is one, and its waitlist.
+import { Image } from "astro:assets";
+import Base from "../layouts/Base.astro";
+import Lockup from "../components/Lockup.astro";
+import Mark from "../components/Mark.astro";
+import Waitlist from "../components/Waitlist.astro";
+import { site, products } from "../site.js";
+import chessIcon from "../assets/calm-chess/icon.png";
+import testIcon from "../assets/einbuergerungstest/icon.png";
+import pandaIcon from "../assets/lazy-gym-buddy/icon.png";
+
+const bySlug = Object.fromEntries(products.map((p) => [p.slug, p]));
+const apps = [
+  { ...bySlug["calm-chess"], icon: chessIcon },
+  { ...bySlug["lazy-gym-buddy"], icon: pandaIcon },
+  // The vault app isn't on the site yet; its icon is the dot mark until it has its own.
+  { slug: "unknown", name: "unknown", summary: "A private vault for your iPhone. Encrypted on your device, backed up with iCloud.", platforms: ["iPhone"] },
+  { ...bySlug["einbuergerungstest"], icon: testIcon },
+];
+---
+<Base
+  bare
+  noindex
+  title={`${site.name} · links`}
+  description="Our apps: try the betas and join the waitlists."
+>
+  <header class="top">
+    <a href="/" aria-label="little unknown, home"><Lockup twinkle /></a>
+    <p class="comment">// {site.tagline}</p>
+  </header>
+
+  <ul class="apps">
+    {apps.map((a) => (
+      <li id={a.slug}>
+        <div class="title">
+          {a.icon
+            ? <Image src={a.icon} alt="" width={56} height={56} class="icon" />
+            : <span class="icon dots"><Mark size={34} /></span>}
+          <div>
+            <h2 lang={a.nameLang}>{a.shortName ?? a.name}</h2>
+            <p class="comment">// {a.platforms.join(" · ")}</p>
+          </div>
+        </div>
+        <p class="summary">{a.summary}</p>
+        {a.beta && (
+          <a class="beta" href={a.beta} data-umami-event="beta" data-umami-event-app={a.slug}>try the beta on TestFlight →</a>
+        )}
+        {a.beta && a.platforms.includes("Android")
+          ? <><p class="comment or">// on Android? join the waitlist.</p><Waitlist app={a.slug} name={a.shortName ?? a.name} source="links" /></>
+          : !a.beta && <Waitlist app={a.slug} name={a.shortName ?? a.name} source="links" />}
+      </li>
+    ))}
+  </ul>
+
+  <p class="foot"><a href="/">littleunknown.com →</a></p>
+</Base>
+
+<style>
+  :global(main.bare) { max-width: 520px; padding-block: 40px 56px !important; }
+  .top { text-align: center; }
+  .top a { color: var(--ink); font-size: 30px; }
+  .top a:hover { text-decoration: none; }
+  .top p { margin-top: 10px; font-size: 14px; }
+
+  .apps { list-style: none; margin-top: 36px; display: grid; gap: 14px; }
+  li { padding: 20px; border: 1px solid var(--rule); border-radius: 18px; scroll-margin-top: 16px; }
+  li:target { border-color: var(--signal); }
+  .title { display: flex; align-items: center; gap: 14px; }
+  :global(.icon) { flex: none; width: 56px; height: 56px; border-radius: 14px; border: 1px solid var(--rule); }
+  .dots { display: grid; place-items: center; background: var(--paper); color: var(--ink); }
+  h2 { font-size: 1.3rem; font-weight: 700; letter-spacing: -0.03em; line-height: 1.15; }
+  .title .comment { font-size: 13px; }
+  .summary { margin-top: 12px; line-height: 1.5; }
+  .beta {
+    display: block; margin-top: 16px; padding: 12px 16px; border-radius: 10px; text-align: center;
+    background: var(--signal); color: #fff; font: 500 15px var(--mono);
+  }
+  .beta:hover { text-decoration: none; filter: brightness(1.05); }
+  .or { margin-top: 14px; font-size: 13px; }
+  .or + :global(.waitlist) { margin-top: 8px; }
+  .foot { margin-top: 32px; text-align: center; font: 14px var(--mono); }
+</style>

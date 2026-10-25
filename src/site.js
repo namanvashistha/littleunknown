@@ -12,6 +12,14 @@ export const site = {
   umamiWebsiteId: "76a70c42-04ea-47ba-972b-2d569a1379d9",
 };
 
+// Waitlist sign-ups go straight into the Supabase table `waitlist` (see
+// supabase/waitlist.sql): the public key can only add a row,
+// never read one. Empty key means the forms fall back to an email link.
+export const waitlist = {
+  url: "https://zjqkjrbfwzitsiwxqhsa.supabase.co/rest/v1/waitlist",
+  key: "",
+};
+
 // Products shown on the home page and described in JSON-LD and llms.txt.
 export const products = [
   {
@@ -23,6 +31,8 @@ export const products = [
       "Play the Rookie, the Master or the Grandmaster, or pass the phone to a friend. After each move, the coach tells you whether it was great, good or a slip, and why.",
     platforms: ["iPhone", "Android"],
     status: "coming to the App Store and Google Play",
+    // Public TestFlight link: when set, the bio links offer the beta instead of the waitlist.
+    beta: "https://testflight.apple.com/join/nKR176dx",
     url: `${site.url}/blog/calm-chess/`,
     category: "GameApplication",
     subCategory: "Board game",
