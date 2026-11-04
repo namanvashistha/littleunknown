@@ -30,9 +30,10 @@ export const products = [
     description:
       "Play the Rookie, the Master or the Grandmaster, or pass the phone to a friend. After each move, the coach tells you whether it was great, good or a slip, and why.",
     platforms: ["iPhone", "Android"],
-    status: "coming to the App Store and Google Play",
-    // Public TestFlight link: when set, the bio links offer the beta instead of the waitlist.
-    beta: "https://testflight.apple.com/join/nKR176dx",
+    status: "on the App Store, coming to Google Play",
+    // When set, the bio links send people here (appStore first, then a public TestFlight beta)
+    // instead of the waitlist. The App Store link has no country, so it opens each viewer's own store.
+    appStore: "https://apps.apple.com/app/id6823705560",
     url: `${site.url}/blog/calm-chess/`,
     category: "GameApplication",
     subCategory: "Board game",

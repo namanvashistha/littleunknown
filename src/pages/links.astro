@@ -1,6 +1,6 @@
 ---
 // The link in bio for @solve.little.unknown and other socials: one card per app.
-// An app with a TestFlight beta links straight to it; the others open a one-field waitlist.
+// An app on the App Store or with a TestFlight beta links straight to it; the others open a one-field waitlist.
 import { Image } from "astro:assets";
 import Base from "../layouts/Base.astro";
 import Lockup from "../components/Lockup.astro";
@@ -20,22 +20,23 @@ const apps = [
   { ...bySlug["einbuergerungstest"], icon: testIcon },
 ];
 const label = (a) => a.shortName ?? a.name;
+const getLink = (a) => a.appStore ?? a.beta;
 ---
-<Base bare noindex title={`${site.name} · links`} description="Try our apps early: betas and waitlists.">
+<Base bare noindex title={`${site.name} · links`} description="Our apps, and early access to the ones on the way.">
   <header class="top">
     <a href="/" aria-label="little unknown, home"><Lockup twinkle /></a>
-    <p>Apps we're making. Try them early.</p>
+    <p>Apps we make, and early access to the next ones.</p>
   </header>
 
   <ul class="apps">
     {apps.map((a) => (
       <li id={a.slug}>
-        {a.beta ? (
+        {getLink(a) ? (
           <div class="card">
-            <a class="head" href={a.beta} data-umami-event="beta" data-umami-event-app={a.slug}>
+            <a class="head" href={getLink(a)} data-umami-event={a.appStore ? "app-store" : "beta"} data-umami-event-app={a.slug}>
               {a.icon ? <Image src={a.icon} alt="" width={112} height={112} class="icon" /> : <span class="icon dots"><Mark size={36} /></span>}
               <span class="text"><b lang={a.nameLang}>{label(a)}</b><span>{a.summary}</span></span>
-              <span class="pill hot">Get beta</span>
+              <span class="pill hot">{a.appStore ? "Get" : "Get beta"}</span>
             </a>
             {a.platforms.includes("Android") && (
               <details class="more">
