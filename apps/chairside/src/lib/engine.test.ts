@@ -1,6 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { DRUGS, DX, RX } from "./data.ts";
+import { SAMPLES } from "./samples.ts";
 import { bestForm, compute, gateCheck, r1, resolve, scriptText, unitsFor } from "./engine.ts";
 import type { ReadyPatient } from "./types.ts";
 
@@ -94,4 +95,18 @@ test("script text handles topical regimens and interval ranges", () => {
 
 test("immunocompromised duration goes on the script", () => {
   assert.match(scriptText(RX.acy_pghs, kid({ immuno: true }), DRUGS.acyclovir.forms[0]), /7–10 days/);
+});
+
+test("sample patients open real diagnoses and show what they claim", () => {
+  assert.equal(new Set(SAMPLES.map((s) => s.id)).size, SAMPLES.length);
+  const byId = (id: string) => SAMPLES.find((s) => s.id === id)!;
+  const dx = (id: string) => DX.find((d) => d.id === id)!;
+  for (const s of SAMPLES) assert.ok(dx(s.dx), `${s.id} → ${s.dx}`);
+  const meera = byId("meera"), kabir = byId("kabir"), zoya = byId("zoya"), ishaan = byId("ishaan"), vihaan = byId("vihaan");
+  assert.ok(resolve(dx(meera.dx), meera).blk.some((o) => o.ref.k === "clotri_loz"));
+  const k = resolve(dx(kabir.dx), kabir);
+  assert.ok(k.blk.some((o) => o.ref.k === "amox_q8") && k.blk.some((o) => o.ref.k === "doxy"));
+  assert.ok(resolve(dx(zoya.dx), zoya).blk.some((o) => o.rx.drug === "cephalexin"));
+  assert.equal(compute(RX.px_amox, ishaan).dose![1], 2000);
+  assert.equal(compute(RX.metro_perio, vihaan).dose![1], 250);
 });

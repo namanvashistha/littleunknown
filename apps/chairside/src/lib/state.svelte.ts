@@ -3,6 +3,7 @@ import type { Patient, ReadyPatient } from "./types.ts";
 
 export type Route =
   | { view: "browse" }
+  | { view: "patients" }
   | { view: "dx"; dx: string }
   | { view: "dose"; dx: string; rx: string };
 
@@ -10,11 +11,13 @@ function parse(hash: string): Route {
   const [, a, dx, rx] = hash.replace(/^#/, "").split("/").map(decodeURIComponent);
   if (a === "dx" && dx && rx) return { view: "dose", dx, rx };
   if (a === "dx" && dx) return { view: "dx", dx };
+  if (a === "patients") return { view: "patients" };
   return { view: "browse" };
 }
 
 export const href = {
   browse: () => "#/",
+  patients: () => "#/patients",
   dx: (dx: string) => `#/dx/${encodeURIComponent(dx)}`,
   dose: (dx: string, rx: string) => `#/dx/${encodeURIComponent(dx)}/${encodeURIComponent(rx)}`,
 };
@@ -28,7 +31,7 @@ addEventListener("hashchange", () => {
 /* The patient lives for this tab only. A new launch starts blank, so one child's
    weight is never carried over to the next child. */
 const KEY = "chairside.patient";
-const blank: Patient = { kg: null, months: null, allergy: "none", immuno: false };
+const blank: Patient = { sample: undefined, kg: null, months: null, allergy: "none", immuno: false };
 
 function load(): Patient {
   try {
@@ -48,6 +51,11 @@ export function savePatient() {
 
 export function resetPatient() {
   Object.assign(patient, blank);
+  savePatient();
+}
+
+export function loadSample(s: { id: string; kg: number; months: number; allergy: Patient["allergy"]; immuno: boolean }) {
+  Object.assign(patient, { sample: s.id, kg: s.kg, months: s.months, allergy: s.allergy, immuno: s.immuno });
   savePatient();
 }
 

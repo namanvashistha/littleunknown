@@ -102,6 +102,8 @@ export interface CardiacGroup {
 }
 
 export interface Patient {
+  /** Set when a sample patient is loaded. */
+  sample?: string;
   /** Weight in kg; null until entered. */
   kg: number | null;
   /** Age in whole months; null until entered. */

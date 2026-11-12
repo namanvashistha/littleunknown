@@ -22,8 +22,12 @@
   const ageErr = $derived(Number.isNaN(ageMonths) ? "Age must be 0–18 years and 0–11 months." : "");
 
   $effect(() => {
-    patient.kg = kgNum !== null && !kgErr ? r1(kgNum) : null;
-    patient.months = ageMonths !== null && !ageErr ? ageMonths : null;
+    const k = kgNum !== null && !kgErr ? r1(kgNum) : null;
+    const m = ageMonths !== null && !ageErr ? ageMonths : null;
+    // Editing a sample patient makes them someone else.
+    if (k !== patient.kg || m !== patient.months) patient.sample = undefined;
+    patient.kg = k;
+    patient.months = m;
     savePatient();
   });
 
@@ -95,7 +99,7 @@
     <span class="lab" id="al-l">Penicillin allergy</span>
     <div class="segs" role="group" aria-labelledby="al-l">
       {#each ALLERGY as [k, v]}
-        <button aria-pressed={patient.allergy === k} onclick={() => { patient.allergy = k; savePatient(); }}>{v}</button>
+        <button aria-pressed={patient.allergy === k} onclick={() => { if (patient.allergy !== k) patient.sample = undefined; patient.allergy = k; savePatient(); }}>{v}</button>
       {/each}
     </div>
     <p class="cite">Type I = anaphylaxis, angioedema or urticaria. Cephalosporins are withheld as well.</p>
@@ -104,8 +108,8 @@
   <div class="fld">
     <span class="lab" id="im-l">Immune status</span>
     <div class="segs" role="group" aria-labelledby="im-l">
-      <button aria-pressed={!patient.immuno} onclick={() => { patient.immuno = false; savePatient(); }}>Normal</button>
-      <button aria-pressed={patient.immuno} onclick={() => { patient.immuno = true; savePatient(); }}>Compromised</button>
+      <button aria-pressed={!patient.immuno} onclick={() => { if (patient.immuno) patient.sample = undefined; patient.immuno = false; savePatient(); }}>Normal</button>
+      <button aria-pressed={patient.immuno} onclick={() => { if (!patient.immuno) patient.sample = undefined; patient.immuno = true; savePatient(); }}>Compromised</button>
     </div>
     <p class="cite">Extends antiviral course length where the guideline specifies it.</p>
   </div>

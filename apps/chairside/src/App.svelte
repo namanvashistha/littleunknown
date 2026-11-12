@@ -6,6 +6,7 @@
   import DxView from "./components/DxView.svelte";
   import DoseView from "./components/DoseView.svelte";
   import PatientSheet from "./components/PatientSheet.svelte";
+  import Patients from "./components/Patients.svelte";
 
   const { needRefresh, updateServiceWorker } = useRegisterSW({
     onRegisteredSW(_url, reg) {
@@ -16,7 +17,7 @@
 
   const dx = $derived.by(() => {
     const r = nav.route;
-    return r.view === "browse" ? undefined : DX.find((d) => d.id === r.dx);
+    return r.view === "browse" || r.view === "patients" ? undefined : DX.find((d) => d.id === r.dx);
   });
   const rx = $derived(nav.route.view === "dose" ? RX[nav.route.rx] : undefined);
   const rxKey = $derived(nav.route.view === "dose" ? nav.route.rx : "");
@@ -26,13 +27,17 @@
   );
 
   $effect(() => {
-    document.title = dx ? `${dx.n} · Chairside` : "Chairside — paediatric dental prescribing";
+    document.title = dx
+      ? `${dx.n} · Chairside`
+      : nav.route.view === "patients" ? "Patients · Chairside" : "Chairside — paediatric dental prescribing";
   });
 </script>
 
 <div class="dev" inert={ui.sheet}>
   {#if nav.route.view === "dose" && dx && rx && rxBelongs}
     {#key rxKey}<DoseView {dx} {rx} />{/key}
+  {:else if nav.route.view === "patients"}
+    <Patients />
   {:else if nav.route.view !== "browse" && dx}
     <DxView {dx} />
   {:else}
