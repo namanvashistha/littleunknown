@@ -5,6 +5,7 @@
   import { href, isReady, loadSample, patient, resetPatient, ui } from "../lib/state.svelte.ts";
   import Header from "./Header.svelte";
   import Icon from "./Icon.svelte";
+  import Tabs from "./Tabs.svelte";
 
   const dxOf = (s: Sample) => DX.find((d) => d.id === s.dx)!;
   const ownPatient = $derived(isReady(patient) && !patient.sample);
@@ -54,9 +55,9 @@
     {/each}
   </ul>
 
-  <a class="btn secondary" href={href.browse()}>Browse conditions without a patient</a>
   <p class="tiny faint">The sample patients are made up. Chairside supports, and doesn't replace, the dentist's own judgement.</p>
 </div>
+<Tabs />
 
 <style>
   .stack { display: flex; flex-direction: column; gap: 10px; }

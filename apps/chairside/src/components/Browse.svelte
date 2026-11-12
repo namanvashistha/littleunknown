@@ -5,6 +5,7 @@
   import Header from "./Header.svelte";
   import Icon from "./Icon.svelte";
   import PatientCard from "./PatientCard.svelte";
+  import Tabs from "./Tabs.svelte";
 
   let q = $state("");
 
@@ -26,9 +27,10 @@
 </script>
 
 <div class="page">
-  <Header title="Conditions" back={href.patients()} backLabel="Patients" />
+  <Header title="Chairside" />
+  <h1 class="title">Conditions</h1>
+  <p class="lead">Every condition in Chairside and whether it needs an antibiotic. Tap one for what to do and the doses.</p>
   <PatientCard />
-  <h1 class="title">What's the problem?</h1>
   <label class="sr" for="q">Search</label>
   <input id="q" class="search" type="search" placeholder="Search a condition, medicine or brand" bind:value={q} autocomplete="off" />
 
@@ -51,3 +53,4 @@
 
   <p class="tiny faint">Doses from the AAPD Reference Manual. Chairside supports, and doesn't replace, the dentist's own judgement.</p>
 </div>
+<Tabs />

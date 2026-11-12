@@ -23,9 +23,16 @@ export const href = {
   dose: (dx: string, rx: string) => `#/dx/${encodeURIComponent(dx)}/${encodeURIComponent(rx)}`,
 };
 
-export const nav = $state({ route: parse(location.hash) });
+/* `tab` remembers which top-level tab the visit started from, so back returns there. */
+type Tab = "patients" | "browse";
+const first = parse(location.hash);
+export const nav = $state<{ route: Route; tab: Tab }>({
+  route: first,
+  tab: first.view === "patients" ? "patients" : "browse",
+});
 addEventListener("hashchange", () => {
   nav.route = parse(location.hash);
+  if (nav.route.view === "patients" || nav.route.view === "browse") nav.tab = nav.route.view;
   scrollTo(0, 0);
 });
 

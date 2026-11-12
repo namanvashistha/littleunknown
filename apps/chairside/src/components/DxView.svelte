@@ -2,7 +2,7 @@
   import { DRUGS, DX, PX_CONDITIONS, PX_NOT, PX_PROCEDURES, PX_REMOVED, RX, SRC } from "../lib/data.ts";
   import { compute, gateCheck, resolve, rng, type Option } from "../lib/engine.ts";
   import { COVERAGE, ROLE, VERDICT } from "../lib/labels.ts";
-  import { href, isReady, patient, ui } from "../lib/state.svelte.ts";
+  import { href, isReady, nav, patient, ui } from "../lib/state.svelte.ts";
   import type { Diagnosis, Role } from "../lib/types.ts";
   import Header from "./Header.svelte";
   import Icon from "./Icon.svelte";
@@ -36,7 +36,11 @@
 </script>
 
 <div class="page">
-  <Header title={dx.g} back={href.browse()} backLabel="All conditions" />
+  <Header
+    title={dx.g}
+    back={nav.tab === "patients" ? href.patients() : href.browse()}
+    backLabel={nav.tab === "patients" ? "Patients" : "Conditions"}
+  />
   <PatientCard />
 
   <section class="card verdict">
