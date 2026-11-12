@@ -72,6 +72,24 @@ export const products = [
     operatingSystem: "iOS",
     languages: ["en"],
   },
+  {
+    slug: "chairside",
+    name: "Chairside",
+    subtitle: "Children's dental prescribing",
+    summary: "The right dose for a child, worked out at the chair.",
+    description:
+      "For dentists treating children. Pick the diagnosis and Chairside says whether a drug is indicated at all, then works out the dose from the child's weight and age, with the maximums applied, the volume of each syrup, the working shown and the AAPD guideline wording quoted. Penicillin allergy and age gates withhold what a child can't have. Free, no account, works offline.",
+    platforms: ["Web"],
+    status: "free on the web",
+    // Opens the app itself: it runs in the browser and installs from there.
+    web: `${site.url}/chairside/`,
+    url: `${site.url}/chairside/`,
+    type: "WebApplication",
+    category: "MedicalApplication",
+    subCategory: "Dental prescribing",
+    operatingSystem: "Any (web browser)",
+    languages: ["en"],
+  },
 ];
 
 const org = {
@@ -99,7 +117,7 @@ const website = {
 export const baseGraph = [org, website];
 
 export const productGraph = products.map((p) => ({
-  "@type": "MobileApplication",
+  "@type": p.type ?? "MobileApplication",
   "@id": `${site.url}/#${p.slug}`,
   name: p.name,
   alternativeHeadline: p.subtitle,

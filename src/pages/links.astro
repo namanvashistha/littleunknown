@@ -10,17 +10,19 @@ import { site, products } from "../site.js";
 import chessIcon from "../assets/calm-chess/icon.png";
 import testIcon from "../assets/einbuergerungstest/icon.png";
 import pandaIcon from "../assets/lazy-gym-buddy/icon.png";
+import chairIcon from "../assets/chairside/icon.png";
 
 const bySlug = Object.fromEntries(products.map((p) => [p.slug, p]));
 const apps = [
   { ...bySlug["calm-chess"], icon: chessIcon },
   { ...bySlug["lazy-gym-buddy"], icon: pandaIcon },
+  { ...bySlug["chairside"], icon: chairIcon },
   // The vault app isn't on the site yet; its icon is the dot mark until it has its own.
   { slug: "unknown", name: "unknown", summary: "A private vault for your photos, encrypted on your iPhone.", platforms: ["iPhone"] },
   { ...bySlug["einbuergerungstest"], icon: testIcon },
 ];
 const label = (a) => a.shortName ?? a.name;
-const getLink = (a) => a.appStore ?? a.beta;
+const getLink = (a) => a.web ?? a.appStore ?? a.beta;
 ---
 <Base bare noindex title={`${site.name} · links`} description="Our apps, and early access to the ones on the way.">
   <header class="top">
@@ -33,10 +35,10 @@ const getLink = (a) => a.appStore ?? a.beta;
       <li id={a.slug}>
         {getLink(a) ? (
           <div class="card">
-            <a class="head" href={getLink(a)} data-umami-event={a.appStore ? "app-store" : "beta"} data-umami-event-app={a.slug}>
+            <a class="head" href={getLink(a)} data-umami-event={a.web ? "web" : a.appStore ? "app-store" : "beta"} data-umami-event-app={a.slug}>
               {a.icon ? <Image src={a.icon} alt="" width={112} height={112} class="icon" /> : <span class="icon dots"><Mark size={36} /></span>}
               <span class="text"><b lang={a.nameLang}>{label(a)}</b><span>{a.summary}</span></span>
-              <span class="pill hot">{a.appStore ? "Get" : "Get beta"}</span>
+              <span class="pill hot">{a.web ? "Open" : a.appStore ? "Get" : "Get beta"}</span>
             </a>
             {a.platforms.includes("Android") && (
               <details class="more">

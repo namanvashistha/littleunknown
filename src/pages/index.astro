@@ -16,6 +16,10 @@ import pandaIcon from "../assets/lazy-gym-buddy/icon.png";
 import pandaSofa from "../assets/lazy-gym-buddy/1-sofa.png";
 import pandaWorkout from "../assets/lazy-gym-buddy/2-working-out.png";
 import pandaDone from "../assets/lazy-gym-buddy/3-we-did-it.png";
+import chairIcon from "../assets/chairside/icon.png";
+import chairList from "../assets/chairside/1-diagnoses.png";
+import chairVerdict from "../assets/chairside/2-verdict.png";
+import chairDose from "../assets/chairside/3-dose.png";
 
 // Icon and three screenshots per product, keyed by slug in site.js.
 const media = {
@@ -41,6 +45,14 @@ const media = {
       { src: pandaSofa, alt: "Lazy Gym Buddy: Bao on the sofa says “i'll work out... if you do”" },
       { src: pandaWorkout, alt: "Lazy Gym Buddy: Bao working out beside a timer, saying “glad you came. i wouldn't have.”" },
       { src: pandaDone, alt: "Lazy Gym Buddy: Bao cheering “we did it!” over the minutes, steps and days this week" },
+    ],
+  },
+  chairside: {
+    icon: chairIcon,
+    shots: [
+      { src: chairList, alt: "Chairside: “What are you treating?” over a list of diagnoses, each marked no drug, antibiotic or emergency" },
+      { src: chairVerdict, alt: "Chairside: facial cellulitis marked Antibiotic, with the guideline quote and the steps to take" },
+      { src: chairDose, alt: "Chairside: amoxicillin worked out as 2.5–4.9 mL of syrup for an 18.4 kg child, below the 500 mg maximum" },
     ],
   },
 };
@@ -104,7 +116,7 @@ function diagram({ dots, path, escape }: { dots: string[]; path?: boolean; escap
             <h3 id={p.slug} lang={p.nameLang}>{p.shortName ?? p.name}</h3>
           </div>
           <p class="product-lead">{p.summary}</p>
-          <p class="product-foot"><span class="comment">{p.status}</span> <a href={p.url}>more →</a> {p.appStore ? <a href={p.appStore}>get it on the App Store →</a> : <a href={`/links/#${p.slug}`}>{p.beta ? "try the beta →" : "join the waitlist →"}</a>}</p>
+          <p class="product-foot"><span class="comment">{p.status}</span> {!p.web && <a href={p.url}>more →</a>} {p.web ? <a href={p.web}>open it →</a> : p.appStore ? <a href={p.appStore}>get it on the App Store →</a> : <a href={`/links/#${p.slug}`}>{p.beta ? "try the beta →" : "join the waitlist →"}</a>}</p>
         </div>
 
         <div class="product-shots">
