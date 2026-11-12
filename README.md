@@ -14,3 +14,8 @@ npm run brand   # regenerate the logo kit, favicons, app icons and og.png
 - Every page goes through `src/layouts/Base.astro`, which renders `src/components/Seo.astro`.
 - Blog posts are MDX files in `src/content/blog/` (frontmatter: `title`, `description`, `createdAt`, optional `updatedAt`, `tags`, `draft`). The file name is the URL; posts appear on `/blog/`, in `/rss.xml` and the sitemap.
 - Brand rules: [BRAND.md](BRAND.md).
+
+## Chairside
+
+`apps/chairside` is a separate Svelte PWA served at `/chairside/`. `npm run build` tests and builds it into
+`public/chairside/` (gitignored) before `astro build`. See [apps/chairside/README.md](apps/chairside/README.md).

@@ -4,9 +4,11 @@
   "private": true,
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "npm run chairside:build && astro build",
     "preview": "astro preview",
-    "brand": "node scripts/brand.mjs"
+    "brand": "node scripts/brand.mjs",
+    "chairside:build": "npm ci --prefix apps/chairside && npm test --prefix apps/chairside && npm run build --prefix apps/chairside",
+    "chairside:dev": "npm run dev --prefix apps/chairside"
   },
   "dependencies": {
     "@astrojs/mdx": "8.0.2",
