@@ -23,9 +23,9 @@
   const groups = $derived([...new Set(list.map((d) => d.g))]);
 </script>
 
-<header class="sbar">
-  <span class="brand">CHAIRSIDE</span><span class="lab">AAPD · 2024</span>
-</header>
+<nav class="nav">
+  <a class="bk" href={href.patients()} aria-label="Patients">←</a><span class="t">Diagnoses</span><span class="lab">AAPD · 2024</span>
+</nav>
 <PatientBar />
 <div class="hd"><h1 class="h1">What are you<br />treating?</h1></div>
 <label class="sr" for="q">Search</label>

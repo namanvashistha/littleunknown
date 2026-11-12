@@ -19,12 +19,12 @@
   }
 </script>
 
-<nav class="nav">
-  <a class="bk" href={href.browse()} aria-label="All diagnoses">←</a><span class="t">Patients</span>
-</nav>
-<div class="hd">
-  <h1 class="h1">Today's<br />list</h1>
-  <p class="sub" style="margin-top:10px">Sample patients, made up to show what Chairside does. Tap one to put them in the chair and open their visit.</p>
+<header class="sbar">
+  <span class="brand">CHAIRSIDE</span><span class="lab">AAPD · 2024</span>
+</header>
+<div class="hd" style="border-top:2px solid var(--heavy)">
+  <h1 class="h1">Who's in<br />the chair?</h1>
+  <p class="sub" style="margin-top:10px">Sample patients, made up to show what Chairside does. Tap one to open their visit, or start a new patient.</p>
 </div>
 
 <ul>
@@ -48,6 +48,10 @@
   {/each}
 </ul>
 
+<a class="skip" href={href.browse()}>
+  {patient.kg !== null && !patient.sample ? "Continue with the current patient" : "Browse diagnoses without a patient"}
+  <span aria-hidden="true">→</span>
+</a>
 <div class="sec hv">
   <p class="cite">Names and histories are fictional. Weights are set to land on the cases worth seeing: real children are weighed on the day.</p>
 </div>
@@ -55,6 +59,7 @@
 
 <style>
   ul { list-style: none; }
+  .skip { display: flex; justify-content: space-between; padding: 16px 18px; border-top: 1px solid var(--hair); font-size: 14px; font-weight: 600; min-height: 52px; }
   .pt { display: flex; flex-direction: column; gap: 7px; width: 100%; padding: 16px 18px; border-top: 1px solid var(--hair); }
   .pt.on { background: var(--field); box-shadow: inset 4px 0 0 var(--heavy); }
   @media (hover: hover) { .pt:hover { background: var(--field); } }
@@ -67,6 +72,6 @@
   .dx { display: flex; align-items: center; gap: 10px; padding: 8px 0 2px; }
   .vb { width: 4px; align-self: stretch; min-height: 18px; flex: none; }
   .dn { flex: 1; font-size: 13px; font-weight: 600; }
-  .tg { font-family: var(--mono); font-size: 9px; font-weight: 600; letter-spacing: .06em; color: var(--ink3); }
+  .tg { font-family: var(--mono); font-size: 9px; font-weight: 600; letter-spacing: .06em; }
   .mt { font-size: 11.5px; color: var(--ink3); line-height: 1.4; }
 </style>

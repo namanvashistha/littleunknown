@@ -1,9 +1,10 @@
 /* App state: the route (from the URL hash, so back and forward work) and the patient. */
 import type { Patient, ReadyPatient } from "./types.ts";
 
+// The first screen is the patient list: pick who's in the chair, then the diagnosis.
 export type Route =
-  | { view: "browse" }
   | { view: "patients" }
+  | { view: "browse" }
   | { view: "dx"; dx: string }
   | { view: "dose"; dx: string; rx: string };
 
@@ -11,13 +12,13 @@ function parse(hash: string): Route {
   const [, a, dx, rx] = hash.replace(/^#/, "").split("/").map(decodeURIComponent);
   if (a === "dx" && dx && rx) return { view: "dose", dx, rx };
   if (a === "dx" && dx) return { view: "dx", dx };
-  if (a === "patients") return { view: "patients" };
-  return { view: "browse" };
+  if (a === "diagnoses") return { view: "browse" };
+  return { view: "patients" };
 }
 
 export const href = {
-  browse: () => "#/",
-  patients: () => "#/patients",
+  patients: () => "#/",
+  browse: () => "#/diagnoses",
   dx: (dx: string) => `#/dx/${encodeURIComponent(dx)}`,
   dose: (dx: string, rx: string) => `#/dx/${encodeURIComponent(dx)}/${encodeURIComponent(rx)}`,
 };
