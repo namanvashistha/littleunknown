@@ -1,8 +1,10 @@
 <script lang="ts">
-  import { DRUGS, DX, RX, SRC } from "../lib/data.ts";
-  import { href } from "../lib/state.svelte.ts";
+  import { DRUGS, DX, RX } from "../lib/data.ts";
   import { VERDICT } from "../lib/labels.ts";
-  import PatientBar from "./PatientBar.svelte";
+  import { href } from "../lib/state.svelte.ts";
+  import Header from "./Header.svelte";
+  import Icon from "./Icon.svelte";
+  import PatientCard from "./PatientCard.svelte";
 
   let q = $state("");
 
@@ -23,33 +25,29 @@
   const groups = $derived([...new Set(list.map((d) => d.g))]);
 </script>
 
-<nav class="nav">
-  <a class="bk" href={href.patients()} aria-label="Patients">←</a><span class="t">Diagnoses</span><span class="lab">AAPD · 2024</span>
-</nav>
-<PatientBar />
-<div class="hd"><h1 class="h1">What are you<br />treating?</h1></div>
-<label class="sr" for="q">Search</label>
-<input id="q" class="srch" type="search" placeholder="Search diagnosis, drug or brand" bind:value={q} autocomplete="off" />
+<div class="page">
+  <Header title="Conditions" back={href.patients()} backLabel="Patients" />
+  <PatientCard />
+  <h1 class="title">What's the problem?</h1>
+  <label class="sr" for="q">Search</label>
+  <input id="q" class="search" type="search" placeholder="Search a condition, medicine or brand" bind:value={q} autocomplete="off" />
 
-{#each groups as g (g)}
-  {@const rows = list.filter((d) => d.g === g)}
-  <h2 class="gh"><span class="lab">{g}</span><span class="lab">{rows.length}</span></h2>
-  {#each rows as d (d.id)}
-    <a class="dxr" href={href.dx(d.id)}>
-      <span class="vb v-{d.verdict}"></span>
-      <span class="nm">{d.n}</span>
-      <span class="tg {d.verdict}">{VERDICT[d.verdict].label.toUpperCase()}</span>
-    </a>
+  {#each groups as g (g)}
+    <h2 class="section-title">{g}</h2>
+    <div class="list">
+      {#each list.filter((d) => d.g === g) as d (d.id)}
+        {@const v = VERDICT[d.verdict]}
+        <a class="row" href={href.dx(d.id)}>
+          <span class="row-main row-name">{d.n}</span>
+          <span class="pill {v.tone}">{v.label}</span>
+          <span class="chev"><Icon name="chevron" size={20} /></span>
+        </a>
+      {/each}
+    </div>
   {/each}
-{/each}
-{#if !list.length}
-  <div class="sec"><p class="sub">Nothing matches “{q}”.</p></div>
-{/if}
+  {#if !list.length}
+    <p class="card muted">Nothing matches “{q}”. Try a condition like “abscess” or a medicine like “amoxicillin”.</p>
+  {/if}
 
-<div class="sec hv">
-  <p class="cite">
-    Decision support. It does not replace the independent judgement of the clinician.<br />
-    {SRC.meds.label} — {SRC.meds.cite}, {SRC.meds.rev}.<br />
-    Made by <a href="/" style="text-decoration:underline">little unknown</a>.
-  </p>
+  <p class="tiny faint">Doses from the AAPD Reference Manual. Chairside supports, and doesn't replace, the dentist's own judgement.</p>
 </div>

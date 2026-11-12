@@ -70,3 +70,19 @@ export function toast(msg: string) {
   clearTimeout(toastTimer);
   toastTimer = setTimeout(() => (ui.toast = ""), 2200);
 }
+
+/* Theme: light unless the viewer picks dark. index.html applies the saved choice before first paint. */
+const THEME_KEY = "chairside.theme";
+const BAR = { light: "#f6f6f3", dark: "#0f0f0e" } as const;
+export const theme = $state<{ value: "light" | "dark" }>({
+  value: document.documentElement.dataset.theme === "dark" ? "dark" : "light",
+});
+
+export function toggleTheme() {
+  theme.value = theme.value === "dark" ? "light" : "dark";
+  document.documentElement.dataset.theme = theme.value;
+  document.querySelector('meta[name="theme-color"]')?.setAttribute("content", BAR[theme.value]);
+  try {
+    localStorage.setItem(THEME_KEY, theme.value);
+  } catch {}
+}

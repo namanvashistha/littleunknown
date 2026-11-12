@@ -1,12 +1,13 @@
 <script lang="ts">
   import { DX } from "../lib/data.ts";
-  import { ageTxt } from "../lib/engine.ts";
-  import { VERDICT } from "../lib/labels.ts";
+  import { ALLERGY, VERDICT, ageLong } from "../lib/labels.ts";
   import { SAMPLES, type Sample } from "../lib/samples.ts";
-  import { href, loadSample, patient, resetPatient, ui } from "../lib/state.svelte.ts";
+  import { href, isReady, loadSample, patient, resetPatient, ui } from "../lib/state.svelte.ts";
+  import Header from "./Header.svelte";
+  import Icon from "./Icon.svelte";
 
-  const ALLERGY = { none: "No allergy", mild: "Penicillin allergy", typeI: "Penicillin anaphylaxis" } as const;
   const dxOf = (s: Sample) => DX.find((d) => d.id === s.dx)!;
+  const ownPatient = $derived(isReady(patient) && !patient.sample);
 
   function open(s: Sample) {
     loadSample(s);
@@ -19,59 +20,51 @@
   }
 </script>
 
-<header class="sbar">
-  <span class="brand">CHAIRSIDE</span><span class="lab">AAPD · 2024</span>
-</header>
-<div class="hd" style="border-top:2px solid var(--heavy)">
-  <h1 class="h1">Who's in<br />the chair?</h1>
-  <p class="sub" style="margin-top:10px">Sample patients, made up to show what Chairside does. Tap one to open their visit, or start a new patient.</p>
-</div>
+<div class="page">
+  <Header title="Chairside" />
+  <h1 class="title">Who are you treating?</h1>
+  <p class="lead">Pick a sample patient to see how Chairside works, or add a new one.</p>
+  <button class="btn primary" onclick={fresh}><Icon name="plus" size={20} /> New patient</button>
+  {#if ownPatient}
+    <a class="btn secondary" href={href.browse()}>Continue with current patient</a>
+  {/if}
 
-<ul>
-  {#each SAMPLES as s (s.id)}
-    {@const d = dxOf(s)}
-    {@const on = patient.sample === s.id}
-    <li>
-      <button class="pt" class:on onclick={() => open(s)}>
-        <span class="row">
-          <span class="nm">{s.name}</span>
-          {#if on}<span class="here">IN THE CHAIR</span>{/if}
-        </span>
-        <span class="facts mn">
-          {ageTxt(s.months)} · {s.kg} kg{#if s.allergy !== "none"}{" · "}<b class="al">{ALLERGY[s.allergy]}</b>{/if}{#if s.immuno}{" · "}<b class="al">Immunocompromised</b>{/if}
-        </span>
-        <span class="cc">“{s.complaint}”</span>
-        <span class="dx"><span class="vb v-{d.verdict}"></span><span class="dn">{d.n}</span><span class="tg {d.verdict}">{VERDICT[d.verdict].label.toUpperCase()}</span></span>
-        <span class="mt">Shows: {s.shows}</span>
-      </button>
-    </li>
-  {/each}
-</ul>
+  <h2 class="section-title">Sample patients</h2>
+  <ul class="stack">
+    {#each SAMPLES as s (s.id)}
+      {@const d = dxOf(s)}
+      {@const v = VERDICT[d.verdict]}
+      <li>
+        <button class="card pt" class:on={patient.sample === s.id} onclick={() => open(s)}>
+          <span class="pt-head">
+            <span class="pt-name">{s.name}</span>
+            <span class="muted small">{ageLong(s.months)} · <span class="num">{s.kg} kg</span></span>
+            <span class="chev"><Icon name="chevron" size={20} /></span>
+          </span>
+          {#if s.allergy !== "none" || s.immuno}
+            <span class="pills">
+              {#if s.allergy !== "none"}<span class="pill red">{ALLERGY[s.allergy]}</span>{/if}
+              {#if s.immuno}<span class="pill amber">Weak immune system</span>{/if}
+            </span>
+          {/if}
+          <span class="small muted">{s.complaint}</span>
+          <span class="pt-visit"><span class="small"><b>{d.n}</b></span><span class="pill {v.tone}">{v.label}</span></span>
+        </button>
+      </li>
+    {/each}
+  </ul>
 
-<a class="skip" href={href.browse()}>
-  {patient.kg !== null && !patient.sample ? "Continue with the current patient" : "Browse diagnoses without a patient"}
-  <span aria-hidden="true">→</span>
-</a>
-<div class="sec hv">
-  <p class="cite">Names and histories are fictional. Weights are set to land on the cases worth seeing: real children are weighed on the day.</p>
+  <a class="btn secondary" href={href.browse()}>Browse conditions without a patient</a>
+  <p class="tiny faint">The sample patients are made up. Chairside supports, and doesn't replace, the dentist's own judgement.</p>
 </div>
-<div class="btm"><button class="p" onclick={fresh}>New patient</button></div>
 
 <style>
-  ul { list-style: none; }
-  .skip { display: flex; justify-content: space-between; padding: 16px 18px; border-top: 1px solid var(--hair); font-size: 14px; font-weight: 600; min-height: 52px; }
-  .pt { display: flex; flex-direction: column; gap: 7px; width: 100%; padding: 16px 18px; border-top: 1px solid var(--hair); }
-  .pt.on { background: var(--field); box-shadow: inset 4px 0 0 var(--heavy); }
-  @media (hover: hover) { .pt:hover { background: var(--field); } }
-  .row { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
-  .nm { font-size: 20px; font-weight: 800; font-stretch: 118%; letter-spacing: -.01em; }
-  .here { font-family: var(--mono); font-size: 9px; font-weight: 600; letter-spacing: .08em; background: var(--heavy); color: var(--paper); padding: 3px 6px; }
-  .facts { font-size: 12px; color: var(--ink2); }
-  .al { color: var(--stop); font-weight: 600; }
-  .cc { font-size: 13.5px; line-height: 1.45; }
-  .dx { display: flex; align-items: center; gap: 10px; padding: 8px 0 2px; }
-  .vb { width: 4px; align-self: stretch; min-height: 18px; flex: none; }
-  .dn { flex: 1; font-size: 13px; font-weight: 600; }
-  .tg { font-family: var(--mono); font-size: 9px; font-weight: 600; letter-spacing: .06em; }
-  .mt { font-size: 11.5px; color: var(--ink3); line-height: 1.4; }
+  .stack { display: flex; flex-direction: column; gap: 10px; }
+  .pt { display: flex; flex-direction: column; gap: 8px; width: 100%; text-align: left; }
+  .pt.on { border-color: var(--ink); box-shadow: inset 0 0 0 1px var(--ink); }
+  .pt-head { display: flex; align-items: baseline; gap: 10px; }
+  .pt-name { font-size: 19px; font-weight: 750; }
+  .pt-head .muted { flex: 1; }
+  .pt-head .chev { align-self: center; }
+  .pt-visit { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding-top: 8px; border-top: 1px solid var(--line); }
 </style>

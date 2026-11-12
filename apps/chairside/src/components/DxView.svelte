@@ -1,23 +1,28 @@
 <script lang="ts">
-  import { DRUGS, DX, PX_CONDITIONS, PX_NOT, PX_PROCEDURES, PX_REMOVED, RX } from "../lib/data.ts";
+  import { DRUGS, DX, PX_CONDITIONS, PX_NOT, PX_PROCEDURES, PX_REMOVED, RX, SRC } from "../lib/data.ts";
   import { compute, gateCheck, resolve, rng, type Option } from "../lib/engine.ts";
-  import { COVERAGE, VERDICT } from "../lib/labels.ts";
+  import { COVERAGE, ROLE, VERDICT } from "../lib/labels.ts";
   import { href, isReady, patient, ui } from "../lib/state.svelte.ts";
-  import type { Diagnosis } from "../lib/types.ts";
-  import Cite from "./Cite.svelte";
+  import type { Diagnosis, Role } from "../lib/types.ts";
+  import Header from "./Header.svelte";
+  import Icon from "./Icon.svelte";
   import OptionRow from "./OptionRow.svelte";
-  import PatientBar from "./PatientBar.svelte";
+  import PatientCard from "./PatientCard.svelte";
 
   let { dx }: { dx: Diagnosis } = $props();
 
   const v = $derived(VERDICT[dx.verdict]);
   const ready = $derived(isReady(patient) ? patient : null);
   const res = $derived(ready ? resolve(dx, ready) : null);
-  const usable = $derived(res?.ok.filter((o) => o.rx.kind !== "none") ?? []);
-  const nodose = $derived(res?.ok.filter((o) => o.rx.kind === "none") ?? []);
-  // Before weight and age are in, list every option so the clinician can see the plan.
-  const all: Option[] = $derived(
-    (dx.rx ?? []).flatMap((ref) => (RX[ref.k] ? [{ ref, rx: RX[ref.k], drug: DRUGS[RX[ref.k].drug], why: null }] : [])),
+  // Before weight and age are in, show every option so the plan is visible.
+  const offered: Option[] = $derived(
+    res?.ok ??
+      (dx.rx ?? []).flatMap((ref) => (RX[ref.k] ? [{ ref, rx: RX[ref.k], drug: DRUGS[RX[ref.k].drug], why: null }] : [])),
+  );
+  const byRole = $derived(
+    (["first", "alt", "adjunct"] as Role[])
+      .map((role) => ({ role, items: offered.filter((o) => o.ref.role === role) }))
+      .filter((g) => g.items.length),
   );
   const escalateTo = $derived(dx.escalate ? DX.find((x) => x.id === dx.escalate) : undefined);
   const pain = $derived(
@@ -30,102 +35,101 @@
   );
 </script>
 
-<nav class="nav">
-  <a class="bk" href={href.browse()} aria-label="All diagnoses">←</a><span class="t">{dx.g}</span>
-</nav>
-<PatientBar />
+<div class="page">
+  <Header title={dx.g} back={href.browse()} backLabel="All conditions" />
+  <PatientCard />
 
-<section class="band {v.tone}">
-  <span class="cov">{COVERAGE[dx.coverage]}</span>
-  <h1 class="big">{dx.n}</h1>
-  <p class="sm">{dx.verdict === "none" ? "No antibiotic indicated" : v.label}</p>
-</section>
+  <section class="card verdict">
+    <h1 class="title" style="margin:0">{dx.n}</h1>
+    <span class="pill {v.tone}" style="align-self:flex-start">{v.headline}</span>
+    <p>{dx.why}</p>
+  </section>
 
-<div class="sec">
-  <p class="sub">{dx.why}</p>
-  {#if dx.quote}<blockquote class="quote">“{dx.quote}”</blockquote>{/if}
-</div>
-
-{#if dx.plan}
-  <div class="sec">
-    <h2 class="lab">Do this</h2>
-    <ol class="plan">
-      {#each dx.plan as s, i}<li><span class="n">{String(i + 1).padStart(2, "0")}</span><span>{s}</span></li>{/each}
-    </ol>
-  </div>
-{/if}
-
-{#if dx.red}
-  <div class="sec">
-    <h2 class="lab" style="color:var(--stop)">Escalate if any appear</h2>
-    <div class="flags">{#each dx.red as r}<span>{r}</span>{/each}</div>
-    {#if escalateTo}<a class="warnbox s" href={href.dx(escalateTo.id)}>→ Go to {escalateTo.n}</a>{/if}
-  </div>
-{:else if escalateTo}
-  <div class="sec"><a class="warnbox s" href={href.dx(escalateTo.id)}>Systemic signs appear → {escalateTo.n}</a></div>
-{/if}
-
-{#if dx.prophylaxis}
-  <div class="sec">
-    <h2 class="lab">Gate 1 — procedure</h2>
-    <p class="quote">{PX_PROCEDURES.yes}</p>
-    <p class="sub" style="font-size:12px">Not needed for: {PX_PROCEDURES.no.join(" · ").toLowerCase()}.</p>
-  </div>
-  <div class="sec">
-    <h2 class="lab">Gate 2 — cardiac condition</h2>
-    {#each PX_CONDITIONS as g}
-      <div>
-        <h3 class="lab" style="font-size:9px">{g.g}</h3>
-        <ul class="plan">{#each g.items as it}<li style="font-size:13px"><span class="n">□</span><span>{it}</span></li>{/each}</ul>
-      </div>
-    {/each}
-    <p class="sub" style="font-size:12px">Not indicated for: {PX_NOT.join(" · ").toLowerCase()}.</p>
-    <p class="warnbox">{PX_REMOVED}</p>
-  </div>
-{/if}
-
-{#if dx.rx?.length}
-  {#if !ready}
-    <div class="sec hv">
-      <button class="warnbox s" onclick={() => (ui.sheet = true)}>
-        Enter weight and age to see doses and which options this child can have →
-      </button>
+  {#if dx.red}
+    <div class="notice red">
+      <b>Get urgent help if you see:</b>
+      <ul class="dots">{#each dx.red as r}<li>{r}</li>{/each}</ul>
     </div>
-    {#each all as o (o.ref.k)}<OptionRow {dx} {o} />{/each}
-  {:else}
-    {#if usable.length}
-      <div class="sec hv head"><h2 class="lab">Available for this child — {usable.length}</h2></div>
-      {#each usable as o (o.ref.k)}<OptionRow {dx} {o} p={ready} />{/each}
+  {/if}
+  {#if escalateTo}
+    <a class="notice amber" href={href.dx(escalateTo.id)}>Spreading, or the child has a fever? See {escalateTo.n} →</a>
+  {/if}
+
+  {#if dx.plan}
+    <section class="card">
+      <h2 class="label" style="margin-bottom:10px">What to do</h2>
+      <ol class="steps">{#each dx.plan as s}<li>{s}</li>{/each}</ol>
+    </section>
+  {/if}
+
+  {#if dx.prophylaxis}
+    <h2 class="section-title">Check both before giving</h2>
+    <section class="card stack">
+      <b>1. Does the procedure need it?</b>
+      <p class="small">Yes, if it involves {PX_PROCEDURES.yes.replace(/^Any procedure involving /, "").replace(/\.$/, "")}.</p>
+      <details class="sub"><summary class="small muted">Procedures that don't need it</summary>
+        <ul class="dots small muted">{#each PX_PROCEDURES.no as n}<li>{n}</li>{/each}</ul>
+      </details>
+    </section>
+    <section class="card stack">
+      <b>2. Does the child have one of these heart conditions?</b>
+      {#each PX_CONDITIONS as g}
+        <div><span class="label">{g.g}</span><ul class="dots small">{#each g.items as it}<li>{it}</li>{/each}</ul></div>
+      {/each}
+      <details class="sub"><summary class="small muted">Conditions that don't need it</summary>
+        <ul class="dots small muted">{#each PX_NOT as n}<li>{n}</li>{/each}</ul>
+      </details>
+    </section>
+    <p class="notice neutral small">{PX_REMOVED}</p>
+  {/if}
+
+  {#if dx.rx?.length}
+    <h2 class="section-title">Medicines{ready ? " for this child" : ""}</h2>
+    {#if !ready}
+      <button class="notice amber" onclick={() => (ui.sheet = true)}>Add the child's weight and age to see doses and what they can have →</button>
     {/if}
-    {#if nodose.length}
-      <div class="sec hv head"><h2 class="lab" style="color:var(--stop)">No paediatric dose in the source — {nodose.length}</h2></div>
-      {#each nodose as o (o.ref.k)}<OptionRow {dx} {o} p={ready} />{/each}
-    {/if}
+    {#each byRole as g (g.role)}
+      <span class="label" style="margin:4px 4px -6px">{ROLE[g.role]}</span>
+      <div class="list">{#each g.items as o (o.ref.k)}<OptionRow {dx} {o} p={ready ?? undefined} />{/each}</div>
+    {/each}
     {#if res?.blk.length}
-      <div class="sec hv head"><h2 class="lab">Withheld — {res.blk.length}</h2></div>
-      {#each res.blk as o (o.ref.k)}<OptionRow {dx} {o} p={ready} />{/each}
+      <details class="more">
+        <summary>Not suitable for this child ({res.blk.length})</summary>
+        <div class="list">{#each res.blk as o (o.ref.k)}<OptionRow {dx} {o} p={ready ?? undefined} />{/each}</div>
+      </details>
     {/if}
   {/if}
-{/if}
 
-{#if dx.analgesia}
-  <div class="sec hv">
-    <h2 class="lab">Pain cover</h2>
-    {#each pain as a (a.k)}
-      {#if ready && !a.why}
-        <a class="opt" style="padding:8px 0;border:0" href={href.dose(dx.id, a.k)}>
-          <span class="l"><span style="font-size:14px;font-weight:600">{a.name}</span></span>
-          <span class="mn" style="font-size:12.5px;font-weight:600">{rng(a.c!.dose![0], a.c!.dose![1])} mg ›</span>
-        </a>
-      {:else}
-        <div class="opt" style="padding:8px 0;border:0">
-          <span class="l"><span style="font-size:14px;font-weight:600">{a.name}</span></span>
-          <span class="mn" style="font-size:12px;color:var(--ink3)">{a.why ?? "enter weight and age"}</span>
-        </div>
-      {/if}
-    {/each}
-  </div>
-{/if}
+  {#if dx.analgesia}
+    <h2 class="section-title">Pain relief</h2>
+    <div class="list">
+      {#each pain as a (a.k)}
+        {#if a.c?.dose}
+          <a class="row" href={href.dose(dx.id, a.k)}>
+            <span class="row-main"><span class="row-name">{a.name}</span><span class="small num">{rng(a.c.dose[0], a.c.dose[1])} mg per dose</span></span>
+            <span class="chev"><Icon name="chevron" size={20} /></span>
+          </a>
+        {:else}
+          <div class="row"><span class="row-main"><span class="row-name">{a.name}</span>
+            <span class="small {a.why ? '' : 'muted'}" style:color={a.why ? "var(--red)" : null}>{a.why ?? "Add weight and age to see the dose"}</span></span></div>
+        {/if}
+      {/each}
+    </div>
+  {/if}
 
-<Cite src={dx.src} page={dx.page} />
-<div class="btm"><a href={href.browse()}>All diagnoses</a></div>
+  {#if dx.quote}
+    <details class="more">
+      <summary>What the guideline says</summary>
+      <div class="more-body"><blockquote class="quote">“{dx.quote}”</blockquote></div>
+    </details>
+  {/if}
+
+  <p class="tiny faint">{COVERAGE[dx.coverage]} Source: {SRC[dx.src].label}, {SRC[dx.src].cite}{dx.page ? `, ${dx.page}` : ""}.</p>
+</div>
+
+<style>
+  .verdict { display: flex; flex-direction: column; gap: 10px; }
+  .stack { display: flex; flex-direction: column; gap: 10px; }
+  .dots { list-style: disc; padding-left: 20px; margin-top: 4px; display: flex; flex-direction: column; gap: 2px; }
+  details.sub summary { cursor: pointer; }
+</style>

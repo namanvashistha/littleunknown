@@ -5,9 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <title>Chairside — paediatric dental prescribing</title>
     <meta name="description" content="AAPD-sourced antibiotic, antifungal, antiviral and analgesic doses for children, worked out from weight and age. Decision support for dentists. Works offline." />
-    <meta name="theme-color" content="#FFFFFF" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#101010" media="(prefers-color-scheme: dark)" />
-    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#f6f6f3" />
+    <script>
+      // Light by default; dark only if this viewer chose it. Runs before paint so there's no flash.
+      (function () {
+        var t = "light";
+        try { if (localStorage.getItem("chairside.theme") === "dark") t = "dark"; } catch (e) {}
+        document.documentElement.dataset.theme = t;
+        if (t === "dark") document.querySelector('meta[name="theme-color"]').setAttribute("content", "#0f0f0e");
+      })();
+    </script>
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <meta name="apple-mobile-web-app-title" content="Chairside" />

@@ -33,7 +33,7 @@
   });
 </script>
 
-<div class="dev" inert={ui.sheet}>
+<div inert={ui.sheet}>
   {#if nav.route.view === "dose" && dx && rx && rxBelongs}
     {#key rxKey}<DoseView {dx} {rx} />{/key}
   {:else if nav.route.view === "patients"}

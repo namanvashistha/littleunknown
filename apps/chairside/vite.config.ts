@@ -23,8 +23,8 @@ export default defineConfig({
         scope: "/chairside/",
         display: "standalone",
         orientation: "portrait",
-        background_color: "#FFFFFF",
-        theme_color: "#121211",
+        background_color: "#f6f6f3",
+        theme_color: "#f6f6f3",
         categories: ["medical", "health"],
         icons: [
           { src: "icon-192.png", sizes: "192x192", type: "image/png" },
