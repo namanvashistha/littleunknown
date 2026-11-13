@@ -22,7 +22,7 @@ const apps = [
   { ...bySlug["einbuergerungstest"], icon: testIcon },
 ];
 const label = (a) => a.shortName ?? a.name;
-const getLink = (a) => a.web ?? a.appStore ?? a.beta;
+const getLink = (a) => a.web ?? a.bioLink ?? a.appStore ?? a.beta;
 ---
 <Base bare noindex title={`${site.name} · links`} description="Our apps, and early access to the ones on the way.">
   <header class="top">

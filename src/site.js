@@ -34,6 +34,9 @@ export const products = [
     // When set, the bio links send people here (appStore first, then a public TestFlight beta)
     // instead of the waitlist. The App Store link has no country, so it opens each viewer's own store.
     appStore: "https://apps.apple.com/app/id6823705560",
+    // The bio links open the Instagram custom product page instead (same app, screenshots that match the reels),
+    // so App Store Connect counts installs that came from Instagram.
+    bioLink: "https://apps.apple.com/app/id6823705560?ppid=87acf7f2-2ae3-44b3-98d8-681fb511e551",
     url: `${site.url}/blog/calm-chess/`,
     category: "GameApplication",
     subCategory: "Board game",
